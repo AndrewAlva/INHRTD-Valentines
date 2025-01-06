@@ -1,6 +1,4 @@
 import * as THREE from 'three'
-import * as Taxi from '@unseenco/taxi'
-import TaxiTransition from './Utils/TaxiTransition.js'
 
 import Debug from './Utils/Debug.js'
 import Sizes from './Utils/Sizes.js'
@@ -31,9 +29,6 @@ export default class Experience
         // Global access
         window.experience = this
 
-        // Taxi JS
-        this.initTaxi();
-
         // Options
         this.canvas = _canvas
 
@@ -61,14 +56,6 @@ export default class Experience
         {
             this.update()
         })
-    }
-
-    initTaxi() {
-        this.taxi = new Taxi.Core({
-            transitions: {
-                default: TaxiTransition
-            }
-        });
     }
 
     resize()
