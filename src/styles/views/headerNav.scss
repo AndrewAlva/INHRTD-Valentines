@@ -6,7 +6,8 @@ $btn-radius: 15px;
 
 .headerNav {
     z-index: 1;
-    position: relative;
+    position: absolute;
+    top: 0;
     width: 100%;
     padding: 25px 18px 10px;
     box-sizing: border-box;
