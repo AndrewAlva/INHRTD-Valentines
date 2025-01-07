@@ -9,8 +9,22 @@
 <body>
     <pug src="src/views/headerNav.pug" />
 
-    <main id="homeContainer" class="pageContainer">
-        <h1>This is index.html</h1>
+    <main id="landingContainer" class="viewContainer">
+        <div class="innerWrapper">
+            <header class="headingBox">
+                <h1 class="h1">A sweet message to your loved one<span class="hearts">♥</span></h1>
+            </header>
+
+            <section class="bottomBox">
+                <div class="bodyBox">
+                    <p class="reading">Send a special message for your love one</p>
+                </div>
+
+                <footer class="actionBox">
+                    <button class="btn btn--mainAction"><span class="label">Create your message<span class="hearts">♥</span></span></button>
+                </footer>
+            </section>
+        </div>
     </main>
 
     <canvas class="webgl"></canvas>

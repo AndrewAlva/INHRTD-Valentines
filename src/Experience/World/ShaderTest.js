@@ -32,7 +32,7 @@ export default class ShaderTest
         })
 
         this.mesh = new THREE.Mesh(this.geometry, this.material)
-        this.mesh.position.y = 1
+        this.mesh.position.y = 0
         this.scene.add(this.mesh)
     }
 

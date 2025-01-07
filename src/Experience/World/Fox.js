@@ -28,6 +28,7 @@ export default class Fox
     {
         this.model = this.resource.scene
         this.model.scale.set(0.02, 0.02, 0.02)
+        this.model.position.y = -0.8;
         this.scene.add(this.model)
 
         this.model.traverse((child) =>

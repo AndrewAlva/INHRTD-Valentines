@@ -1,0 +1,15 @@
+@use "./src/styles/utils/_global.scss";
+
+$btn-bg: global.$btn-bg;
+$btn-radius: 15px;
+
+.btn {
+    background-color: $btn-bg;
+
+    &--mainAction {
+        height: 56px;
+        border-radius: 25px;
+        font-size: 14px;
+        padding: 0 20px;
+    }
+}
