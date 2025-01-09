@@ -1,0 +1,16 @@
+@use "./src/styles/utils/_global.scss";
+
+input {
+    background-color: transparent;
+}
+
+.h1Input {
+    position: relative;
+    font-size: 38px;
+    font-weight: lighter;
+
+    &::placeholder {
+        color: global.$primary;
+        opacity: 0.4;
+    }
+}

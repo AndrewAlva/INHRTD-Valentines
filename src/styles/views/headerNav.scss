@@ -34,21 +34,12 @@ $btn-radius: 15px;
 
             font-size: 10px;
         }
-
-        button {
-            position: relative;
-            height: $btn-height;
-            padding: 5px;
-            border-radius: $btn-radius;
-
-            width: $btn-height;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        img {
-            width: 12px;
-        }
     }
+}
+
+
+.h-back {
+    position: relative;
+    width: 100%;
+    text-align: left;
 }

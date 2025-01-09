@@ -1,0 +1,16 @@
+main#nameContainer.viewContainer
+    include ./headers/hBack.pug
+
+    div.innerWrapper
+
+        header.headingBox
+            img(class="hearts hearts--top" src="icons/hearts.svg" alt="hearts icon")
+            h1.h1 Who is your loved one
+
+        section.inputBox
+            input#nameInput.h1Input(placeholder="Place the name")
+
+        section.bottomBox
+            footer.actionBox
+                button.btn.btn--mainAction
+                    span.label Confirm name

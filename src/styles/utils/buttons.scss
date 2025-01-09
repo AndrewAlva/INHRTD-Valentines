@@ -12,4 +12,30 @@ $btn-radius: 15px;
         font-size: 14px;
         padding: 0 22px;
     }
+
+    &--headerIcon {
+        position: relative;
+        width: 38px;
+        height: 38px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        svg {
+            color: global.$primary;
+        }
+    }
+
+    &--bell {
+        svg {
+            width: 12px;
+        }
+    }
+
+    &--back {
+        svg {
+            width: 12px;
+        }
+    }
 }
