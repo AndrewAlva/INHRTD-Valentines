@@ -156,3 +156,21 @@ html, body {
         padding-bottom: 72px;
     }
 }
+
+#notificationContainer {
+    padding-top: 60px;
+    color: global.$primaryLight;
+
+    .headingBox {
+        max-width: 300px;
+    }
+
+    .bottomBox {
+        padding-bottom: 50px;
+    }
+
+    .btn {
+        background-color: global.$primaryLight;
+        color: global.$primary;
+    }
+}
