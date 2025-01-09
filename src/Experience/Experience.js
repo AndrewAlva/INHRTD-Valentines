@@ -45,7 +45,8 @@ export default class Experience
         this.renderer = new Renderer()
         this.world = new World()
 
-        // TODO: Trigger "rotate device" screen properly accounting desktop devices
+        // TODO: Trigger "rotate device" screen properly accounting desktop devices.
+        // TODO: Trigger "desktop splash" screen properly.
 
         // Resize event
         this.sizes.on('resize', () =>

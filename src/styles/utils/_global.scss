@@ -11,9 +11,17 @@ $btn-bg: #fff;
 .h1 {
     font-size: 32px;
     line-height: 0.975em;
+
+    &.desk {
+        font-size: 66px;
+    }
 }
 
 .reading {
     font-size: 15px;
     line-height: 1.35em;
+
+    &.desk {
+        font-size: 29px;
+    }
 }
