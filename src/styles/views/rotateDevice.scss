@@ -1,0 +1,43 @@
+@use "./src/styles/utils/_global.scss";
+
+#rotateDeviceContainer {
+    display: none;
+    pointer-events: all;
+    padding: 0;
+    background-color: global.$primaryLight;
+
+    .innerWrapper {
+        justify-content: center;
+    }
+
+    .headingBox {
+        margin-top: -30px;
+    }
+
+    .orientationIcon {
+        position: relative;
+        display: block;
+        margin: 0 auto 12px;
+        width: 20px;
+        height: 38px;
+        border-radius: 4px;
+        border: 2px solid global.$primary;
+
+        // &:after {
+        //     content: '';
+        //     position: absolute;
+        //     width: 50px;
+        //     height: 50px;
+        //     border-radius: 50%;
+        //     border: 1px solid global.$primary;
+        //     top: 50%; left: 50%;
+        //     transform: translate(-50%, -50%);
+        // }
+    }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+    #rotateDeviceContainer {
+        display: block;
+    }
+}
