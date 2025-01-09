@@ -4,6 +4,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
+
+        width: 64px;
+        height: 64px;
     }
 
     .circlesWrapper {
@@ -36,6 +39,10 @@
                 opacity: 1;
             }
         }
+    }
+
+    svg {
+        width: 16px;
     }
 
     &.desk {
