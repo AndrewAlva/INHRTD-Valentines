@@ -45,6 +45,7 @@ export default class Heart1
         this.mesh.position.y = 0
         this.mesh.rotation.x = -0.5
         this.mesh.rotation.z = 0.25
+        this.mesh.receiveShadow = true
         this.scene.add(this.mesh)
     }
 

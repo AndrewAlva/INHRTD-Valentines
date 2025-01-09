@@ -3,6 +3,7 @@ import Environment from './Environment.js'
 import Background from './Background.js'
 import DarkBackground from './DarkBackground.js'
 import Heart1 from './Heart1.js'
+import InstancedHearts from './InstancedHearts.js'
 import Floor from './Floor.js'
 import Fox from './Fox.js'
 import ShaderTest from './ShaderTest.js'
@@ -21,6 +22,8 @@ export default class World
             // Setup
             this.background = new Background()
             this.darkBackground = new DarkBackground()
+            this.bgElements = new InstancedHearts()
+
             this.mainHeart = new Heart1()
             
             this.environment = new Environment()
@@ -33,5 +36,6 @@ export default class World
     update()
     {
         if (this.mainHeart) this.mainHeart.update()
+        if (this.bgElements) this.bgElements.update()
     }
 }

@@ -24,7 +24,7 @@ export default class Background
 
     setGeometry()
     {
-        this.geometry = new THREE.SphereGeometry(10, 32, 32)
+        this.geometry = new THREE.SphereGeometry(20, 32, 32)
         this.shaderMaterial = new THREE.ShaderMaterial({
             vertexShader: bgVertexShader,
             fragmentShader: bgFragmentShader,
