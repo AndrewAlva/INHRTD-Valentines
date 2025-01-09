@@ -1,5 +1,7 @@
 import Experience from '../Experience.js'
 import Environment from './Environment.js'
+import Background from './Background.js'
+import Heart1 from './Heart1.js'
 import Floor from './Floor.js'
 import Fox from './Fox.js'
 import ShaderTest from './ShaderTest.js'
@@ -16,16 +18,18 @@ export default class World
         this.resources.on('ready', () =>
         {
             // Setup
-            this.floor = new Floor()
-            this.fox = new Fox()
+            this.background = new Background()
+            this.mainHeart = new Heart1()
+            
             this.environment = new Environment()
-            this.shaderTest = new ShaderTest()
+            // this.floor = new Floor()
+            // this.fox = new Fox()
+            // this.shaderTest = new ShaderTest()
         })
     }
 
     update()
     {
-        if(this.fox)
-            this.fox.update()
+        if (this.mainHeart) this.mainHeart.update()
     }
 }
