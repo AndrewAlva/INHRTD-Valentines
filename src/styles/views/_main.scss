@@ -43,7 +43,7 @@ html, body {
     .headingBox {
         position: relative;
         width: 100%;
-        max-width: 250px;
+        max-width: 240px;
         margin: 32px auto 0;
 
         .hearts {
@@ -136,5 +136,23 @@ html, body {
             align-items: center;
             gap: 14px;
         }
+    }
+}
+
+#receivedContainer {
+    padding-top: 71px;
+
+    .headingBox {
+        margin-top: 0;
+
+        .hearts {
+            &--top {
+                margin-bottom: 10px;
+            }
+        }
+    }
+
+    .bottomBox {
+        padding-bottom: 72px;
     }
 }

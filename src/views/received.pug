@@ -1,0 +1,21 @@
+main#receivedContainer.viewContainer
+    include ./headers/hRestart.pug
+
+    div.innerWrapper
+        header.headingBox
+            img(class="hearts hearts--top" src="icons/hearts.svg" alt="hearts icon")
+            h1.h1 
+                span.lineWrap ${Someone} 
+                span.lineWrap has something to tell you
+
+        section.bottomBox
+            div.bodyBox
+                p.reading Tap and hold to listen how my heart beats for you.
+
+            footer.actionBox
+                div.buttonsWrapper
+                    button.btn.btn--mainAction
+                        span.label Create mine
+                    
+                    button.btn.btn--mainAction
+                        span.label I love the song
