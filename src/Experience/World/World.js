@@ -1,6 +1,7 @@
 import Experience from '../Experience.js'
 import Environment from './Environment.js'
 import Background from './Background.js'
+import DarkBackground from './DarkBackground.js'
 import Heart1 from './Heart1.js'
 import Floor from './Floor.js'
 import Fox from './Fox.js'
@@ -19,6 +20,7 @@ export default class World
         {
             // Setup
             this.background = new Background()
+            this.darkBackground = new DarkBackground()
             this.mainHeart = new Heart1()
             
             this.environment = new Environment()
