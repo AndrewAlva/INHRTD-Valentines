@@ -1,0 +1,51 @@
+.tapUI {
+    .tapUIWrapper {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .circlesWrapper {
+        z-index: -1;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+
+        .circle {
+            position: absolute;
+            margin: auto;
+            top: 0; bottom: 0;
+            left: 0; right: 0;
+            border-radius: 50%;
+            background-color: #fff;
+
+            &:first-child {
+                width: 100%;
+                height: 100%;
+                opacity: 0.4;
+            }
+            &:nth-child(2) {
+                width: 73.91%;
+                height: 73.91%;
+                opacity: 0.4;
+            }
+            &:nth-child(3) {
+                width: 45.65%;
+                height: 45.65%;
+                opacity: 1;
+            }
+        }
+    }
+
+    &.desk {
+        .tapUIWrapper {
+            width: 184px;
+            height: 184px;
+        }
+
+        svg {
+            width: 46px;
+        }
+    }
+}
