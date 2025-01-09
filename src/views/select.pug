@@ -1,0 +1,30 @@
+main#landingContainer.viewContainer
+    include ./headers/hBack.pug
+
+    div.innerWrapper
+        header.headingBox
+            h1.h1 
+                span.lineWrap
+                    span Pick a
+                    img(class="hearts hearts--inbetween" src="icons/hearts.svg" alt="hearts icon")
+                span.lineWrap
+                    span candy for your loved one
+
+        section.bottomBox
+            div.bodyBox
+                p.reading Send a special message for your love one
+
+            footer.actionBox
+                div.buttonsWrapper
+                    button#prevCandy.btn.btn--headerIcon.btn--back
+                        <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.93934 15.9393C5.35355 16.5251 5.35355 17.4749 5.93934 18.0607L15.4853 27.6066C16.0711 28.1924 17.0208 28.1924 17.6066 27.6066C18.1924 27.0208 18.1924 26.0711 17.6066 25.4853L9.12132 17L17.6066 8.51472C18.1924 7.92893 18.1924 6.97919 17.6066 6.3934C17.0208 5.80761 16.0711 5.80761 15.4853 6.3934L5.93934 15.9393ZM29 15.5L7 15.5V18.5L29 18.5V15.5Z" fill="currentColor"/>
+                        </svg>
+
+                    button.btn.btn--mainAction
+                        span.label This one!
+
+                    button#nextCandy.btn.btn--headerIcon.btn--next
+                        <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.93934 15.9393C5.35355 16.5251 5.35355 17.4749 5.93934 18.0607L15.4853 27.6066C16.0711 28.1924 17.0208 28.1924 17.6066 27.6066C18.1924 27.0208 18.1924 26.0711 17.6066 25.4853L9.12132 17L17.6066 8.51472C18.1924 7.92893 18.1924 6.97919 17.6066 6.3934C17.0208 5.80761 16.0711 5.80761 15.4853 6.3934L5.93934 15.9393ZM29 15.5L7 15.5V18.5L29 18.5V15.5Z" fill="currentColor"/>
+                        </svg>

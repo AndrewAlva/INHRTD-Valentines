@@ -59,6 +59,18 @@ html, body {
                 margin: auto auto 15px;
                 left: 0; right: 0;
             }
+            
+            &--inbetween {
+                position: relative;
+                display: inline-block;
+                margin: auto;
+                margin-left: 8px;
+            }
+        }
+
+        .lineWrap {
+            position: relative;
+            display: block;
         }
     }
 
@@ -114,6 +126,15 @@ html, body {
             display: inline-block;
             margin-left: 10px;
             width: 15px;
+        }
+
+        .buttonsWrapper {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
         }
     }
 }

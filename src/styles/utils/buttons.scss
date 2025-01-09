@@ -33,9 +33,15 @@ $btn-radius: 15px;
         }
     }
 
-    &--back {
+    &--back, &--next {
         svg {
             width: 12px;
+        }
+    }
+
+    &--next {
+        svg {
+            transform: rotate(180deg);
         }
     }
 }
