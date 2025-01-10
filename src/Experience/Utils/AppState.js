@@ -14,13 +14,26 @@ export default class AppState extends EventEmitter
 
         // Example functions, can replace their content
         this.initStates();
-        this.initCandiesManager();
+        this.initCandiesHandlers();
         this.addHandlers();
     }
 
     initStates() {
         this.totalCandies = 3;
         this.bgColor = "pink";
+        this.currentCandy = 0;
+        this.candyColors = {
+            bgLighter: {
+                pink: '#F7DEE4',
+                blue: '#D8EBF8',
+                green: '#ECF9F2',
+            },
+            bgDarker: {
+                pink: '#F09EAF',
+                blue: '#A6CEE7',
+                green: '#EAF9F1',
+            },
+        };
     }
 
     reset() {
@@ -33,14 +46,12 @@ export default class AppState extends EventEmitter
         this.on('candyChange', this.updateBgColor.bind(this));
     }
 
-    initCandiesManager() {
+    initCandiesHandlers() {
         this.next = document.getElementById('nextCandy');
         this.next.addEventListener('click', this.nextStep.bind(this));
         
         this.prev = document.getElementById('prevCandy');
         this.prev.addEventListener('click', this.prevStep.bind(this));
-
-        this.currentCandy = 0;
     }
 
     nextStep() {

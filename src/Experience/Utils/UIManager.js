@@ -52,7 +52,6 @@ export default class UIManager extends EventEmitter {
         // });
 
         this.appState.on('bgColorChange', (newColor) => {
-            console.log('newColor', newColor);
             this.html.style.setProperty('--primary', `var(--${newColor})`);
         });
     }
