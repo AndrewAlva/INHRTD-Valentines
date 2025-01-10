@@ -2,7 +2,7 @@ import Experience from '../Experience.js'
 import Environment from './Environment.js'
 import Background from './Background.js'
 import DarkBackground from './DarkBackground.js'
-import Heart1 from './Heart1.js'
+import Candies from './candies/Candies.js'
 import InstancedHearts from './InstancedHearts.js'
 import Floor from './Floor.js'
 import Fox from './Fox.js'
@@ -24,7 +24,7 @@ export default class World
             this.darkBackground = new DarkBackground()
             this.bgElements = new InstancedHearts()
 
-            this.mainHeart = new Heart1()
+            this.candies = new Candies()
             
             this.environment = new Environment()
             // this.floor = new Floor()
@@ -35,7 +35,7 @@ export default class World
 
     update()
     {
-        if (this.mainHeart) this.mainHeart.update()
+        if (this.candies) this.candies.update()
         if (this.bgElements) this.bgElements.update()
     }
 }

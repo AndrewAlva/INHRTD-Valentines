@@ -1,11 +1,11 @@
 import * as THREE from 'three'
-import Experience from '../Experience.js'
-import testVertexShader from '../shaders/test/vertex.glsl'
-import testFragmentShader from '../shaders/test/fragment.glsl'
+import Experience from '../../Experience.js'
+import testVertexShader from '../../shaders/test/vertex.glsl'
+import testFragmentShader from '../../shaders/test/fragment.glsl'
 
-export default class Heart1
+export default class Candy3
 {
-    constructor()
+    constructor(params = {})
     {
         this.experience = new Experience()
         this.scene = this.experience.scene
@@ -16,14 +16,14 @@ export default class Heart1
         // Debug
         if(this.debug.active)
         {
-            this.debugFolder = this.debug.ui.addFolder('Heart1')
+            this.debugFolder = this.debug.ui.addFolder('Candy3')
             this.debugFolder.close()
         }
 
-        this.setGeometry()
+        this.setGeometry(params)
     }
 
-    setGeometry()
+    setGeometry(params)
     {
         this.geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5)
         // this.geometry = new THREE.TorusKnotGeometry(0.8, 0.25, 128)
@@ -36,7 +36,7 @@ export default class Heart1
         })
         
         this.material = new THREE.MeshStandardMaterial({
-            color: '#ffa5c2',
+            color: '#9BE6CF',
             roughness: 0.362,
             metalness: 0.071,
             // flatShading: true,
@@ -47,7 +47,8 @@ export default class Heart1
         this.mesh.rotation.x = -0.5
         this.mesh.rotation.z = 0.25
         this.mesh.receiveShadow = true
-        this.scene.add(this.mesh)
+
+        if (params.inactive) this.mesh.visible = false
     }
 
     update()
