@@ -18,6 +18,7 @@ export default class UIManager extends EventEmitter {
     }
 
     initUI() {
+        this.html = document.querySelector('html');
         // this.views = document.querySelectorAll('.slideContainer');
         // if (this.views.length >= 1) {
         //     this.views.forEach((view, idx) => {
@@ -49,6 +50,11 @@ export default class UIManager extends EventEmitter {
         //     if (this.destroyed) return;
         //     this.switchViews(newStep);
         // });
+
+        this.appState.on('bgColorChange', (newColor) => {
+            console.log('newColor', newColor);
+            this.html.style.setProperty('--primary', `var(--${newColor})`);
+        });
     }
 
     switchViews(newStep) {

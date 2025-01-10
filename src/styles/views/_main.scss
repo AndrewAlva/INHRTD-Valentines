@@ -6,9 +6,24 @@
     padding: 0;
 }
 
+html {
+    // Dynamic variables to change UI color theme
+    --pink: #D2566E;
+    --pinkLight: #FFE1E1;
+    --blue: #2E8AAE;
+    --green: #2DA8AF;
+    
+    --primary: var(--pink);
+}
+
 html, body {
     overflow: hidden;
-    color: global.$primary;
+    color: var(--primary);
+    transition: color 0.4s ease-in-out;
+}
+
+svg {
+    transition: color 0.4s ease-in-out;
 }
 
 .webgl {
@@ -89,7 +104,7 @@ html, body {
             width: 70%;
             max-width: 800px;
             height: 1px;
-            background: linear-gradient(90deg, global.$primary 0, global.$primary 1px, transparent 1px, transparent 100%) bottom left / 8px 14px repeat-x;
+            background: linear-gradient(90deg, var(--primary) 0, var(--primary) 1px, transparent 1px, transparent 100%) bottom left / 8px 14px repeat-x;
             display: inline-block;
             padding-bottom: 3px;
         }
@@ -165,7 +180,7 @@ html, body {
 
 #notificationContainer {
     padding-top: 60px;
-    color: global.$primaryLight;
+    color: var(--pinkLight);
 
     .headingBox {
         max-width: 300px;
@@ -176,7 +191,7 @@ html, body {
     }
 
     .btn {
-        background-color: global.$primaryLight;
-        color: global.$primary;
+        background-color: var(--pinkLight);
+        color: var(--primary);
     }
 }

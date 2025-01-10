@@ -23,7 +23,7 @@ $btn-radius: 15px;
         justify-content: center;
 
         svg {
-            color: global.$primary;
+            color: var(--primary);
         }
     }
 

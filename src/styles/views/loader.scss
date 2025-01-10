@@ -2,7 +2,7 @@
 
 #loaderContainer {
     padding: 0;
-    background-color: global.$primaryLight;
+    background-color: var(--pinkLight);
 
     .innerWrapper {
         justify-content: center;
@@ -23,8 +23,8 @@
             height: 100%;
             border-radius: 50%;
             box-sizing: border-box;
-            border-top: 1px solid global.$primary;
-            border-right: 1px solid global.$primary;
+            border-top: 1px solid var(--pink);
+            border-right: 1px solid var(--pink);
         }
 
     }

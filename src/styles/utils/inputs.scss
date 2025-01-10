@@ -10,7 +10,7 @@ input {
     font-weight: lighter;
 
     &::placeholder {
-        color: global.$primary;
+        color: var(--primary);
         opacity: 0.4;
     }
 }
