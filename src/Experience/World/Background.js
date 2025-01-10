@@ -1,8 +1,8 @@
 import * as THREE from 'three'
+import { gsap } from "gsap";
 import Experience from '../Experience.js'
 import bgVertexShader from '../shaders/bgMain/vertex.glsl'
 import bgFragmentShader from '../shaders/bgMain/frag.glsl'
-import { gsap } from "gsap";
 
 export default class Background
 {
@@ -47,8 +47,6 @@ export default class Background
                 uColorBottom: { value: new THREE.Color('#F09EAF').convertLinearToSRGB() },
             }
         })
-        console.log(this.shaderMaterial.uniforms.uColorTop);
-        
 
         this.mesh = new THREE.Mesh(this.geometry, this.shaderMaterial)
         this.mesh.position.y = 0

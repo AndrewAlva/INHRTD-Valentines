@@ -33,6 +33,11 @@ export default class AppState extends EventEmitter
                 blue: '#A6CEE7',
                 green: '#EAF9F1',
             },
+            instances: {
+                pink: '#FF8DA1',
+                blue: '#A0CDE9',
+                green: '#9BE6CF',
+            },
         };
     }
 

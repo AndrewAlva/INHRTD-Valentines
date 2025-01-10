@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { gsap } from "gsap";
 import Experience from '../Experience.js'
 
 export default class Heart1
@@ -8,6 +9,7 @@ export default class Heart1
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.resources = this.experience.resources
+        this.appState = this.experience.appState
         this.time = this.experience.time
         this.debug = this.experience.debug
 
@@ -18,8 +20,10 @@ export default class Heart1
             this.debugFolder.close()
         }
 
-        this.initMesh()
-        this.initInstances()
+        this.colors = {};
+        this.initMesh();
+        this.initInstances();
+        this.addHandlers();
     }
 
     initMesh()
@@ -30,7 +34,7 @@ export default class Heart1
         
         this.material = new THREE.MeshStandardMaterial({
             // color: '#9B052C',
-            color: '#FF8DA1',
+            color: this.appState.candyColors.instances.pink,
             roughness: 0,
             metalness: 0.5,
             // flatShading: true,
@@ -44,6 +48,7 @@ export default class Heart1
         this.instancedMesh.castShadow = true;
         this.scene.add(this.instancedMesh);
         this.instancesTransformations = [];
+        
 
         for (let i = 0; i < this.instancesTotal; i++) {
             const dummy = new THREE.Object3D();
@@ -82,6 +87,24 @@ export default class Heart1
         this.instancedMesh.computeBoundingSphere();
         
     }
+
+
+    addHandlers() {
+        this.appState.on('bgColorChange', (newColor) => {
+            // get colors
+            if (!this.colors[newColor]) this.colors[newColor] = new THREE.Color(this.appState.candyColors.instances[newColor]);
+            
+            // tween shader
+            gsap.to(this.instancedMesh.material.color, {
+                r: this.colors[newColor].r,
+                g: this.colors[newColor].g,
+                b: this.colors[newColor].b,
+                ease: "power3.out",
+                duration: 1.7,
+            });
+        });
+    }
+
 
     update()
     {
