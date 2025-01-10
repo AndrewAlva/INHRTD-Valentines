@@ -58,14 +58,10 @@ export default class Renderer
         this.renderPass = new RenderPass(this.scene, this.camera.instance)
         this.effectComposer.addPass(this.renderPass)
 
-        this.dotScreenPass = new DotScreenPass()
-        this.dotScreenPass.enabled = false
-        this.effectComposer.addPass(this.dotScreenPass)
-
         const bokehParams = {
             focus: 1.295,       // Focus distance
-            aperture: 0.2,  // Aperture size (higher = more blur)
-            maxblur: 1,    // Maximum blur size
+            aperture: 0.3,  // Aperture size (higher = more blur)
+            maxblur: 10,    // Maximum blur size
         };
         this.dofPass = new BokehPass(this.scene, this.camera.instance, bokehParams)
         this.dofPass.enabled = true
@@ -91,6 +87,10 @@ export default class Renderer
                 .max(10)
                 .step(0.0001);
         }
+
+        this.dotScreenPass = new DotScreenPass()
+        this.dotScreenPass.enabled = false
+        this.effectComposer.addPass(this.dotScreenPass)
     }
 
     resize()

@@ -29,7 +29,8 @@ export default class Heart1
         // this.geometry = new THREE.TorusKnotGeometry(size, size * 0.3, 64)
         
         this.material = new THREE.MeshStandardMaterial({
-            color: '#9B052C',
+            // color: '#9B052C',
+            color: '#FF8DA1',
             roughness: 0,
             metalness: 0.5,
             // flatShading: true,
