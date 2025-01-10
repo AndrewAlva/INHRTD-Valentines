@@ -14,7 +14,8 @@ export default class Heart1
         // Debug
         if(this.debug.active)
         {
-            this.debugFolder = this.debug.ui.addFolder('Heart1')
+            this.debugFolder = this.debug.ui.addFolder('Instanced Hearts')
+            this.debugFolder.close()
         }
 
         this.initMesh()

@@ -17,6 +17,7 @@ export default class Heart1
         if(this.debug.active)
         {
             this.debugFolder = this.debug.ui.addFolder('Heart1')
+            this.debugFolder.close()
         }
 
         this.setGeometry()
