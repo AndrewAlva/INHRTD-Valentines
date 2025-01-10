@@ -19,23 +19,26 @@ export default class AppState extends EventEmitter
     }
 
     initStates() {
-        this.totalSteps = 8;
-        this.bgColor = "#410062";
+        this.totalSteps = 3;
+        this.bgColor = "pink";
     }
 
     reset() {
         this.currentStep = 0;
-        // this.trigger('stepChange', [this.currentStep]);
+        this.trigger('stepChange', [this.currentStep]);
     }
 
     addHandlers() {
-        // this.events.on('appStateNextStep', this.nextStep.bind(this));
-        // this.on('stepChange', this.updateBgColor.bind(this));
+        this.events.on('appStateNextStep', this.nextStep.bind(this));
+        this.on('stepChange', this.updateBgColor.bind(this));
     }
 
     initStepsManager() {
-        // this.mainButton = document.getElementById('nextStepHelper');
-        // this.mainButton.addEventListener('click', this.nextStep.bind(this));
+        this.next = document.getElementById('nextCandy');
+        this.next.addEventListener('click', this.nextStep.bind(this));
+        
+        this.prev = document.getElementById('prevCandy');
+        this.prev.addEventListener('click', this.prevStep.bind(this));
 
         this.currentStep = 0;
     }
@@ -43,22 +46,38 @@ export default class AppState extends EventEmitter
     nextStep() {
         this.currentStep++;
         this.currentStep %= this.totalSteps;
-        // this.stepsVisualizer.innerText = this.currentStep;
 
-        // this.trigger('stepChange', [this.currentStep]);
+        this.trigger('stepChange', [this.currentStep]);
+    }
+    
+    prevStep() {
+        this.currentStep--;
+        if (this.currentStep < 0) this.currentStep = this.totalSteps - 1;
+
+        this.trigger('stepChange', [this.currentStep]);
     }
 
     updateBgColor() {
-        if (this.currentStep == 3 || this.currentStep == 5) {
-            if (this.bgColor != '#170027') {
-                this.bgColor = '#170027';
-                this.trigger('bgColorChange', [this.bgColor]);
-            }
-        } else if ( (this.currentStep >= 0 && this.currentStep < 3) || this.currentStep == this.totalSteps - 1) {
-            if (this.bgColor != '#410062') {
-                this.bgColor = '#410062';
-                this.trigger('bgColorChange', [this.bgColor]);
-            }
+        switch (this.currentStep) {
+            case 0:
+                if (this.bgColor != 'pink') {
+                    this.bgColor = 'pink';
+                    this.trigger('bgColorChange', [this.bgColor]);
+                }
+                break;
+            case 1:
+                if (this.bgColor != 'blue') {
+                    this.bgColor = 'blue';
+                    this.trigger('bgColorChange', [this.bgColor]);
+                }
+                break;
+            case 2:
+                if (this.bgColor != 'green') {
+                    this.bgColor = 'green';
+                    this.trigger('bgColorChange', [this.bgColor]);
+                }
+                break;
         }
+        
     }
 }

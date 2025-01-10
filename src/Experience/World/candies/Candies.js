@@ -12,9 +12,12 @@ export default class Candies
         this.scene = this.experience.scene
         this.resources = this.experience.resources
         this.time = this.experience.time
+        this.appState = this.experience.appState
 
         this.initWrapper()
         this.initCandies()
+
+        this.addHandlers();
     }
 
     initWrapper() {
@@ -30,10 +33,31 @@ export default class Candies
         this.group.add(this.mainCandy.mesh, this.secondCandy.mesh, this.thirdCandy.mesh)
     }
 
+    addHandlers() {
+        this.appState.on('stepChange', (newStep) => {
+            if (newStep == 0) {
+                this.mainCandy.mesh.visible = true;
+                this.secondCandy.mesh.visible = false;
+                this.thirdCandy.mesh.visible = false;
+
+            } else if (newStep == 1) {
+                this.secondCandy.mesh.visible = true;
+                this.mainCandy.mesh.visible = false;
+                this.thirdCandy.mesh.visible = false;
+
+            } else if (newStep == 2) {
+                this.thirdCandy.mesh.visible = true;
+                this.mainCandy.mesh.visible = false;
+                this.secondCandy.mesh.visible = false;
+            }
+        });
+    }
+
     update()
     {
         // update uniforms or something
-        this.group.rotation.y -= 0.01;
+        this.group.rotation.y = this.time.elapsed * -0.001;
+        
 
         if (this.mainCandy) this.mainCandy.update()
         if (this.secondCandy) this.secondCandy.update()
