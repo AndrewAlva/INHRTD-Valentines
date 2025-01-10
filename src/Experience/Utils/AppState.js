@@ -14,51 +14,51 @@ export default class AppState extends EventEmitter
 
         // Example functions, can replace their content
         this.initStates();
-        this.initStepsManager();
+        this.initCandiesManager();
         this.addHandlers();
     }
 
     initStates() {
-        this.totalSteps = 3;
+        this.totalCandies = 3;
         this.bgColor = "pink";
     }
 
     reset() {
-        this.currentStep = 0;
-        this.trigger('stepChange', [this.currentStep]);
+        this.currentCandy = 0;
+        this.trigger('candyChange', [this.currentCandy]);
     }
 
     addHandlers() {
         this.events.on('appStateNextStep', this.nextStep.bind(this));
-        this.on('stepChange', this.updateBgColor.bind(this));
+        this.on('candyChange', this.updateBgColor.bind(this));
     }
 
-    initStepsManager() {
+    initCandiesManager() {
         this.next = document.getElementById('nextCandy');
         this.next.addEventListener('click', this.nextStep.bind(this));
         
         this.prev = document.getElementById('prevCandy');
         this.prev.addEventListener('click', this.prevStep.bind(this));
 
-        this.currentStep = 0;
+        this.currentCandy = 0;
     }
 
     nextStep() {
-        this.currentStep++;
-        this.currentStep %= this.totalSteps;
+        this.currentCandy++;
+        this.currentCandy %= this.totalCandies;
 
-        this.trigger('stepChange', [this.currentStep]);
+        this.trigger('candyChange', [this.currentCandy]);
     }
     
     prevStep() {
-        this.currentStep--;
-        if (this.currentStep < 0) this.currentStep = this.totalSteps - 1;
+        this.currentCandy--;
+        if (this.currentCandy < 0) this.currentCandy = this.totalCandies - 1;
 
-        this.trigger('stepChange', [this.currentStep]);
+        this.trigger('candyChange', [this.currentCandy]);
     }
 
     updateBgColor() {
-        switch (this.currentStep) {
+        switch (this.currentCandy) {
             case 0:
                 if (this.bgColor != 'pink') {
                     this.bgColor = 'pink';

@@ -34,18 +34,18 @@ export default class Candies
     }
 
     addHandlers() {
-        this.appState.on('stepChange', (newStep) => {
-            if (newStep == 0) {
+        this.appState.on('candyChange', (newCandy) => {
+            if (newCandy == 0) {
                 this.mainCandy.mesh.visible = true;
                 this.secondCandy.mesh.visible = false;
                 this.thirdCandy.mesh.visible = false;
 
-            } else if (newStep == 1) {
+            } else if (newCandy == 1) {
                 this.secondCandy.mesh.visible = true;
                 this.mainCandy.mesh.visible = false;
                 this.thirdCandy.mesh.visible = false;
 
-            } else if (newStep == 2) {
+            } else if (newCandy == 2) {
                 this.thirdCandy.mesh.visible = true;
                 this.mainCandy.mesh.visible = false;
                 this.secondCandy.mesh.visible = false;

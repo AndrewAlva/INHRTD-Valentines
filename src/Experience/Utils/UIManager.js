@@ -45,7 +45,7 @@ export default class UIManager extends EventEmitter {
 
 
     addHandlers() {
-        // this.appState.on('stepChange', (newStep) => {
+        // this.appState.on('candyChange', (newStep) => {
         //     if (this.destroyed) return;
         //     this.switchViews(newStep);
         // });
