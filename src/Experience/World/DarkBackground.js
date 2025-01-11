@@ -20,10 +20,10 @@ export default class DarkBackground
             this.debugFolder.close()
         }
 
-        this.setGeometry()
+        this.initMesh()
     }
 
-    setGeometry()
+    initMesh()
     {
         this.geometry = new THREE.SphereGeometry(9, 32, 32)
         this.shaderMaterial = new THREE.ShaderMaterial({

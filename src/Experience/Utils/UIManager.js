@@ -88,10 +88,12 @@ export default class UIManager extends EventEmitter {
         this.appState.on('bgColorChange', (newColor) => {
             this.html.style.setProperty('--primary', `var(--${newColor})`);
         });
+
+        // TODO: Enable swiping interaction for candy selection.
     }
 
     switchViews(newStep) {
-        // TODO: Validate when name input is empty before switching views.
+        // TODO: Validate when name input is empty before switching views. Probably better done in the click callback and before updating AppState.
 
         this.views[this.currentView].classList.remove('show');
         this.views[newStep].classList.add('show');
