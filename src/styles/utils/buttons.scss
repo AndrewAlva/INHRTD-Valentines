@@ -5,6 +5,7 @@ $btn-radius: 15px;
 
 .btn {
     background-color: $btn-bg;
+    pointer-events: all;
 
     &--mainAction {
         height: 56px;

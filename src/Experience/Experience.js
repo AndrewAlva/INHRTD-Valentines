@@ -55,7 +55,6 @@ export default class Experience
     
     initDOM() {
         document.querySelector('body').style.opacity = 1;
-        document.querySelector('#landingContainer').style.display = 'block';
     }
 
 
@@ -63,8 +62,10 @@ export default class Experience
         // Assets loaded and 3D ready
         this.events.on('siteReady', _ => {
             // TODO: animate in website
-            // TODO: remove Loader view blocking everything.
-            // TODO: trigger animateIn on #landingContainer elements.
+                // TODO: trigger animateIn on #landingContainer elements or the appropriate first page to show.
+                this.UIManager.switchViews(0);
+                
+                // TODO: animateOut and remove Loader view blocking everything.
         });
 
         // Resize event

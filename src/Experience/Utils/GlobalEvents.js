@@ -24,8 +24,8 @@ export default class GlobalEvents extends EventEmitter
     }
 
     addHandlers() {
-        // this.on('nextStep', this.goToNextStep.bind(this));
-        // this.on('goToStep', this.goToStep.bind(this));
+        this.on('nextStep', this.goToNextStep.bind(this));
+        this.on('goToStep', this.goToStep.bind(this));
     }
 
     goToNextStep() {

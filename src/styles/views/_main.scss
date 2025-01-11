@@ -13,6 +13,7 @@ html {
     --pinkBgLight: #F7DEE4;
     --blue: #2E8AAE;
     --green: #2DA8AF;
+    --red: #F7DEE4;
     
     --primary: var(--pink);
 }
@@ -192,6 +193,10 @@ svg {
 
     .bottomBox {
         padding-bottom: 50px;
+
+        .btn {
+            color: var(--pink);
+        }
     }
 
     .btn {

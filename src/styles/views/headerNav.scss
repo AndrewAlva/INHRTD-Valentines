@@ -43,3 +43,13 @@ $btn-radius: 15px;
     width: 100%;
     text-align: left;
 }
+
+#notificationContainer {
+    .headerNav {
+        svg {
+            path {
+                stroke: #E96780;
+            }
+        }
+    }
+}

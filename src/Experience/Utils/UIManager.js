@@ -19,36 +19,53 @@ export default class UIManager extends EventEmitter {
 
     initUI() {
         this.html = document.querySelector('html');
-        this.views = [];
+        this.views = {};
 
-        // this.views.push(document.getElementById('landingContainer'));
-        // this.views.push(document.getElementById('notificationContainer'));
-        // console.log(this.views);
-        
+        this.views[0] = document.getElementById('landingContainer');
+        this.views[1] = document.getElementById('nameContainer');
+        this.views[2] = document.getElementById('selectContainer');
+        this.views[3] = document.getElementById('shareContainer');
+        this.views.notification = document.getElementById('notificationContainer');
 
-        // this.initTriggers();
+        this.initTriggers();
     }
 
     initTriggers() {
         this.nextStepTriggers = [];
 
-        const nextButtons = document.querySelectorAll('.goToNextStepBtn');
+        const nextButtons = document.querySelectorAll('.nav-nextStep');
         nextButtons.forEach(element => { this.nextStepTriggers.push(element) });
         this.nextStepTriggers.forEach(element => {
             element.addEventListener('click', this.fireNextStep.bind(this));
         });
+
+        const notificationTrigger = document.querySelector('.nav-notificationStep');
+        notificationTrigger.addEventListener('click', this.fireNotificationStep.bind(this));
+        
+        const resetTrigger = document.querySelector('.nav-restart');
+        resetTrigger.addEventListener('click', this.fireResetStep.bind(this));
     }
 
     fireNextStep() {
         this.events.trigger('nextStep');
     }
 
+    fireNotificationStep() {
+        this.events.trigger('goToStep', ['notification']);
+        this.appState.trigger('goToCandy', [3]);
+    }
+
+    fireResetStep() {
+        this.events.trigger('goToStep', [0]);
+        this.appState.trigger('goToCandy', [0]);
+    }
+
 
     addHandlers() {
-        // this.appState.on('candyChange', (newStep) => {
-        //     if (this.destroyed) return;
-        //     this.switchViews(newStep);
-        // });
+        this.appState.on('stepChange', (newStep) => {
+            if (this.destroyed) return;
+            this.switchViews(newStep);
+        });
 
         this.appState.on('bgColorChange', (newColor) => {
             this.html.style.setProperty('--primary', `var(--${newColor})`);
@@ -56,13 +73,10 @@ export default class UIManager extends EventEmitter {
     }
 
     switchViews(newStep) {
-        this.views[this.currentView].classList.remove('show');
-        this.views[this.currentView].classList.remove('noBlur');
-        this.views[newStep].classList.add('show');
-        setTimeout(_ => {
-            this.views[newStep].classList.add('noBlur');
-        }, 200);
+        // TODO: Validate when name input is empty before switching views.
 
+        this.views[this.currentView].classList.remove('show');
+        this.views[newStep].classList.add('show');
         this.currentView = newStep;
     }
 

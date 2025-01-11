@@ -27,32 +27,32 @@ export default class AppState extends EventEmitter
                 pink: '#F7DEE4',
                 blue: '#D8EBF8',
                 green: '#ECF9F2',
+                red: '#A1062D',
             },
             bgDarker: {
                 pink: '#F09EAF',
                 blue: '#A6CEE7',
                 green: '#EAF9F1',
+                red: '#B33D58',
             },
             instances: {
                 pink: '#FF8DA1',
                 blue: '#A0CDE9',
                 green: '#9BE6CF',
+                red: '#FF8DA1',
             },
         };
 
         this.currentStep = 0;
-        this.currentFlow = 'give'; // default is 'give', the other one is 'receive'
+        this.activeFlow = 'give'; // default is 'give', the other one is 'receive'
     }
 
     reset() {
         this.currentCandy = 0;
         this.trigger('candyChange', [this.currentCandy]);
+        this.trigger('appStateStep', [0]);
     }
 
-    addHandlers() {
-        this.events.on('appStateNextCandy', this.nextCandy.bind(this));
-        this.on('candyChange', this.updateBgColor.bind(this));
-    }
 
     initCandiesHandlers() {
         this.next = document.getElementById('nextCandy');
@@ -60,6 +60,15 @@ export default class AppState extends EventEmitter
         
         this.prev = document.getElementById('prevCandy');
         this.prev.addEventListener('click', this.prevCandy.bind(this));
+    }
+
+    addHandlers() {
+        this.on('reset', this.reset.bind(this));
+
+        this.on('candyChange', this.updateBgColor.bind(this));
+        this.on('goToCandy', this.goToCandy.bind(this));
+        this.events.on('appStateNextStep', this.nextStep.bind(this));
+        this.events.on('appStateStep', this.goToStep.bind(this));
     }
 
     nextCandy() {
@@ -73,6 +82,11 @@ export default class AppState extends EventEmitter
         this.currentCandy--;
         if (this.currentCandy < 0) this.currentCandy = this.totalCandies - 1;
 
+        this.trigger('candyChange', [this.currentCandy]);
+    }
+
+    goToCandy(candyId) {
+        this.currentCandy = candyId;
         this.trigger('candyChange', [this.currentCandy]);
     }
 
@@ -96,7 +110,24 @@ export default class AppState extends EventEmitter
                     this.trigger('bgColorChange', [this.bgColor]);
                 }
                 break;
+            case 3:
+                if (this.bgColor != 'red') {
+                    this.bgColor = 'red';
+                    this.trigger('bgColorChange', [this.bgColor]);
+                }
+                break;
         }
         
+    }
+
+
+    nextStep() {
+        this.currentStep++;
+        this.trigger('stepChange', [this.currentStep]);
+    }
+
+    goToStep(newStep) {
+        this.currentStep = newStep;
+        this.trigger('stepChange', [this.currentStep]);
     }
 }
