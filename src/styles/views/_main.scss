@@ -10,6 +10,7 @@ html {
     // Dynamic variables to change UI color theme
     --pink: #D2566E;
     --pinkLight: #FFE1E1;
+    --pinkBgLight: #F7DEE4;
     --blue: #2E8AAE;
     --green: #2DA8AF;
     
@@ -34,6 +35,8 @@ svg {
 }
 
 .viewContainer {
+    &.show { display: block; }
+
     display: none;
     z-index: 1;
     pointer-events: none;
