@@ -50,7 +50,8 @@ export default class AppState extends EventEmitter
     restart() {
         this.currentCandy = 0;
         this.trigger('candyChange', [this.currentCandy]);
-        this.events.trigger('appStateStep', [0]);
+        
+        this.trigger('goToStep', [0]);
     }
 
 
@@ -67,9 +68,10 @@ export default class AppState extends EventEmitter
 
         this.on('candyChange', this.updateBgColor.bind(this));
         this.on('goToCandy', this.goToCandy.bind(this));
-        this.events.on('appStateNextStep', this.nextStep.bind(this));
-        this.events.on('appStatePrevStep', this.prevStep.bind(this));
-        this.events.on('appStateStep', this.goToStep.bind(this));
+
+        this.on('nextStep', this.nextStep.bind(this));
+        this.on('prevStep', this.prevStep.bind(this));
+        this.on('goToStep', this.goToStep.bind(this));
     }
 
     nextCandy() {

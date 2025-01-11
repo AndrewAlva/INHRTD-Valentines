@@ -62,15 +62,15 @@ export default class UIManager extends EventEmitter {
     }
 
         fireNextStep() {
-            this.events.trigger('nextStep');
+            this.appState.trigger('nextStep');
         }
 
         firePrevStep() {
-            this.events.trigger('prevStep');
+            this.appState.trigger('prevStep');
         }
 
         fireNotificationStep() {
-            this.events.trigger('goToStep', ['notification']);
+            this.appState.trigger('goToStep', ['notification']);
             this.appState.trigger('goToCandy', [3]);
         }
 
