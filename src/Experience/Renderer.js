@@ -61,7 +61,7 @@ export default class Renderer
         const bokehParams = {
             focus: 1.295,       // Focus distance
             aperture: 0.3,  // Aperture size (higher = more blur)
-            maxblur: 10,    // Maximum blur size
+            maxblur: 0.2,    // Maximum blur size
         };
         this.dofPass = new BokehPass(this.scene, this.camera.instance, bokehParams)
         this.dofPass.enabled = true
