@@ -20,7 +20,10 @@ export default class DarkBackground
             this.debugFolder.close()
         }
 
+        this.tapHoldThreshold = 1; // how many seconds to hold to finish transition.
+        this.transitionSpeed = 1 / (60 * this.tapHoldThreshold);
         this.initMesh()
+        this.addHandlers()
     }
 
     initMesh()
@@ -45,8 +48,36 @@ export default class DarkBackground
         this.scene.add(this.mesh)
     }
 
+
+    addHandlers() {
+        this.tapTriggers = [];
+        this.tapHolding = false;
+
+        const tapAreas = document.querySelectorAll('.tapHoldTrigger');
+        tapAreas.forEach(element => { this.tapTriggers.push(element) });
+        this.tapTriggers.forEach(element => {
+            // TODO: Switch between mouse and touch events based on device.
+            // element.addEventListener('click', this.toggleTransition.bind(this));
+            
+            element.addEventListener('touchstart', this.toggleTransition.bind(this));
+            element.addEventListener('touchend', this.toggleTransition.bind(this));
+        });
+    }
+
+    toggleTransition() {
+        this.tapHolding = !this.tapHolding;
+    }
+
+
     update()
     {
         // update uniforms or something
+        if (this.tapHolding) {
+            this.shaderMaterial.uniforms.uTransition.value += this.transitionSpeed;
+        } else {
+            this.shaderMaterial.uniforms.uTransition.value -= this.transitionSpeed;
+        }
+        
+        this.shaderMaterial.uniforms.uTransition.value = Math.clamp(this.shaderMaterial.uniforms.uTransition.value);
     }
 }

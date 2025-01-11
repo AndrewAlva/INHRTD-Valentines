@@ -40,5 +40,6 @@ export default class World
     {
         if (this.candies) this.candies.update()
         if (this.bgElements) this.bgElements.update()
+        if (this.darkBackground) this.darkBackground.update()
     }
 }
