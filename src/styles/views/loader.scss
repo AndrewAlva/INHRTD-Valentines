@@ -1,6 +1,8 @@
 @use "./src/styles/utils/_global.scss";
 
 #loaderContainer {
+    display: block;
+    z-index: 999;
     padding: 0;
     background-color: var(--pinkLight);
 

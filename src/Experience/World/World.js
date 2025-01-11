@@ -13,6 +13,7 @@ export default class World
     constructor()
     {
         this.experience = new Experience()
+        this.events = this.experience.events
         this.scene = this.experience.scene
         this.resources = this.experience.resources
 
@@ -30,6 +31,8 @@ export default class World
             // this.floor = new Floor()
             // this.fox = new Fox()
             // this.shaderTest = new ShaderTest()
+
+            this.events.trigger('siteReady');
         })
     }
 

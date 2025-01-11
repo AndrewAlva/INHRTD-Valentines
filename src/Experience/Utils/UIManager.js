@@ -19,13 +19,12 @@ export default class UIManager extends EventEmitter {
 
     initUI() {
         this.html = document.querySelector('html');
-        // this.views = document.querySelectorAll('.slideContainer');
-        // if (this.views.length >= 1) {
-        //     this.views.forEach((view, idx) => {
-        //         if (idx == 0) view.classList.add('show');
-        //         else view.classList.remove('show');
-        //     });
-        // }
+        this.views = [];
+
+        // this.views.push(document.getElementById('landingContainer'));
+        // this.views.push(document.getElementById('notificationContainer'));
+        // console.log(this.views);
+        
 
         // this.initTriggers();
     }

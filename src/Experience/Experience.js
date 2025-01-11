@@ -25,6 +25,8 @@ export default class Experience
             return instance
         }
         instance = this
+
+        this.initDOM();
         
         // Global access
         window.experience = this
@@ -47,6 +49,23 @@ export default class Experience
 
         // TODO: Trigger "rotate device" screen properly accounting desktop devices.
         // TODO: Trigger "desktop splash" screen properly.
+
+        this.addHandlers();
+    }
+    
+    initDOM() {
+        document.querySelector('body').style.opacity = 1;
+        document.querySelector('#landingContainer').style.display = 'block';
+    }
+
+
+    addHandlers() {
+        // Assets loaded and 3D ready
+        this.events.on('siteReady', _ => {
+            // TODO: animate in website
+            // TODO: remove Loader view blocking everything.
+            // TODO: trigger animateIn on #landingContainer elements.
+        });
 
         // Resize event
         this.sizes.on('resize', () =>

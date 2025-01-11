@@ -19,8 +19,8 @@ export default class AppState extends EventEmitter
     }
 
     initStates() {
-        this.totalCandies = 3;
         this.bgColor = "pink";
+        this.totalCandies = 3;
         this.currentCandy = 0;
         this.candyColors = {
             bgLighter: {
@@ -39,6 +39,9 @@ export default class AppState extends EventEmitter
                 green: '#9BE6CF',
             },
         };
+
+        this.currentStep = 0;
+        this.currentFlow = 'give'; // default is 'give', the other one is 'receive'
     }
 
     reset() {
@@ -47,26 +50,26 @@ export default class AppState extends EventEmitter
     }
 
     addHandlers() {
-        this.events.on('appStateNextStep', this.nextStep.bind(this));
+        this.events.on('appStateNextCandy', this.nextCandy.bind(this));
         this.on('candyChange', this.updateBgColor.bind(this));
     }
 
     initCandiesHandlers() {
         this.next = document.getElementById('nextCandy');
-        this.next.addEventListener('click', this.nextStep.bind(this));
+        this.next.addEventListener('click', this.nextCandy.bind(this));
         
         this.prev = document.getElementById('prevCandy');
-        this.prev.addEventListener('click', this.prevStep.bind(this));
+        this.prev.addEventListener('click', this.prevCandy.bind(this));
     }
 
-    nextStep() {
+    nextCandy() {
         this.currentCandy++;
         this.currentCandy %= this.totalCandies;
 
         this.trigger('candyChange', [this.currentCandy]);
     }
     
-    prevStep() {
+    prevCandy() {
         this.currentCandy--;
         if (this.currentCandy < 0) this.currentCandy = this.totalCandies - 1;
 
