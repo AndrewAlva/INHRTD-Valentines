@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 
+import Polyfill from './Utils/Polyfill.js'
 import Debug from './Utils/Debug.js'
 import Sizes from './Utils/Sizes.js'
 import Time from './Utils/Time.js'
@@ -35,6 +36,7 @@ export default class Experience
         this.canvas = _canvas
 
         // Setup
+        new Polyfill();
         this.events = new GlobalEvents()
         this.appState = new AppState()
         this.UIManager = new UIManager()
