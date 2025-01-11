@@ -39,26 +39,44 @@ export default class UIManager extends EventEmitter {
             element.addEventListener('click', this.fireNextStep.bind(this));
         });
 
+        
+        this.prevStepTriggers = [];
+        const prevButtons = document.querySelectorAll('.nav-prevStep');
+        prevButtons.forEach(element => { this.prevStepTriggers.push(element) });
+        this.prevStepTriggers.forEach(element => {
+            element.addEventListener('click', this.firePrevStep.bind(this));
+        });
+
+
+        this.restartTriggers = [];
+        const restartButtons = document.querySelectorAll('.nav-restart');
+        restartButtons.forEach(element => { this.restartTriggers.push(element) });
+
+        this.restartTriggers.forEach(element => {
+            element.addEventListener('click', this.fireRestartStep.bind(this));
+        });
+
+
         const notificationTrigger = document.querySelector('.nav-notificationStep');
         notificationTrigger.addEventListener('click', this.fireNotificationStep.bind(this));
-        
-        const resetTrigger = document.querySelector('.nav-restart');
-        resetTrigger.addEventListener('click', this.fireResetStep.bind(this));
     }
 
-    fireNextStep() {
-        this.events.trigger('nextStep');
-    }
+        fireNextStep() {
+            this.events.trigger('nextStep');
+        }
 
-    fireNotificationStep() {
-        this.events.trigger('goToStep', ['notification']);
-        this.appState.trigger('goToCandy', [3]);
-    }
+        firePrevStep() {
+            this.events.trigger('prevStep');
+        }
 
-    fireResetStep() {
-        this.events.trigger('goToStep', [0]);
-        this.appState.trigger('goToCandy', [0]);
-    }
+        fireNotificationStep() {
+            this.events.trigger('goToStep', ['notification']);
+            this.appState.trigger('goToCandy', [3]);
+        }
+
+        fireRestartStep() {
+            this.appState.trigger('restart');
+        }
 
 
     addHandlers() {

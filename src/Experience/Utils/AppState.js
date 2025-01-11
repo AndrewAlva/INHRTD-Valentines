@@ -47,10 +47,10 @@ export default class AppState extends EventEmitter
         this.activeFlow = 'give'; // default is 'give', the other one is 'receive'
     }
 
-    reset() {
+    restart() {
         this.currentCandy = 0;
         this.trigger('candyChange', [this.currentCandy]);
-        this.trigger('appStateStep', [0]);
+        this.events.trigger('appStateStep', [0]);
     }
 
 
@@ -63,11 +63,12 @@ export default class AppState extends EventEmitter
     }
 
     addHandlers() {
-        this.on('reset', this.reset.bind(this));
+        this.on('restart', this.restart.bind(this));
 
         this.on('candyChange', this.updateBgColor.bind(this));
         this.on('goToCandy', this.goToCandy.bind(this));
         this.events.on('appStateNextStep', this.nextStep.bind(this));
+        this.events.on('appStatePrevStep', this.prevStep.bind(this));
         this.events.on('appStateStep', this.goToStep.bind(this));
     }
 
@@ -123,6 +124,11 @@ export default class AppState extends EventEmitter
 
     nextStep() {
         this.currentStep++;
+        this.trigger('stepChange', [this.currentStep]);
+    }
+
+    prevStep() {
+        this.currentStep--;
         this.trigger('stepChange', [this.currentStep]);
     }
 
