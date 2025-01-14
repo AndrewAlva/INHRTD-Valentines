@@ -8,6 +8,8 @@ export default class Candy1
     constructor(params = {})
     {
         this.experience = new Experience()
+        this.device = this.experience.device
+        this.appState = this.experience.appState
         this.scene = this.experience.scene
         this.resources = this.experience.resources
         this.time = this.experience.time
@@ -39,6 +41,7 @@ export default class Candy1
             color: '#ffa5c2',
             roughness: 0.362,
             metalness: 0.071,
+            transparent: true,
             // flatShading: true,
         });
 
@@ -54,6 +57,10 @@ export default class Candy1
     update()
     {
         // update uniforms or something
-        // this.mesh.rotation.y -= 0.01
+        if (this.mesh && this.shaderMaterial) {
+            if (this.experience.appState.currentStep == 0 && !this.device.mobile) {
+                this.mesh.material.opacity = 1 - this.appState.tapHoldAlpha;
+            }
+        }
     }
 }
