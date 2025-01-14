@@ -35,7 +35,7 @@ export default class Candies
 
     addHandlers() {
         this.appState.on('candyChange', (newCandy) => {
-            if (newCandy == 0) {
+            if (newCandy == 0 || newCandy == 3) {
                 this.mainCandy.mesh.visible = true;
                 this.secondCandy.mesh.visible = false;
                 this.thirdCandy.mesh.visible = false;
