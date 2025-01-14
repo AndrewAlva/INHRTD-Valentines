@@ -26,6 +26,7 @@ export default class UIManager extends EventEmitter {
         this.views[2] = document.getElementById('selectContainer');
         this.views[3] = document.getElementById('shareContainer');
         this.views.notification = document.getElementById('notificationContainer');
+        this.views.desktop = document.getElementById('desktopSplashContainer');
 
         this.initTriggers();
     }
@@ -94,7 +95,7 @@ export default class UIManager extends EventEmitter {
 
     switchViews(newStep) {
         // TODO: Validate when name input is empty before switching views. Probably better done in the click callback and before updating AppState.
-
+        // TODO: Polish show/hide animations.
         this.views[this.currentView].classList.remove('show');
         this.views[newStep].classList.add('show');
         this.currentView = newStep;

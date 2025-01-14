@@ -65,11 +65,9 @@ export default class Experience
     addHandlers() {
         // Assets loaded and 3D ready
         this.events.on('siteReady', _ => {
+            // TODO: Loader animateOut and remove it from view to not blocking everything.
             // TODO: animate in website
-                // TODO: trigger animateIn on #landingContainer elements or the appropriate first page to show.
-                this.UIManager.switchViews(0);
-                
-                // TODO: animateOut and remove Loader view blocking everything.
+            this.showFirstView();
         });
 
         // Resize event
@@ -83,6 +81,15 @@ export default class Experience
         {
             this.update()
         })
+    }
+
+    showFirstView() {
+        if (this.device.mobile) {
+            // TODO: trigger animateIn on #landingContainer elements or the appropriate first page to show.
+            this.UIManager.switchViews(0);
+        } else {
+            this.UIManager.switchViews('desktop');
+        }
     }
 
     resize()

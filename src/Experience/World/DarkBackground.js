@@ -70,9 +70,8 @@ export default class DarkBackground
 
     toggleTransition(e) {
         // QA NOTE: there's a chance this implementation cause bugs in production, specially on social browsers, double check this.
+        // console.log(e, e.type);
         this.tapHolding = !this.tapHolding;
-        console.log(e, e.type);
-        
     }
 
 
