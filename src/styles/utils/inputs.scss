@@ -13,4 +13,17 @@ input {
         color: var(--primary);
         opacity: 0.4;
     }
+
+    &:focus {
+        outline: none;
+    }
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+        background: transparent;
+        background-color: transparent;
+        transition: all 5000s ease-in-out 0s;
+    }
 }

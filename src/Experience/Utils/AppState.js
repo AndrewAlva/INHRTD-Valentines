@@ -32,7 +32,7 @@ export default class AppState extends EventEmitter
             bgDarker: {
                 pink: '#F09EAF',
                 blue: '#A6CEE7',
-                green: '#EAF9F1',
+                green: '#B5E7DD',
                 red: '#B33D58',
             },
             instances: {
@@ -44,8 +44,9 @@ export default class AppState extends EventEmitter
         };
 
         this.currentStep = 0;
-        this.activeFlow = 'give'; // default is 'give', the other one is 'receive'
+        this.activeFlow = 'send'; // default is 'send', the other one is 'receive'
         this.tapHoldAlpha = 0;
+        this.loveName = '';
     }
 
     restart() {
@@ -53,6 +54,8 @@ export default class AppState extends EventEmitter
         this.trigger('candyChange', [this.currentCandy]);
         
         this.trigger('goToStep', [0]);
+
+        this.trigger('updateLoveName', ['']);
     }
 
 
@@ -73,6 +76,8 @@ export default class AppState extends EventEmitter
         this.on('nextStep', this.nextStep.bind(this));
         this.on('prevStep', this.prevStep.bind(this));
         this.on('goToStep', this.goToStep.bind(this));
+
+        this.on('updateLoveName', this.updateLoveName.bind(this));
     }
 
     nextCandy() {
@@ -138,5 +143,10 @@ export default class AppState extends EventEmitter
     goToStep(newStep) {
         this.currentStep = newStep;
         this.trigger('stepChange', [this.currentStep]);
+    }
+
+    updateLoveName(name) {
+        this.loveName = name;
+        this.trigger('loveNameChanged', [this.loveName]);
     }
 }

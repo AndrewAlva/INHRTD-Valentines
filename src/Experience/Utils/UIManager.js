@@ -27,6 +27,7 @@ export default class UIManager extends EventEmitter {
         this.views.desktop = document.getElementById('desktopSplashContainer');
 
         this.initTriggers();
+        this.initNameInput();
     }
 
     initTriggers() {
@@ -96,6 +97,16 @@ export default class UIManager extends EventEmitter {
         }
 
 
+    initNameInput() {
+        this.nameInput = document.getElementById('nameInput');
+        this.shareNameDiv = document.getElementById('shareName');
+        this.submitNameBtn = document.getElementById('submitName');
+
+        this.submitNameBtn.addEventListener('click', this.handleNameSubmit.bind(this));
+        this.nameInput.addEventListener('keydown', this.handleInputTyping.bind(this));
+    }
+
+
     addHandlers() {
         this.appState.on('stepChange', (newStep) => {
             if (this.destroyed) return;
@@ -106,11 +117,15 @@ export default class UIManager extends EventEmitter {
             this.html.style.setProperty('--primary', `var(--${newColor})`);
         });
 
+        this.appState.on('loveNameChanged', (name) => {
+            this.shareNameDiv.innerHTML = name;
+            this.nameInput.value = name;
+        });
+
         // TODO: Enable swiping interaction for candy selection.
     }
 
     switchViews(newStep) {
-        // TODO: Validate when name input is empty before switching views. Probably better done in the click callback and before updating AppState.
         // TODO: Polish show/hide animations.
         this.views[this.currentView].classList.remove('show');
         this.views[newStep].classList.add('show');
@@ -122,6 +137,34 @@ export default class UIManager extends EventEmitter {
         // console.log(e.type, e);
         this.tapHolding = !this.tapHolding;
     }
+
+    handleNameSubmit() {
+        this.recipient = this.nameInput.value.trim();
+        if (this.recipient.length > 0 && this.recipient.length < 15) {
+            this.appState.trigger('updateLoveName', [this.recipient]);
+            this.fireNextStep();
+        } else {
+            // TODO: Display alert/error
+        }
+    }
+
+    handleInputTyping(e) {
+        setTimeout( () => {
+            // TODO: improve animate in/out of submit button
+            if (this.nameInput.value.length > 0) {
+                this.submitNameBtn.classList.add('show');
+            } else {
+                this.submitNameBtn.classList.remove('show');
+            }
+
+            if ((e.code || e.key) && (e.code.toLowerCase() == "enter" || e.key.toLowerCase() == "enter")) {
+                // User hit 'enter' key, try next step
+                this.handleNameSubmit();
+            }
+        }, 10 );
+    }
+
+
 
     destroy() {
         this.destroyed = true;

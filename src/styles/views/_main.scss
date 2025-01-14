@@ -204,3 +204,11 @@ svg {
         color: var(--primary);
     }
 }
+
+#submitName {
+    opacity: 0;
+
+    &.show {
+        opacity: 1;
+    }
+}
