@@ -9,6 +9,7 @@ export default class DarkBackground
     {
         this.experience = new Experience()
         this.scene = this.experience.scene
+        this.device = this.experience.device
         this.resources = this.experience.resources
         this.time = this.experience.time
         this.debug = this.experience.debug
@@ -50,22 +51,28 @@ export default class DarkBackground
 
 
     addHandlers() {
+        var _this = this;
         this.tapTriggers = [];
         this.tapHolding = false;
 
         const tapAreas = document.querySelectorAll('.tapHoldTrigger');
         tapAreas.forEach(element => { this.tapTriggers.push(element) });
         this.tapTriggers.forEach(element => {
-            // TODO: Switch between mouse and touch events based on device.
-            // element.addEventListener('click', this.toggleTransition.bind(this));
-            
-            element.addEventListener('touchstart', this.toggleTransition.bind(this));
-            element.addEventListener('touchend', this.toggleTransition.bind(this));
+            if (_this.device.touchCapable) {
+                element.addEventListener('touchstart', this.toggleTransition.bind(this), {passive: true});
+                element.addEventListener('touchend', this.toggleTransition.bind(this));
+            } else {
+                element.addEventListener('mousedown', this.toggleTransition.bind(this));
+                element.addEventListener('mouseup', this.toggleTransition.bind(this));
+            }
         });
     }
 
-    toggleTransition() {
+    toggleTransition(e) {
+        // QA NOTE: there's a chance this implementation cause bugs in production, specially on social browsers, double check this.
         this.tapHolding = !this.tapHolding;
+        console.log(e, e.type);
+        
     }
 
 
