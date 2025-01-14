@@ -45,6 +45,7 @@ export default class AppState extends EventEmitter
 
         this.currentStep = 0;
         this.activeFlow = 'give'; // default is 'give', the other one is 'receive'
+        this.tapHoldAlpha = 0;
     }
 
     restart() {

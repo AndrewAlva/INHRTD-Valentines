@@ -38,10 +38,10 @@ export default class Experience
 
         // Setup
         new Polyfill();
+        this.device = new Device()
         this.events = new GlobalEvents()
         this.appState = new AppState()
         this.UIManager = new UIManager()
-        this.device = new Device()
         this.debug = new Debug()
         this.sizes = new Sizes()
         this.time = new Time()
@@ -100,6 +100,7 @@ export default class Experience
 
     update()
     {
+        this.UIManager.update()
         this.camera.update()
         this.world.update()
         this.renderer.update()

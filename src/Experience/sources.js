@@ -23,6 +23,11 @@ export default [
         path: 'textures/dirt/normal.jpg'
     },
     {
+        name: 'qrTexture',
+        type: 'texture',
+        path: 'textures/qr-desktop.png'
+    },
+    {
         name: 'foxModel',
         type: 'gltfModel',
         path: 'models/Fox/glTF/Fox.gltf'

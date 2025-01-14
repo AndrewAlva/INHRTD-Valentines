@@ -5,14 +5,12 @@ export default class UIManager extends EventEmitter {
         super()
 
         this.experience = new Experience()
-        this.events = this.experience.events
-        this.sizes = this.experience.sizes
-        this.scene = this.experience.scene
-        this.canvas = this.experience.canvas
+        this.device = this.experience.device
         this.appState = this.experience.appState
         this.currentView = this.appState.currentStep
         
-        // Example setup, replace their content as needed
+        this.tapHoldThreshold = 1; // how many seconds to hold to finish transition.
+        this.transitionSpeed = 1 / (60 * this.tapHoldThreshold);
         this.initUI();
         this.addHandlers();
     }
@@ -32,6 +30,8 @@ export default class UIManager extends EventEmitter {
     }
 
     initTriggers() {
+        var _this = this;
+
         this.nextStepTriggers = [];
 
         const nextButtons = document.querySelectorAll('.nav-nextStep');
@@ -60,6 +60,22 @@ export default class UIManager extends EventEmitter {
 
         const notificationTrigger = document.querySelector('.nav-notificationStep');
         notificationTrigger.addEventListener('click', this.fireNotificationStep.bind(this));
+
+
+        this.tapTriggers = [];
+        this.tapHolding = false;
+
+        const tapAreas = document.querySelectorAll('.tapHoldTrigger');
+        tapAreas.forEach(element => { this.tapTriggers.push(element) });
+        this.tapTriggers.forEach(element => {
+            if (_this.device.touchCapable) {
+                element.addEventListener('touchstart', this.toggleTransition.bind(this), {passive: true});
+                element.addEventListener('touchend', this.toggleTransition.bind(this));
+            } else {
+                element.addEventListener('mousedown', this.toggleTransition.bind(this));
+                element.addEventListener('mouseup', this.toggleTransition.bind(this));
+            }
+        });
     }
 
         fireNextStep() {
@@ -101,8 +117,24 @@ export default class UIManager extends EventEmitter {
         this.currentView = newStep;
     }
 
+    toggleTransition(e) {
+        // QA NOTE: there's a chance this implementation cause bugs in production, specially on social browsers, double check this.
+        // console.log(e.type, e);
+        this.tapHolding = !this.tapHolding;
+    }
+
     destroy() {
         this.destroyed = true;
+    }
+
+    update() {
+        if (this.tapHolding) {
+            this.appState.tapHoldAlpha += this.transitionSpeed;
+        } else {
+            this.appState.tapHoldAlpha -= this.transitionSpeed;
+        }
+        
+        this.appState.tapHoldAlpha = Math.clamp(this.appState.tapHoldAlpha);
     }
 }
 //test
