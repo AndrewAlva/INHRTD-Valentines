@@ -11,6 +11,7 @@ import Resources from './Utils/Resources.js'
 import GlobalEvents from './Utils/GlobalEvents.js'
 import AppState from './Utils/AppState.js'
 import UIManager from './Utils/UIManager.js'
+import Device from './Utils/Device.js'
 
 import sources from './sources.js'
 
@@ -40,6 +41,7 @@ export default class Experience
         this.events = new GlobalEvents()
         this.appState = new AppState()
         this.UIManager = new UIManager()
+        this.device = new Device()
         this.debug = new Debug()
         this.sizes = new Sizes()
         this.time = new Time()
