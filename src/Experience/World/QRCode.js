@@ -34,6 +34,7 @@ export default class QRCode
             // side: THREE.BackSide,
             transparent: true,
             uniforms: {
+                // TODO: update qr texture map with final URL qr code
                 uMap: { value: this.resources.items.qrTexture },
                 uColor: { value: new THREE.Color('#7B071B').convertLinearToSRGB() },
                 uTransition: { value: 0 },
