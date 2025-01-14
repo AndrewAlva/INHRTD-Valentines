@@ -8,7 +8,10 @@ main#nameContainer.viewContainer
             h1.h1 Who is your loved one
 
         section.inputBox
-            input#nameInput.h1Input(placeholder="Place the name")
+            input#nameInput.h1Input
+            label#nameLabel.h1Label.show(for="nameInput") Place the name
+
+            span#alertContainer.h1Alert
 
         section.bottomBox
             footer.actionBox

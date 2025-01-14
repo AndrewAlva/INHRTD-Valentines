@@ -27,3 +27,39 @@ input {
         transition: all 5000s ease-in-out 0s;
     }
 }
+
+.h1Label {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    font-size: 38px;
+    font-weight: lighter;
+    color: var(--primary);
+    opacity: 0.4;
+
+    display: none;
+
+    &.show {
+        display: block;
+    }
+}
+
+.h1Alert {
+    position: absolute;
+    top: -72px;
+    left: 0;
+    width: 100%;
+    max-width: 500px;
+    padding: 0 32px;
+    font-size: 16px;
+    color: red;
+    box-sizing: border-box;
+
+    display: none;
+
+    &.show {
+        display: block;
+    }
+}

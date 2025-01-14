@@ -99,6 +99,8 @@ export default class UIManager extends EventEmitter {
 
     initNameInput() {
         this.nameInput = document.getElementById('nameInput');
+        this.inputLabel = document.getElementById('nameLabel');
+        this.inputAlertContainer = document.getElementById('alertContainer');
         this.shareNameDiv = document.getElementById('shareName');
         this.submitNameBtn = document.getElementById('submitName');
 
@@ -120,6 +122,10 @@ export default class UIManager extends EventEmitter {
         this.appState.on('loveNameChanged', (name) => {
             this.shareNameDiv.innerHTML = name;
             this.nameInput.value = name;
+            if (!name) {
+                this.submitNameBtn.classList.remove('show');
+                this.inputLabel.classList.add('show');
+            }
         });
 
         // TODO: Enable swiping interaction for candy selection.
@@ -143,18 +149,28 @@ export default class UIManager extends EventEmitter {
         if (this.recipient.length > 0 && this.recipient.length < 15) {
             this.appState.trigger('updateLoveName', [this.recipient]);
             this.fireNextStep();
+            this.inputAlertContainer.classList.remove('show');
+
         } else {
             // TODO: Display alert/error
+            // TODO: improve animate in/out of alert
+            this.inputAlertContainer.classList.add('show');
+            this.inputAlertContainer.innerHTML = "No name detected, or it's too long.<br>Double check for me, ok sweetie? ❤";
         }
     }
 
     handleInputTyping(e) {
         setTimeout( () => {
+            // TODO: improve animate in/out of alert
+            this.inputAlertContainer.classList.remove('show');
+
             // TODO: improve animate in/out of submit button
             if (this.nameInput.value.length > 0) {
                 this.submitNameBtn.classList.add('show');
+                this.inputLabel.classList.remove('show');
             } else {
                 this.submitNameBtn.classList.remove('show');
+                this.inputLabel.classList.add('show');
             }
 
             if ((e.code || e.key) && (e.code.toLowerCase() == "enter" || e.key.toLowerCase() == "enter")) {
