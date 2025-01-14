@@ -55,7 +55,7 @@ export default class Heart1
 
             // Set random position for each instance
             dummy.position.set(
-                Math.random() * 18 - 14,
+                Math.random() * 18 - 9,
                 Math.random() * 28 - 14,
                 Math.random() * 18 - 14
             );

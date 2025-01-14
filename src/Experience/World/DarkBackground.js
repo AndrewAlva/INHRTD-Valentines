@@ -43,7 +43,7 @@ export default class DarkBackground
         this.mesh = new THREE.Mesh(this.geometry, this.shaderMaterial)
         this.mesh.position.y = 0
         this.mesh.scale.y = 2
-        this.mesh.rotation.y = Math.PI * 0.75
+        this.mesh.rotation.y = Math.PI * 0.5
         this.scene.add(this.mesh)
     }
 
