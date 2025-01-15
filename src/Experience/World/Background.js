@@ -43,8 +43,8 @@ export default class Background
             fragmentShader: bgFragmentShader,
             side: THREE.BackSide,
             uniforms: {
-                uColorTop: { value: new THREE.Color('#F7DEE4').convertLinearToSRGB() },
-                uColorBottom: { value: new THREE.Color('#F09EAF').convertLinearToSRGB() },
+                uColorTop: { value: new THREE.Color( this.appState.candyColors.bgLighter[this.appState.bgColor] ).convertLinearToSRGB() },
+                uColorBottom: { value: new THREE.Color( this.appState.candyColors.bgDarker[this.appState.bgColor] ).convertLinearToSRGB() },
             }
         })
 

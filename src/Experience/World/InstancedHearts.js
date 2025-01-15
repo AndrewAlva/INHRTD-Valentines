@@ -34,7 +34,7 @@ export default class Heart1
         
         this.material = new THREE.MeshStandardMaterial({
             // color: '#9B052C',
-            color: this.appState.candyColors.instances.pink,
+            color: this.appState.candyColors.instances[this.appState.bgColor],
             roughness: 0,
             metalness: 0.5,
             // flatShading: true,

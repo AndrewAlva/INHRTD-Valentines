@@ -46,17 +46,46 @@ export default class AppState extends EventEmitter
         this.tapHoldAlpha = 0;
         this.tapHoldMaxedOnce = false;
         this.loveName = this.utils.query('to') ? this.utils.query('to') : '';
+
+        this.loadQueryStates();
     }
 
     restart() {
         this.trigger('goToCandy', [0]);
         this.trigger('goToStep', [0]);
         this.trigger('updateLoveName', ['']);
+
         this.utils.removeQuery('to');
         this.utils.removeQuery('theme');
+        this.activeFlow = 'send';
+        this.tapHoldMaxedOnce = false;
     }
 
 
+    loadQueryStates() {
+        const queryTheme = this.utils.query('theme') || 'pink';
+
+        switch (queryTheme) {
+            case 'pink':
+                this.currentCandy = 0;
+                this.bgColor = queryTheme;
+                break;
+            case 'blue':
+                this.currentCandy = 1;
+                this.bgColor = queryTheme;
+                break;
+            case 'green':
+                this.currentCandy = 2;
+                this.bgColor = queryTheme;
+                break;
+
+            default:
+                this.currentCandy = 0;
+                this.bgColor = 'pink';
+                break;
+        }
+    }
+    
     initCandiesHandlers() {
         this.next = document.getElementById('nextCandy');
         this.next.addEventListener('click', this.nextCandy.bind(this));

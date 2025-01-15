@@ -26,9 +26,9 @@ export default class Candies
     }
 
     initCandies() {
-        this.mainCandy = new Candy1()
-        this.secondCandy = new Candy2({inactive: true})
-        this.thirdCandy = new Candy3({inactive: true})
+        this.mainCandy =    new Candy1({ inactive: this.appState.currentCandy != 0 });
+        this.secondCandy =  new Candy2({ inactive: this.appState.currentCandy != 1 });
+        this.thirdCandy =   new Candy3({ inactive: this.appState.currentCandy != 2 });
 
         this.group.add(this.mainCandy.mesh, this.secondCandy.mesh, this.thirdCandy.mesh)
     }
