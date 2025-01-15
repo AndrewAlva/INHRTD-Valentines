@@ -208,6 +208,13 @@ export default class UIManager extends EventEmitter {
         }
         
         this.appState.tapHoldAlpha = Math.clamp(this.appState.tapHoldAlpha);
+
+        for (const key in this.views) {
+            if (Object.prototype.hasOwnProperty.call(this.views, key)) {
+                const view = this.views[key];
+                view.style.opacity = 1 - this.appState.tapHoldAlpha;
+            }
+        }
     }
 }
 //test
