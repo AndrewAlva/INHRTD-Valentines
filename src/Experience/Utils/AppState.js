@@ -50,10 +50,10 @@ export default class AppState extends EventEmitter
 
     restart() {
         this.trigger('goToCandy', [0]);
-        
         this.trigger('goToStep', [0]);
-
         this.trigger('updateLoveName', ['']);
+        this.utils.removeQuery('to');
+        this.utils.removeQuery('theme');
     }
 
 

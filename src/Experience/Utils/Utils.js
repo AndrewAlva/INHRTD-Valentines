@@ -45,4 +45,12 @@ export default class Utils extends EventEmitter
         _queries[key] = value;
         return value;
     };
+
+    removeQuery(query) {
+        let url = new URL(location.href);
+        url.searchParams.delete(query);
+        _searchParams = url.searchParams;
+        window.history.replaceState({}, document.title, url.toString());
+        return delete _queries[ query ];
+    }
 }
