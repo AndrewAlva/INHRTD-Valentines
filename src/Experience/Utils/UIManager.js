@@ -5,6 +5,7 @@ export default class UIManager extends EventEmitter {
         super()
 
         this.experience = new Experience()
+        this.utils = this.experience.utils
         this.device = this.experience.device
         this.appState = this.experience.appState
         this.currentView = this.appState.currentStep
@@ -25,6 +26,9 @@ export default class UIManager extends EventEmitter {
         this.views[3] = document.getElementById('shareContainer');
         this.views.notification = document.getElementById('notificationContainer');
         this.views.desktop = document.getElementById('desktopSplashContainer');
+        this.views.received = document.getElementById('receivedContainer');
+
+        if (this.appState.activeFlow == 'receive') document.getElementById('recipientName').innerHTML = this.appState.loveName;
 
         this.initTriggers();
         this.initNameInput();
@@ -128,6 +132,11 @@ export default class UIManager extends EventEmitter {
             }
         });
 
+        this.appState.on('tapHoldMaxedOnce', _ => {
+            // TODO: make sure this button animates in nicely.
+            document.getElementById('receivedSpottyLink').classList.add('show');
+        });
+
         // TODO: Enable swiping interaction for candy selection.
     }
 
@@ -191,6 +200,11 @@ export default class UIManager extends EventEmitter {
             this.appState.tapHoldAlpha += this.transitionSpeed;
         } else {
             this.appState.tapHoldAlpha -= this.transitionSpeed;
+        }
+
+        if (this.appState.tapHoldAlpha >= this.tapHoldThreshold) {
+            this.appState.tapHoldMaxedOnce = true;
+            this.appState.trigger('tapHoldMaxedOnce');
         }
         
         this.appState.tapHoldAlpha = Math.clamp(this.appState.tapHoldAlpha);

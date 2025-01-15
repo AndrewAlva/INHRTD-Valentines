@@ -8,9 +8,7 @@ export default class AppState extends EventEmitter
 
         this.experience = new Experience()
         this.events = this.experience.events
-        this.sizes = this.experience.sizes
-        this.scene = this.experience.scene
-        this.canvas = this.experience.canvas
+        this.utils = this.experience.utils
 
         // Example functions, can replace their content
         this.initStates();
@@ -44,9 +42,10 @@ export default class AppState extends EventEmitter
         };
 
         this.currentStep = 0;
-        this.activeFlow = 'send'; // default is 'send', the other one is 'receive'
+        this.activeFlow = this.utils.query('to') ? 'receive' : 'send'; // default is 'send', the other one is 'receive'
         this.tapHoldAlpha = 0;
-        this.loveName = '';
+        this.tapHoldMaxedOnce = false;
+        this.loveName = this.utils.query('to') ? this.utils.query('to') : '';
     }
 
     restart() {

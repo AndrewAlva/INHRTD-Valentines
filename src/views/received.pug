@@ -5,7 +5,7 @@ main#receivedContainer.viewContainer
         header.headingBox
             img(class="hearts hearts--top" src="icons/hearts.svg" alt="hearts icon")
             h1.h1 
-                span.lineWrap ${Someone} 
+                span#recipientName.lineWrap ${Someone} 
                 span.lineWrap has something to tell you
 
         div.tapUI
@@ -24,8 +24,10 @@ main#receivedContainer.viewContainer
 
             footer.actionBox
                 div.buttonsWrapper
-                    button.btn.btn--mainAction
+                    button.btn.btn--mainAction.nav-restart
                         span.label Create mine
                     
-                    button.btn.btn--mainAction
+                    button#receivedSpottyLink.btn.btn--mainAction
                         span.label I love the song
+
+    span.tapHoldTrigger

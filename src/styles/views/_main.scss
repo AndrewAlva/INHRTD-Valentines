@@ -183,6 +183,15 @@ svg {
     }
 }
 
+    #receivedSpottyLink {
+        display: none;
+
+        &.show {
+            display: block;
+        }
+    }
+
+
 #notificationContainer {
     padding-top: 60px;
     color: var(--pinkLight);

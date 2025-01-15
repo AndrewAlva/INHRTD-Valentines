@@ -16,7 +16,7 @@ export default class Utils extends EventEmitter
         }
         instance = this;
 
-        window.Utils = this;
+        // window.Utils = this;
 
         this.experience = new Experience();
     }

@@ -87,8 +87,11 @@ export default class Experience
 
     showFirstView() {
         if (this.device.mobile) {
-            // TODO: trigger animateIn on #landingContainer elements or the appropriate first page to show.
-            this.UIManager.switchViews(0);
+            if (this.appState.activeFlow == 'send') {
+                this.UIManager.switchViews(0);
+            } else {
+                this.UIManager.switchViews('received');
+            }
         } else {
             this.UIManager.switchViews('desktop');
         }
