@@ -12,6 +12,7 @@ import GlobalEvents from './Utils/GlobalEvents.js'
 import AppState from './Utils/AppState.js'
 import UIManager from './Utils/UIManager.js'
 import Device from './Utils/Device.js'
+import Utils from './Utils/Utils.js'
 
 import sources from './sources.js'
 
@@ -38,6 +39,7 @@ export default class Experience
 
         // Setup
         new Polyfill();
+        this.utils = new Utils()
         this.device = new Device()
         this.events = new GlobalEvents()
         this.appState = new AppState()
