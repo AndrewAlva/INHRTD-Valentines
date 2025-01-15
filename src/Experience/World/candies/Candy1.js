@@ -22,10 +22,11 @@ export default class Candy1
             this.debugFolder.close()
         }
 
-        this.setGeometry(params)
+        this.initMesh(params);
+        this.addHandlers();
     }
 
-    setGeometry(params)
+    initMesh(params)
     {
         this.geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5)
         // this.geometry = new THREE.TorusKnotGeometry(0.8, 0.25, 128)
@@ -53,6 +54,18 @@ export default class Candy1
 
         if (params.inactive) this.mesh.visible = false
     }
+
+    addHandlers() {
+        this.appState.on('stepChange', (newStep) => {
+            // TODO: improve animate in/out of the candy
+            if (newStep == 1) {
+                this.mesh.material.opacity = 0;
+            } else {
+                this.mesh.material.opacity = 1;
+            }
+        });
+    }
+
 
     update()
     {

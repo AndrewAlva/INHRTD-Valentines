@@ -8,6 +8,7 @@ export default class Candy2
     constructor(params = {})
     {
         this.experience = new Experience()
+        this.appState = this.experience.appState
         this.scene = this.experience.scene
         this.resources = this.experience.resources
         this.time = this.experience.time
@@ -20,10 +21,11 @@ export default class Candy2
             this.debugFolder.close()
         }
 
-        this.setGeometry(params)
+        this.initMesh(params);
+        this.addHandlers();
     }
 
-    setGeometry(params)
+    initMesh(params)
     {
         this.geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5)
         // this.geometry = new THREE.TorusKnotGeometry(0.8, 0.25, 128)
@@ -39,6 +41,7 @@ export default class Candy2
             color: '#A0CDE9',
             roughness: 0.362,
             metalness: 0.071,
+            transparent: true,
             // flatShading: true,
         });
 
@@ -50,6 +53,18 @@ export default class Candy2
 
         if (params.inactive) this.mesh.visible = false
     }
+
+    addHandlers() {
+        this.appState.on('stepChange', (newStep) => {
+            // TODO: improve animate in/out of the candy
+            if (newStep == 1) {
+                this.mesh.material.opacity = 0;
+            } else {
+                this.mesh.material.opacity = 1;
+            }
+        });
+    }
+
 
     update()
     {
