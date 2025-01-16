@@ -21,7 +21,7 @@ html {
 html, body {
     overflow: hidden;
     color: var(--primary);
-    transition: color 0.4s ease-in-out;
+    transition: color 0.4s ease-in-out, background-color 0.4s ease-in-out;
 }
 
 svg {

@@ -122,6 +122,7 @@ export default class UIManager extends EventEmitter {
 
         this.appState.on('bgColorChange', (newColor) => {
             this.html.style.setProperty('--primary', `var(--${newColor})`);
+            document.body.style.backgroundColor = this.appState.candyColors.bgLighter[newColor]
         });
 
         this.appState.on('loveNameChanged', (name) => {
