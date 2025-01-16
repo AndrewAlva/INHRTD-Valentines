@@ -111,12 +111,14 @@ export default class UIManager extends EventEmitter {
 
         this.submitNameBtn.addEventListener('click', this.handleNameSubmit.bind(this));
         this.nameInput.addEventListener('keydown', this.handleInputTyping.bind(this));
+        this.nameInput.addEventListener('focus', this.handleInputFocus.bind(this));
     }
 
 
     addHandlers() {
         this.appState.on('stepChange', (newStep) => {
             if (this.destroyed) return;
+            this.nameInput.blur();
             this.switchViews(newStep);
         });
 
@@ -189,6 +191,11 @@ export default class UIManager extends EventEmitter {
                 this.handleNameSubmit();
             }
         }, 10 );
+    }
+
+    handleInputFocus(e) {
+        window.scrollTo(0, 0);
+        document.body.scrollTop = 0;
     }
 
 
