@@ -22,22 +22,28 @@ export default class AppState extends EventEmitter
         this.currentCandy = 0;
         this.candyColors = {
             bgLighter: {
-                pink: '#F7DEE4',
-                blue: '#D8EBF8',
-                green: '#ECF9F2',
-                red: '#A1062D',
+                pink:   '#F7DEE4',
+                blue:   '#D8EBF8',
+                green:  '#ECF9F2',
+                red:    '#A1062D',
             },
             bgDarker: {
-                pink: '#F09EAF',
-                blue: '#A6CEE7',
-                green: '#B5E7DD',
-                red: '#B33D58',
+                pink:   '#F09EAF',
+                blue:   '#A6CEE7',
+                green:  '#B5E7DD',
+                red:    '#B33D58',
             },
             instances: {
-                pink: '#FF8DA1',
-                blue: '#A0CDE9',
-                green: '#9BE6CF',
-                red: '#FF8DA1',
+                pink:   '#FF8DA1',
+                blue:   '#A0CDE9',
+                green:  '#9BE6CF',
+                red:    '#FF8DA1',
+            },
+            shareText: {
+                pink:   '#D2566E',
+                blue:   '#2E8AAE',
+                green:  '#2DA8AF',
+                red:    '#FFE1E1',
             },
         };
 

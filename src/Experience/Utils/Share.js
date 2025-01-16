@@ -78,9 +78,10 @@ export default class Share extends EventEmitter
         this.ctx.drawImage(this.baseToRender, 0, 0);
 
         this.shareHeading = `Hey ${this.appState.loveName}, someone has something to tell you`;
+        // TODO: update font family.
         this.ctx.font = "94px sans-serif";
         this.ctx.textAlign = "center";
-        this.ctx.fillStyle = this.appState.candyColors.bgDarker[this.appState.bgColor];
+        this.ctx.fillStyle = this.appState.candyColors.shareText[this.appState.bgColor];
 
         this.linesArray = this.wrapText(this.ctx, this.shareHeading, 1080/2, 350, 750, 88);
 
