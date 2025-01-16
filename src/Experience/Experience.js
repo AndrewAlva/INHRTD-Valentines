@@ -13,6 +13,7 @@ import AppState from './Utils/AppState.js'
 import UIManager from './Utils/UIManager.js'
 import Device from './Utils/Device.js'
 import Utils from './Utils/Utils.js'
+import Share from './Utils/Share.js'
 
 import sources from './sources.js'
 
@@ -52,6 +53,7 @@ export default class Experience
         this.camera = new Camera()
         this.renderer = new Renderer()
         this.world = new World()
+        this.share = new Share();
 
         // TODO: Trigger "rotate device" screen properly accounting desktop devices.
         // TODO: Trigger "desktop splash" screen properly.
