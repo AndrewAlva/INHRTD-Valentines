@@ -19,6 +19,7 @@ export default class UIManager extends EventEmitter {
     initUI() {
         this.html = document.querySelector('html');
         this.html.style.setProperty('--primary', `var(--${this.appState.bgColor})`);
+        document.body.style.backgroundColor = this.appState.candyColors.bgLighter[this.appState.bgColor]
         this.views = {};
 
         this.views[0] = document.getElementById('landingContainer');
