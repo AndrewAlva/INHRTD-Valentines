@@ -111,6 +111,7 @@ export default class UIManager extends EventEmitter {
 
         this.submitNameBtn.addEventListener('click', this.handleNameSubmit.bind(this));
         this.nameInput.addEventListener('keydown', this.handleInputTyping.bind(this));
+        // TODO: fix overflow scroll on iOS safari.
         this.nameInput.addEventListener('focus', this.handleInputFocus.bind(this));
     }
 
