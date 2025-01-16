@@ -6,6 +6,9 @@ $btn-radius: 15px;
 .btn {
     background-color: $btn-bg;
     pointer-events: all;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &--mainAction {
         height: 56px;
@@ -19,9 +22,6 @@ $btn-radius: 15px;
         width: 38px;
         height: 38px;
         border-radius: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
 
         svg {
             color: var(--primary);
