@@ -2,6 +2,7 @@ import Experience from '../Experience.js'
 import EventEmitter from './EventEmitter.js'
 
 let instance = null
+let _this;
 
 export default class Share extends EventEmitter
 {
@@ -14,22 +15,28 @@ export default class Share extends EventEmitter
         }
         instance = this;
 
+        _this = this;
         this.experience = new Experience();
         this.events = this.experience.events;
         this.appState = this.experience.appState;
 
+        this.width = 1080;
+        this.height = 1920;
         this.initCanvas();
+        this.initImages();
+        this.shareData = {};
+        this.shareImgTitle = 'Inherited-Dennis.png';
+        this.filesArray = [];
+        this.shareBtn = document.getElementById('shareBtn');
 
         this.addHandlers();
     }
 
     initCanvas() {
-        var _this = this;
-
         this.canvas = document.createElement('canvas');
         this.ctx = this.canvas.getContext('2d');
-        this.canvas.width = 1080;
-        this.canvas.height = 1920;
+        this.canvas.width = this.width;
+        this.canvas.height = this.height;
         this.canvas.style.width = '360px';
         this.canvas.style.height = '640px';
         this.canvas.style.position = 'absolute';
@@ -37,29 +44,58 @@ export default class Share extends EventEmitter
         this.canvas.style.zIndex = -1;
         // this.canvas.style.border = '1px dashed red';
         document.body.appendChild(this.canvas);
+    }
 
+    initImages() {
         // TODO: export base imgs and update path.
         this.baseImgs = {
-            pink: 'share/share-pink.png',
-            blue: 'share/share-pink.png',
-            green: 'share/share-pink.png',
-        };
-        
-        this.baseImgPink = new Image();
-        this.baseImgPink.src = this.baseImgs[this.appState.bgColor];
-        this.baseImgPink.onload = function() {
-            _this.ctx.drawImage(_this.baseImgPink, 0, 0);
-            _this.linesArray = _this.wrapText(_this.ctx, _this.shareHeading, 1080/2, 350, 750, 88);
+            pink: new Image(),
+            blue: new Image(),
+            green: new Image(),
 
-            _this.linesArray.forEach(function(item) {
-                _this.ctx.fillText(item[0], item[1], item[2]); 
-            });
-        }
+            paths: {
+                pink: 'share/share-pink.png',
+                blue: 'share/share-blue.png',
+                green: 'share/share-green.png',
+            }
+        };
+
+        this.baseImgs.pink.src = this.baseImgs.paths.pink;
+        this.baseImgs.blue.src = this.baseImgs.paths.blue;
+        this.baseImgs.green.src = this.baseImgs.paths.green;
+
+        this.baseToRender = this.baseImgs[this.appState.bgColor];
+        // this.baseImg.onload = this.renderShareImage.bind(this);
+    }
+
+    async renderShareImage() {
+        // TODO: improve animateIn/out of share button.
+        this.shareBtn.classList.remove('show');
+
+        this.ctx.clearRect(0, 0, this.width, this.height);
+
+        this.baseToRender = this.baseImgs[this.appState.bgColor];
+        this.ctx.drawImage(this.baseToRender, 0, 0);
 
         this.shareHeading = `Hey ${this.appState.loveName}, someone has something to tell you`;
         this.ctx.font = "94px sans-serif";
         this.ctx.textAlign = "center";
         this.ctx.fillStyle = this.appState.candyColors.bgDarker[this.appState.bgColor];
+
+        this.linesArray = this.wrapText(this.ctx, this.shareHeading, 1080/2, 350, 750, 88);
+
+        this.linesArray.forEach(function(item) {
+            _this.ctx.fillText(item[0], item[1], item[2]); 
+        });
+
+
+        this.dataUrl = this.canvas.toDataURL();
+        this.blob = await (await fetch(this.dataUrl)).blob();
+        this.filesArray[0] = new File([this.blob], this.shareImgTitle, { type: this.blob.type, lastModified: new Date().getTime() });
+        this.shareData.files = this.filesArray;
+
+        // TODO: improve animateIn/out of share button.
+        this.shareBtn.classList.add('show');
     }
 
     wrapText(ctx, text, x, y, maxWidth, lineHeight) {
@@ -100,24 +136,17 @@ export default class Share extends EventEmitter
 
 
     addHandlers() {
-        this.events.on('share', this.handleShare.bind(this));
+        this.appState.on('stepChange', (newStep) => {
+            if (newStep == 3) {
+                this.renderShareImage();
+            }
+        });
 
-        // document.getElementById('shareBtn').addEventListener('click', this.handleShare.bind(this));
+        this.shareBtn.addEventListener('click', this.handleShare.bind(this));
     }
 
-    async handleShare() {
-        // Grab loveName, theme color.
-        // Write loveName into canvas.
-        // Take a snapshot of canvas.
-        // Fire share function
-        
-        const dataUrl = this.canvas.toDataURL();
-        const blob = await (await fetch(dataUrl)).blob();
-        const filesArray = [new File([blob], 'Inherited-Dennis.png', { type: blob.type, lastModified: new Date().getTime() })];
-        const shareData = {
-            files: filesArray,
-        };
-        navigator.share(shareData).then(() => {
+    handleShare() {
+        navigator.share(this.shareData).then(() => {
             console.log('Shared successfully');
         });
     }
