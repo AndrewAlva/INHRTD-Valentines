@@ -37,13 +37,13 @@ export default class Share extends EventEmitter
         this.ctx = this.canvas.getContext('2d');
         this.canvas.width = this.width;
         this.canvas.height = this.height;
-        this.canvas.style.width = '360px';
-        this.canvas.style.height = '640px';
-        this.canvas.style.position = 'absolute';
-        this.canvas.style.display = 'block';
-        this.canvas.style.zIndex = -1;
+        // this.canvas.style.display = 'none';
+        // this.canvas.style.width = '360px';
+        // this.canvas.style.height = '640px';
+        // this.canvas.style.position = 'absolute';
+        // this.canvas.style.zIndex = -1;
         // this.canvas.style.border = '1px dashed red';
-        document.body.appendChild(this.canvas);
+        // document.body.appendChild(this.canvas);
     }
 
     initImages() {
