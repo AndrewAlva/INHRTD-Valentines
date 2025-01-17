@@ -1,14 +1,19 @@
+import { gsap } from "gsap";
 import Experience from '../Experience.js'
 import EventEmitter from './EventEmitter.js'
+
+let _this;
 export default class UIManager extends EventEmitter {
     constructor() {
         super()
 
+        _this = this;
         this.experience = new Experience()
         this.utils = this.experience.utils
         this.device = this.experience.device
         this.appState = this.experience.appState
         this.currentView = this.appState.currentStep
+        this.music = this.experience.music
         
         this.tapHoldThreshold = 1; // how many seconds to hold to finish transition.
         this.transitionSpeed = 1 / (60 * this.tapHoldThreshold);
@@ -167,11 +172,41 @@ export default class UIManager extends EventEmitter {
         // QA NOTE: there's a chance this implementation cause bugs in production, specially on social browsers, double check this.
         // console.log(e.type, e);
         this.tapHolding = !this.tapHolding;
+
+        // TODO: Improve tweening timing to match between 3D and DOM.
         if (this.tapHolding) {
             this.appState.lastBgColor = this.appState.bgColor;
             this.appState.trigger('bgColorChange', ['dark']);
+
+            if (this.music.audioLoaded) {
+                setTimeout(_ => {
+                    _this.music.fireAudioContext();
+
+                    _this.music.audioTag.play();
+                    // TODO: uncomment fade after figuring out audio not playing on mobile.
+                    // gsap.to(_this.music.gainNode.gain, {
+                    //     value: 0,
+                    //     ease: "power3.out",
+                    //     duration: 1,
+                    // });
+                }, 50);
+            }
+
         } else {
             this.appState.trigger('bgColorChange', [this.appState.lastBgColor]);
+
+            if (this.music.audioLoaded) {
+                this.music.audioTag.pause();
+                // TODO: uncomment fade after figuring out audio not playing on mobile.
+                // gsap.to(this.music.gainNode.gain, {
+                //     value: -1,
+                //     ease: "power3.out",
+                //     duration: 1,
+                //     onComplete: _ => {
+                //         _this.music.audioTag.pause();
+                //     }
+                // });
+            }
         }
     }
 

@@ -14,6 +14,7 @@ import UIManager from './Utils/UIManager.js'
 import Device from './Utils/Device.js'
 import Utils from './Utils/Utils.js'
 import Share from './Utils/Share.js'
+import Music from './Utils/Music.js'
 
 import sources from './sources.js'
 
@@ -44,6 +45,7 @@ export default class Experience
         this.device = new Device()
         this.events = new GlobalEvents()
         this.appState = new AppState()
+        this.music = new Music()
         this.UIManager = new UIManager()
         this.debug = new Debug()
         this.sizes = new Sizes()
