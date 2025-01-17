@@ -30,7 +30,17 @@ export default class UIManager extends EventEmitter {
         this.views.desktop = document.getElementById('desktopSplashContainer');
         this.views.received = document.getElementById('receivedContainer');
 
-        if (this.appState.activeFlow == 'receive') document.getElementById('recipientName').innerHTML = this.appState.loveName;
+        if (this.appState.activeFlow == 'receive') {
+            document.getElementById('recipientName').innerHTML = this.appState.loveName;
+
+            document.getElementById('deskHeading').innerHTML = 'Someone has a sweet message for you';
+            document.getElementById('deskName').innerHTML = this.appState.loveName;
+            document.getElementById('defaultSubheading').style.display = 'none';
+
+        } else {
+            document.getElementById('receivedSubheading').style.display = 'none';
+            
+        }
 
         this.initTriggers();
         this.initNameInput();
