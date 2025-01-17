@@ -34,8 +34,8 @@ export default class DarkBackground
             side: THREE.BackSide,
             transparent: true,
             uniforms: {
-                uColorTop: { value: new THREE.Color('#7B071B').convertLinearToSRGB() },
-                uColorBottom: { value: new THREE.Color('#1D010A').convertLinearToSRGB() },
+                uColorInside: { value: new THREE.Color(this.appState.candyColors.bgDarker.dark).convertLinearToSRGB() },
+                uColorOutside: { value: new THREE.Color(this.appState.candyColors.bgLighter.dark).convertLinearToSRGB() },
                 uTransition: { value: 0 },
             }
         })

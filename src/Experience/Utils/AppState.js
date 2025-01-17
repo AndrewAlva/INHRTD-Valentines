@@ -18,6 +18,7 @@ export default class AppState extends EventEmitter
 
     initStates() {
         this.bgColor = "pink";
+        this.lastBgColor = "pink";
         this.totalCandies = 3;
         this.currentCandy = 0;
         this.candyColors = {
@@ -26,24 +27,28 @@ export default class AppState extends EventEmitter
                 blue:   '#D8EBF8',
                 green:  '#ECF9F2',
                 red:    '#A1062D',
+                dark:    '#1D010A',
             },
             bgDarker: {
                 pink:   '#F09EAF',
                 blue:   '#A6CEE7',
                 green:  '#B5E7DD',
                 red:    '#B33D58',
+                dark:    '#7B071B',
             },
             instances: {
                 pink:   '#FF8DA1',
                 blue:   '#A0CDE9',
                 green:  '#9BE6CF',
                 red:    '#FF8DA1',
+                dark:    '#333333',
             },
             shareText: {
                 pink:   '#D2566E',
                 blue:   '#2E8AAE',
                 green:  '#2DA8AF',
                 red:    '#FFE1E1',
+                dark:    '#000000',
             },
         };
 

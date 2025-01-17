@@ -1,5 +1,5 @@
-uniform vec3 uColorTop;
-uniform vec3 uColorBottom;
+uniform vec3 uColorInside;
+uniform vec3 uColorOutside;
 uniform float uTransition;
 
 varying vec2 vUv;
@@ -12,7 +12,7 @@ void main()
     float circle = length(vUv - vec2(0.5, 0.48));
 
     float lerp = smoothstep(start, start + fade, circle);
-    vec3 color = mix(uColorTop, uColorBottom, lerp);
+    vec3 color = mix(uColorInside, uColorOutside, lerp);
 
     float alpha = uTransition;
 

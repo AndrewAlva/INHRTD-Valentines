@@ -136,7 +136,7 @@ export default class UIManager extends EventEmitter {
 
         this.appState.on('bgColorChange', (newColor) => {
             this.html.style.setProperty('--primary', `var(--${newColor})`);
-            document.body.style.backgroundColor = this.appState.candyColors.bgLighter[newColor]
+            document.body.style.backgroundColor = this.appState.candyColors.bgLighter[newColor];
         });
 
         this.appState.on('loveNameChanged', (name) => {
@@ -167,6 +167,12 @@ export default class UIManager extends EventEmitter {
         // QA NOTE: there's a chance this implementation cause bugs in production, specially on social browsers, double check this.
         // console.log(e.type, e);
         this.tapHolding = !this.tapHolding;
+        if (this.tapHolding) {
+            this.appState.lastBgColor = this.appState.bgColor;
+            this.appState.trigger('bgColorChange', ['dark']);
+        } else {
+            this.appState.trigger('bgColorChange', [this.appState.lastBgColor]);
+        }
     }
 
     handleNameSubmit() {
