@@ -207,6 +207,7 @@ export default class UIManager extends EventEmitter {
     }
 
     update() {
+        // TODO: update body bgColor to match transition with dark background.
         if (this.tapHolding) {
             this.appState.tapHoldAlpha += this.transitionSpeed;
         } else {
