@@ -94,6 +94,9 @@ export default class Share extends EventEmitter
         this.blob = await (await fetch(this.dataUrl)).blob();
         this.filesArray[0] = new File([this.blob], this.shareImgTitle, { type: this.blob.type, lastModified: new Date().getTime() });
         this.shareData.files = this.filesArray;
+        this.shareData.url = `https://inherited.andrew.studio/?to=${this.appState.loveName}&theme=${this.appState.bgColor}`;
+        this.shareData.text = `Hey ${this.appState.loveName}, someone has something to tell you. ❤`;
+        
 
         // TODO: improve animateIn/out of share button.
         this.shareBtn.classList.add('show');
