@@ -98,6 +98,11 @@ export default class UIManager extends EventEmitter {
                 element.addEventListener('mouseup', this.toggleTransition.bind(this));
             }
         });
+
+        // document.getElementById('receivedFirstClick').addEventListener('click', _ => {
+        //     document.getElementById('tapHoldReceived').style.display = 'block';
+        //     document.getElementById('receivedFirstClick').style.display = 'none';
+        // });
     }
 
         fireNextStep() {
@@ -178,20 +183,19 @@ export default class UIManager extends EventEmitter {
             this.appState.lastBgColor = this.appState.bgColor;
             this.appState.trigger('bgColorChange', ['dark']);
 
-            if (this.music.audioLoaded) {
-                if (this.tappedOnce) {
-                    _this.music.fireAudioContext();
-                    _this.music.audioTag.play();
-                    
-                    // TODO: uncomment fade after figuring out audio not playing on mobile.
-                    // gsap.to(_this.music.gainNode.gain, {
-                    //     value: 0,
-                    //     ease: "power3.out",
-                    //     duration: 1,
-                    // });
-                }
+            if (this.music.audioContext.state == 'suspended') this.music.audioContext.resume();
 
-                this.tappedOnce = true;
+            if (this.music.audioLoaded) {
+                _this.music.fireAudioContext();
+                _this.music.audioTag.play();
+                
+                // TODO: uncomment fade after figuring out audio not playing on mobile.
+                // gsap.to(_this.music.gainNode.gain, {
+                //     value: 0,
+                //     ease: "power3.out",
+                //     duration: 1,
+                // });
+
             }
 
         } else {

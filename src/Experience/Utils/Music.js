@@ -20,6 +20,7 @@ export default class Music extends EventEmitter
         this.events = this.experience.events;
 
         this.setupAudio();
+        this.fireAudioContext();
     }
 
     setupAudio() {
