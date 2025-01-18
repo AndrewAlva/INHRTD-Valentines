@@ -179,17 +179,19 @@ export default class UIManager extends EventEmitter {
             this.appState.trigger('bgColorChange', ['dark']);
 
             if (this.music.audioLoaded) {
-                setTimeout(_ => {
+                if (this.tappedOnce) {
                     _this.music.fireAudioContext();
-
                     _this.music.audioTag.play();
+                    
                     // TODO: uncomment fade after figuring out audio not playing on mobile.
                     // gsap.to(_this.music.gainNode.gain, {
                     //     value: 0,
                     //     ease: "power3.out",
                     //     duration: 1,
                     // });
-                }, 50);
+                }
+
+                this.tappedOnce = true;
             }
 
         } else {
@@ -197,6 +199,7 @@ export default class UIManager extends EventEmitter {
 
             if (this.music.audioLoaded) {
                 this.music.audioTag.pause();
+                
                 // TODO: uncomment fade after figuring out audio not playing on mobile.
                 // gsap.to(this.music.gainNode.gain, {
                 //     value: -1,

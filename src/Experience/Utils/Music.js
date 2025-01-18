@@ -60,7 +60,7 @@ export default class Music extends EventEmitter
 
         }).then(() => {
             _this.audioLoaded = true;
-            this.events.trigger('audioLoaded');
+            _this.events.trigger('audioLoaded');
 
             console.log("Audio is ready to play!");
             // var tester = document.createElement('div');
