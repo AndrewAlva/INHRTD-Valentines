@@ -59,6 +59,10 @@ svg {
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
+
+        &--noJustify {
+            justify-content: flex-start;
+        }
     }
 
     .headingBox {
@@ -126,6 +130,11 @@ svg {
         position: relative;
         top: 51px;
         left: 72px;
+    }
+
+    .middleBox {
+        position: relative;
+        margin-top: 25vh;
     }
     
     .bottomBox {
