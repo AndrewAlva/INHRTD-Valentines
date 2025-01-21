@@ -9,6 +9,8 @@ export default class Candies
     constructor()
     {
         this.experience = new Experience()
+        this.appState = this.experience.appState
+        this.device = this.experience.device
         this.scene = this.experience.scene
         this.resources = this.experience.resources
         this.time = this.experience.time
@@ -22,6 +24,7 @@ export default class Candies
 
     initWrapper() {
         this.group = new THREE.Group()
+        if (this.appState.activeFlow == 'receive' && this.device.mobile) this.group.visible = false;
         this.scene.add(this.group)
     }
 

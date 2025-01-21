@@ -94,7 +94,7 @@ export default class Experience
             if (this.appState.activeFlow == 'send') {
                 this.UIManager.switchViews(0);
             } else {
-                this.UIManager.switchViews('received');
+                this.UIManager.switchViews('receivedLanding');
             }
         } else {
             this.UIManager.switchViews('desktop');

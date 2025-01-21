@@ -33,10 +33,12 @@ export default class UIManager extends EventEmitter {
         this.views[3] = document.getElementById('shareContainer');
         this.views.notification = document.getElementById('notificationContainer');
         this.views.desktop = document.getElementById('desktopSplashContainer');
+        this.views.receivedLanding = document.getElementById('receivedLandingContainer');
         this.views.received = document.getElementById('receivedContainer');
 
         if (this.appState.activeFlow == 'receive') {
             document.getElementById('recipientName').innerHTML = this.appState.loveName;
+            document.getElementById('recipientNameLanding').innerHTML = this.appState.loveName;
 
             document.getElementById('deskHeading').innerHTML = 'Someone has a sweet message for you';
             document.getElementById('deskName').innerHTML = this.appState.loveName;
@@ -84,6 +86,10 @@ export default class UIManager extends EventEmitter {
         notificationTrigger.addEventListener('click', this.fireNotificationStep.bind(this));
 
 
+        const receivedTrigger = document.querySelector('.nav-receivedStep');
+        receivedTrigger.addEventListener('click', this.goToReceivedStep.bind(this));
+
+
         this.tapTriggers = [];
         this.tapHolding = false;
 
@@ -98,11 +104,6 @@ export default class UIManager extends EventEmitter {
                 element.addEventListener('mouseup', this.toggleTransition.bind(this));
             }
         });
-
-        // document.getElementById('receivedFirstClick').addEventListener('click', _ => {
-        //     document.getElementById('tapHoldReceived').style.display = 'block';
-        //     document.getElementById('receivedFirstClick').style.display = 'none';
-        // });
     }
 
         fireNextStep() {
@@ -116,6 +117,12 @@ export default class UIManager extends EventEmitter {
         fireNotificationStep() {
             this.appState.trigger('goToStep', ['notification']);
             this.appState.trigger('goToCandy', [3]);
+        }
+
+        goToReceivedStep() {
+            this.appState.trigger('goToStep', ['received']);
+            // TODO: Polish animate in of right candy.
+            this.experience.world.candies.group.visible = true;
         }
 
         fireRestartStep() {
