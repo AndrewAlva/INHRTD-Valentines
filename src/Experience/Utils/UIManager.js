@@ -207,6 +207,9 @@ export default class UIManager extends EventEmitter {
                 _this.music.audioTag.play();
             }
 
+            // TODO: Test it out in Android devices
+            this.startHeartbeatInterval();
+
         } else {
             this.appState.trigger('bgColorChange', [this.appState.lastBgColor]);
 
@@ -216,11 +219,16 @@ export default class UIManager extends EventEmitter {
                     ease: "power3.out",
                     duration: 1,
                     onComplete: _ => {
-                        _this.music.audioTag.pause();
-                        _this.music.gainNode.gain.value = -1;
+                        if (!this.tapHolding) {
+                            _this.music.audioTag.pause();
+                            _this.music.gainNode.gain.value = -1;
+                        }
                     }
                 });
             }
+
+            // TODO: Test it out in Android devices
+            this.stopHeartbeatInterval();
         }
     }
 
@@ -263,6 +271,16 @@ export default class UIManager extends EventEmitter {
     handleInputFocus(e) {
         window.scrollTo(0, 0);
         document.body.scrollTop = 0;
+    }
+
+    startHeartbeatInterval() {
+        this.heartbeatInterval = setInterval(_ => {
+            navigator.vibrate && navigator.vibrate([200, 100, 70]);
+        }, 800);
+    }
+
+    stopHeartbeatInterval() {
+        clearInterval(this.heartbeatInterval);
     }
 
 
