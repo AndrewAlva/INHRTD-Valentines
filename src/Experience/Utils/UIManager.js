@@ -187,7 +187,7 @@ export default class UIManager extends EventEmitter {
         // console.log(e.type, e);
         this.tapHolding = !this.tapHolding;
 
-        // TODO: Improve tweening timing to match between 3D and DOM.
+        // TODO: Improve tweening timing to match between colors in 3D and DOM.
         if (this.tapHolding) {
             this.appState.lastBgColor = this.appState.bgColor;
             this.appState.trigger('bgColorChange', ['dark']);
@@ -196,32 +196,30 @@ export default class UIManager extends EventEmitter {
 
             if (this.music.audioLoaded) {
                 _this.music.fireAudioContext();
-                _this.music.audioTag.play();
+                _this.music.gainNode.gain.value = -1;
                 
-                // TODO: uncomment fade after figuring out audio not playing on mobile.
-                // gsap.to(_this.music.gainNode.gain, {
-                //     value: 0,
-                //     ease: "power3.out",
-                //     duration: 1,
-                // });
+                gsap.to(_this.music.gainNode.gain, {
+                    value: 0,
+                    ease: "power3.out",
+                    duration: 3,
+                });
 
+                _this.music.audioTag.play();
             }
 
         } else {
             this.appState.trigger('bgColorChange', [this.appState.lastBgColor]);
 
             if (this.music.audioLoaded) {
-                this.music.audioTag.pause();
-                
-                // TODO: uncomment fade after figuring out audio not playing on mobile.
-                // gsap.to(this.music.gainNode.gain, {
-                //     value: -1,
-                //     ease: "power3.out",
-                //     duration: 1,
-                //     onComplete: _ => {
-                //         _this.music.audioTag.pause();
-                //     }
-                // });
+                gsap.to(this.music.gainNode.gain, {
+                    value: -1,
+                    ease: "power3.out",
+                    duration: 1,
+                    onComplete: _ => {
+                        _this.music.audioTag.pause();
+                        _this.music.gainNode.gain.value = -1;
+                    }
+                });
             }
         }
     }

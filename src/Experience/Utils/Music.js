@@ -47,11 +47,10 @@ export default class Music extends EventEmitter
         this.bufferLength = this.analyser.frequencyBinCount;
         this.dataArray = new Uint8Array(this.bufferLength);
 
-        // TODO: uncomment fade after figuring out audio not playing on mobile.
-        // // Volume aka gain
-        // this.gainNode = this.audioContext.createGain();
-        // this.gainNode.gain.value = -1;
-        // this.source.connect(this.gainNode).connect(this.audioContext.destination);
+        // Volume aka gain
+        this.gainNode = this.audioContext.createGain();
+        this.gainNode.gain.value = -1;
+        this.source.connect(this.gainNode).connect(this.audioContext.destination);
     }
 
     audioLoad() {
