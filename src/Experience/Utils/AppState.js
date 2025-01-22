@@ -23,33 +23,40 @@ export default class AppState extends EventEmitter
         this.currentCandy = 0;
         this.candyColors = {
             bgLighter: {
-                pink:   '#F7DEE4',
-                blue:   '#D8EBF8',
-                green:  '#ECF9F2',
-                red:    '#A1062D',
-                dark:    '#1D010A',
+                pink:   '#F7DEE4', // candy 0
+                blue:   '#D8EBF8', // candy 1
+                green:  '#ECF9F2', // candy 2
+                red:    '#A1062D', // candy 3
+                dark:   '#1D010A',
             },
             bgDarker: {
                 pink:   '#F09EAF',
                 blue:   '#A6CEE7',
                 green:  '#B5E7DD',
                 red:    '#B33D58',
-                dark:    '#7B071B',
+                dark:   '#7B071B',
             },
             instances: {
                 pink:   '#FF8DA1',
                 blue:   '#A0CDE9',
                 green:  '#9BE6CF',
                 red:    '#FF8DA1',
-                dark:    '#333333',
+                dark:   '#333333',
             },
             shareText: {
                 pink:   '#D2566E',
                 blue:   '#2E8AAE',
                 green:  '#2DA8AF',
                 red:    '#FFE1E1',
-                dark:    '#000000',
+                dark:   '#000000',
             },
+        };
+        this.candyQueues = {
+            pink:   0, // music start in seconds
+            blue:   17, // music start in seconds
+            green:  48, // music start in seconds
+            red:    125, // music start in seconds
+            dark:   175, // music start in seconds
         };
 
         this.currentStep = 0;
@@ -57,6 +64,7 @@ export default class AppState extends EventEmitter
         this.tapHoldAlpha = 0;
         this.tapHoldMaxedOnce = false;
         this.loveName = this.utils.query('to') ? this.utils.query('to') : '';
+        this.songStartTime = 0;
 
         this.loadQueryStates();
     }
@@ -95,6 +103,8 @@ export default class AppState extends EventEmitter
                 this.bgColor = 'pink';
                 break;
         }
+
+        this.songStartTime = this.candyQueues[this.bgColor];
     }
     
     initCandiesHandlers() {
@@ -108,7 +118,7 @@ export default class AppState extends EventEmitter
     addHandlers() {
         this.on('restart', this.restart.bind(this));
 
-        this.on('candyChange', this.updateBgColor.bind(this));
+        this.on('candyChange', this.handleCandyChange.bind(this));
         this.on('goToCandy', this.goToCandy.bind(this));
 
         this.on('nextStep', this.nextStep.bind(this));
@@ -135,6 +145,11 @@ export default class AppState extends EventEmitter
     goToCandy(candyId) {
         this.currentCandy = candyId;
         this.trigger('candyChange', [this.currentCandy]);
+    }
+
+    handleCandyChange() {
+        this.updateBgColor();
+        this.updateSongStartTime();
     }
 
     updateBgColor() {
@@ -165,6 +180,11 @@ export default class AppState extends EventEmitter
                 break;
         }
         
+    }
+
+    updateSongStartTime() {
+        this.songStartTime = this.candyQueues[this.bgColor];
+        this.trigger('songStartChange', [this.songStartTime]);
     }
 
 

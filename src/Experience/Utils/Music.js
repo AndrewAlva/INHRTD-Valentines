@@ -18,9 +18,12 @@ export default class Music extends EventEmitter
 
         this.experience = new Experience();
         this.events = this.experience.events;
+        this.appState = this.experience.appState;
 
         this.setupAudio();
         this.fireAudioContext();
+
+        this.addHandlers();
     }
 
     setupAudio() {
@@ -57,10 +60,16 @@ export default class Music extends EventEmitter
             if (/iPad|iPhone|iPod/.test(navigator.userAgent)) _this.audioTag.autoplay = true;
 
             _this.audioTag.addEventListener("loadeddata", resolve, { once: true });
+            _this.audioTag.addEventListener("ended", _ => {
+                _this.audioTag.currentTime = 0;
+                _this.audioTag.play();
+            }, { once: true });
             _this.audioTag.src = 'audio/DennisNilsen.mp3';
 
         }).then(() => {
             _this.audioLoaded = true;
+            _this.audioTag.currentTime = _this.appState.songStartTime;
+            _this.audioTag.loop;
             _this.events.trigger('audioLoaded');
 
             console.log("Audio is ready to play!");
@@ -76,6 +85,14 @@ export default class Music extends EventEmitter
             // document.body.appendChild(tester);
         }, () => {
             console.log('audio tag load promise rejected');
+        });
+    }
+
+
+
+    addHandlers() {
+        this.appState.on('songStartChange', (startTime) => {
+            _this.audioTag.currentTime = startTime;
         });
     }
 
