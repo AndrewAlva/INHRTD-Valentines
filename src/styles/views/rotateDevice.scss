@@ -4,7 +4,7 @@
     display: none;
     pointer-events: all;
     padding: 0;
-    background-color: var(--pinkBgLight);
+    background-color: var(--primaryBg);
 
     .innerWrapper {
         justify-content: center;
@@ -21,7 +21,7 @@
         width: 20px;
         height: 38px;
         border-radius: 4px;
-        border: 2px solid var(--pink);
+        border: 2px solid var(--primary);
 
         // &:after {
         //     content: '';

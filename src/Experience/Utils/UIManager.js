@@ -24,6 +24,7 @@ export default class UIManager extends EventEmitter {
     initUI() {
         this.html = document.querySelector('html');
         this.html.style.setProperty('--primary', `var(--${this.appState.bgColor})`);
+        this.html.style.setProperty('--primaryBg', `var(--${this.appState.bgColor}BgLight)`);
         document.body.style.backgroundColor = this.appState.candyColors.bgLighter[this.appState.bgColor]
         this.views = {};
 
@@ -153,7 +154,8 @@ export default class UIManager extends EventEmitter {
 
         this.appState.on('bgColorChange', (newColor) => {
             this.html.style.setProperty('--primary', `var(--${newColor})`);
-            document.body.style.backgroundColor = this.appState.candyColors.bgLighter[newColor];
+            this.html.style.setProperty('--primaryBg', `var(--${newColor}BgLight)`);
+            // document.body.style.backgroundColor = this.appState.candyColors.bgLighter[newColor];
         });
 
         this.appState.on('loveNameChanged', (name) => {

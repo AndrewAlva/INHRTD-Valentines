@@ -10,13 +10,23 @@ html {
     // Dynamic variables to change UI color theme
     --pink: #D2566E;
     --pinkLight: #FFE1E1;
-    --pinkBgLight: #F7DEE4;
     --blue: #2E8AAE;
     --green: #2DA8AF;
     --red: #F7DEE4;
     --dark: rgba(0,0,0, 0);
+
+    --pinkBgLight: #F7DEE4;
+    --blueBgLight:   #D8EBF8;
+    --greenBgLight:  #ECF9F2;
+    --redBgLight:    #A1062D;
+    --darkBgLight:   #1D010A;
     
     --primary: var(--pink);
+    --primaryBg: var(--pinkBgLight);
+}
+
+body {
+    background-color: var(--primaryBg) !important;
 }
 
 html, body {
