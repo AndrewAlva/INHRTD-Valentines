@@ -11,6 +11,7 @@ export default class UIManager extends EventEmitter {
         this.experience = new Experience()
         this.utils = this.experience.utils
         this.device = this.experience.device
+        this.events = this.experience.events
         this.appState = this.experience.appState
         this.currentView = this.appState.currentStep
         this.music = this.experience.music
@@ -104,6 +105,17 @@ export default class UIManager extends EventEmitter {
                 element.addEventListener('mousedown', this.toggleTransition.bind(this));
                 element.addEventListener('mouseup', this.toggleTransition.bind(this));
             }
+        });
+
+
+        this.orientationTriggers = [];
+        const orientationButtons = document.querySelectorAll('.nav-deviceOrientation');
+        orientationButtons.forEach(element => { this.orientationTriggers.push(element) });
+
+        this.orientationTriggers.forEach(element => {
+            element.addEventListener('click', _ => {
+                _this.events.trigger('setupDeviceOrientation');
+            });
         });
     }
 

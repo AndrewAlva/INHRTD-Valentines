@@ -11,6 +11,7 @@ export default class Candies
     {
         _this = this;
         this.experience = new Experience()
+        this.events = this.experience.events
         this.appState = this.experience.appState
         this.device = this.experience.device
         this.scene = this.experience.scene
@@ -57,20 +58,29 @@ export default class Candies
             }
         });
 
-        this.initDeviceOrientation();
+        if (this.device.mobile) {
+            this.events.on('setupDeviceOrientation', this.initDeviceOrientation.bind(this));
+        } else {
+            this.initMouseGaze();
+        }
     }
 
     initDeviceOrientation() {
-        this.tester = document.createElement('div');
-        this.tester.style.width = '80%';
-        this.tester.style.display = 'block';
-        this.tester.style.position = 'fixed';
-        this.tester.style.top = '20px';
-        this.tester.style.left = '20px';
-        this.tester.style.fontSize = '14px';
-        this.tester.style.backgroundColor = 'rgba(0,0,0, 0.2)';
-        this.tester.style.zIndex = 999999999;
-        document.body.appendChild(this.tester);
+        if (_this.deviceOrientationReady) return;
+        console.log('initDeviceOrientation');
+
+        if (!this.tester) {
+            this.tester = document.createElement('div');
+            this.tester.style.width = '80%';
+            this.tester.style.display = 'block';
+            this.tester.style.position = 'fixed';
+            this.tester.style.top = '20px';
+            this.tester.style.left = '20px';
+            this.tester.style.fontSize = '14px';
+            this.tester.style.backgroundColor = 'rgba(0,0,0, 0.2)';
+            this.tester.style.zIndex = 999999999;
+            document.body.appendChild(this.tester);
+        }
         this.tester.innerHTML = `${DeviceOrientationEvent.requestPermission}`;
 
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
@@ -82,6 +92,7 @@ export default class Candies
                         window.addEventListener('deviceorientation', (event) => {
                             _this.handleOrientation(event);
                         });
+                        _this.deviceOrientationReady = true;
                     } else {
                         console.log('Permission denied for device orientation.');
                         this.tester.innerHTML = 'Permission denied for device orientation.';
@@ -94,6 +105,7 @@ export default class Candies
             window.addEventListener('deviceorientation', (event) => {
                 _this.handleOrientation(event);
             });
+            _this.deviceOrientationReady = true;
         }
 
         // window.addEventListener("deviceorientation", this.handleOrientation.bind(this), true);
@@ -102,14 +114,17 @@ export default class Candies
     handleOrientation(event) {
         console.log(event);
         console.log(`rotateDegrees = ${event.alpha};<br>leftToRight = ${event.gamma};<br>frontToBack = ${event.beta};`);
-        _this.tester.innerHTML = `Alpha: ${event.alpha}. Beta: ${event.beta}. Gamma: ${event.gamma}`;
+        _this.tester.innerHTML = `Alpha: ${event.alpha}. Beta Y: ${event.beta}. Gamma X: ${event.gamma}`;
 
-        _this.group.position.x = event.alpha * 0.1;
-        _this.group.position.y = event.beta * 0.1;
-        _this.group.position.z = event.gamma * 0.1;
+        _this.group.position.x = event.gamma * 0.1;
+        _this.group.position.y = event.beta * -0.01;
+        // _this.group.position.z = event.alpha * 0.1;
 
     }
 
+    initMouseGaze() {
+        // TODO: Add extra movement besides gaze camera.
+    }
 
 
     update()
