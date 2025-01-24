@@ -288,7 +288,7 @@ export default class UIManager extends EventEmitter {
     startHeartbeatInterval() {
         this.heartbeatInterval = setInterval(_ => {
             navigator.vibrate && navigator.vibrate([200, 100, 70]);
-        }, 800);
+        }, 1070);
     }
 
     stopHeartbeatInterval() {

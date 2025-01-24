@@ -108,6 +108,7 @@ export default class Candies
         if (event.gamma) _this.finalPos.x = event.gamma * 0.015;
         if (event.beta) _this.finalPos.y = (event.beta - 45) * -0.0175;
 
+        // TODO: use gamma and beta also to alter bg candies (instanced hearts)
     }
 
     initMouseGaze() {
