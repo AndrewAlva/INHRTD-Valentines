@@ -71,7 +71,12 @@ export default class Environment
     {
         this.environmentMap = {}
         this.environmentMap.intensity = 0.7
-        this.environmentMap.texture = this.resources.items.environmentMapTexture
+        
+        const envMap = this.resources.items.candyEnvMap;
+        envMap.mapping = THREE.EquirectangularReflectionMapping;
+
+        this.environmentMap.texture = envMap
+        // this.environmentMap.texture = this.resources.items.environmentMapTexture
         this.environmentMap.texture.colorSpace = THREE.SRGBColorSpace
         
         this.scene.environment = this.environmentMap.texture

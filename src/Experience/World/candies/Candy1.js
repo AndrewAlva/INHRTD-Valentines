@@ -42,8 +42,27 @@ export default class Candy1
             // flatShading: true,
         });
 
+        this.pbrMaterial = new THREE.MeshStandardMaterial({
+            map: this.resources.items.candyDiffuseMap,
+            normalMap: this.resources.items.candyNormalsMap,
+
+            roughnessMap: this.resources.items.candyRoughnessMap,
+            metalnessMap: this.resources.items.candyRoughnessMap,
+            // roughness: 0.362,
+            // metalness: 0.071,
+            transparent: true,
+        });
+
+
+        this.shaderMaterial = new THREE.ShaderMaterial({
+            vertexShader: testVertexShader,
+            fragmentShader: testFragmentShader,
+            side: THREE.DoubleSide
+        })
+
+
         this.mesh = this.model.children[0];
-        this.mesh.material = this.material;
+        this.mesh.material = this.pbrMaterial;
         
 
         this.rotationGroup = new THREE.Group();

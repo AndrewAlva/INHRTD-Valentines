@@ -37,5 +37,26 @@ export default [
         name: 'candyModel',
         type: 'objModel',
         path: 'models/Candies/heart.obj'
-    }
+    },
+    {
+        name: 'candyEnvMap',
+        type: 'hdrTexture',
+        path: 'models/Candies/textures/envMap.hdr'
+    },
+    {
+        name: 'candyDiffuseMap',
+        type: 'texture',
+        path: 'models/Candies/textures/diffuse.jpg'
+    },
+    {
+        name: 'candyNormalsMap',
+        type: 'texture',
+        path: 'models/Candies/textures/bumpNormals.jpg'
+    },
+    {
+        name: 'candyRoughnessMap',
+        type: 'texture',
+        path: 'models/Candies/textures/reflections.jpg'
+    },
+
 ]
