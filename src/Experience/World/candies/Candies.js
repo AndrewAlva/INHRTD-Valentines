@@ -19,6 +19,9 @@ export default class Candies
         this.time = this.experience.time
         this.appState = this.experience.appState
 
+        this.testEnabled = false;
+        this.finalPos = {};
+        this.cof = 0.03;
         this.initWrapper()
         this.initCandies()
 
@@ -67,21 +70,7 @@ export default class Candies
 
     initDeviceOrientation() {
         if (_this.deviceOrientationReady) return;
-        console.log('initDeviceOrientation');
-
-        if (!this.tester) {
-            this.tester = document.createElement('div');
-            this.tester.style.width = '80%';
-            this.tester.style.display = 'block';
-            this.tester.style.position = 'fixed';
-            this.tester.style.top = '20px';
-            this.tester.style.left = '20px';
-            this.tester.style.fontSize = '14px';
-            this.tester.style.backgroundColor = 'rgba(0,0,0, 0.2)';
-            this.tester.style.zIndex = 999999999;
-            document.body.appendChild(this.tester);
-        }
-        this.tester.innerHTML = `${DeviceOrientationEvent.requestPermission}`;
+        _this.initOrientationTester();
 
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
             DeviceOrientationEvent.requestPermission()
@@ -95,7 +84,7 @@ export default class Candies
                         _this.deviceOrientationReady = true;
                     } else {
                         console.log('Permission denied for device orientation.');
-                        this.tester.innerHTML = 'Permission denied for device orientation.';
+                        if (_this.tester) _this.tester.innerHTML = 'Permission denied for device orientation.';
                     }
                 })
                 .catch(console.error);
@@ -114,11 +103,10 @@ export default class Candies
     handleOrientation(event) {
         console.log(event);
         console.log(`rotateDegrees = ${event.alpha};<br>leftToRight = ${event.gamma};<br>frontToBack = ${event.beta};`);
-        _this.tester.innerHTML = `Alpha: ${event.alpha}. Beta Y: ${event.beta}. Gamma X: ${event.gamma}`;
+        if (_this.tester) _this.tester.innerHTML = `Alpha: ${event.alpha}. Beta Y: ${event.beta}. Gamma X: ${event.gamma}`;
 
-        _this.group.position.x = event.gamma * 0.015;
-        _this.group.position.y = (event.beta - 45) * -0.035;
-        // _this.group.position.z = event.alpha * 0.1;
+        if (event.gamma) _this.finalPos.x = event.gamma * 0.015;
+        if (event.beta) _this.finalPos.y = (event.beta - 45) * -0.0175;
 
     }
 
@@ -126,11 +114,33 @@ export default class Candies
         // TODO: Add extra movement besides gaze camera.
     }
 
+    initOrientationTester() {
+        if (this.testEnabled) {
+            if (!this.tester) {
+                this.tester = document.createElement('div');
+                this.tester.style.width = '80%';
+                this.tester.style.display = 'block';
+                this.tester.style.position = 'fixed';
+                this.tester.style.top = '20px';
+                this.tester.style.left = '20px';
+                this.tester.style.fontSize = '14px';
+                this.tester.style.backgroundColor = 'rgba(0,0,0, 0.2)';
+                this.tester.style.zIndex = 999999999;
+                document.body.appendChild(this.tester);
+            }
+            
+            this.tester.innerHTML = `${DeviceOrientationEvent.requestPermission}`;
+        }
+
+    }
+
 
     update()
     {
         // update uniforms or something
         this.group.rotation.y = this.time.elapsed * -0.001;
+        if (this.finalPos.x) _this.group.position.x += (this.finalPos.x - this.group.position.x) * this.cof;
+        if (this.finalPos.y) _this.group.position.y += (this.finalPos.y - this.group.position.y) * this.cof;
         
 
         if (this.mainCandy) this.mainCandy.update()
