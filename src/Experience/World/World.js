@@ -5,6 +5,7 @@ import DarkBackground from './DarkBackground.js'
 import Candies from './candies/Candies.js'
 import InstancedHearts from './InstancedHearts.js'
 import QRCode from './QRCode.js'
+import AxisHelper from './AxisHelper.js'
 import Floor from './Floor.js'
 import Fox from './Fox.js'
 import ShaderTest from './ShaderTest.js'
@@ -23,6 +24,7 @@ export default class World
         this.resources.on('ready', () =>
         {
             // Setup
+            // this.axisHelper = new AxisHelper()
             this.background = new Background()
             this.darkBackground = new DarkBackground()
             this.bgElements = new InstancedHearts()
