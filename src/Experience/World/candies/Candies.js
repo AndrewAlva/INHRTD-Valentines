@@ -116,8 +116,8 @@ export default class Candies
         console.log(`rotateDegrees = ${event.alpha};<br>leftToRight = ${event.gamma};<br>frontToBack = ${event.beta};`);
         _this.tester.innerHTML = `Alpha: ${event.alpha}. Beta Y: ${event.beta}. Gamma X: ${event.gamma}`;
 
-        _this.group.position.x = event.gamma * 0.1;
-        _this.group.position.y = event.beta * -0.01;
+        _this.group.position.x = event.gamma * 0.015;
+        _this.group.position.y = (event.beta - 45) * -0.035;
         // _this.group.position.z = event.alpha * 0.1;
 
     }
