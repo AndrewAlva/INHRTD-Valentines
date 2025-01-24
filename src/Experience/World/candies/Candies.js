@@ -39,24 +39,24 @@ export default class Candies
         this.secondCandy =  new Candy2({ inactive: this.appState.currentCandy != 1 });
         this.thirdCandy =   new Candy3({ inactive: this.appState.currentCandy != 2 });
 
-        this.group.add(this.mainCandy.mesh, this.secondCandy.mesh, this.thirdCandy.mesh)
+        this.group.add(this.mainCandy.group, this.secondCandy.mesh, this.thirdCandy.mesh)
     }
 
     addHandlers() {
         this.appState.on('candyChange', (newCandy) => {
             if (newCandy == 0 || newCandy == 3) {
-                this.mainCandy.mesh.visible = true;
+                this.mainCandy.group.visible = true;
                 this.secondCandy.mesh.visible = false;
                 this.thirdCandy.mesh.visible = false;
 
             } else if (newCandy == 1) {
                 this.secondCandy.mesh.visible = true;
-                this.mainCandy.mesh.visible = false;
+                this.mainCandy.group.visible = false;
                 this.thirdCandy.mesh.visible = false;
 
             } else if (newCandy == 2) {
                 this.thirdCandy.mesh.visible = true;
-                this.mainCandy.mesh.visible = false;
+                this.mainCandy.group.visible = false;
                 this.secondCandy.mesh.visible = false;
             }
         });

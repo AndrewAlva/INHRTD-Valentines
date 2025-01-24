@@ -22,8 +22,37 @@ export default class Candy1
             this.debugFolder.close()
         }
 
-        this.initMesh(params);
+        this.initModel(params);
+        // this.initMesh(params);
         this.addHandlers();
+    }
+
+    initModel(params) {
+        this.group = new THREE.Group();
+
+        this.model = this.resources.items.candyModel;
+        this.model.position.set(0.175, -0.45, 1.05);
+        this.model.scale.setScalar(0.185);
+
+        this.material = new THREE.MeshStandardMaterial({
+            color: '#ffa5c2',
+            roughness: 0.362,
+            metalness: 0.071,
+            transparent: true,
+            // flatShading: true,
+        });
+
+        this.mesh = this.model.children[0];
+        this.mesh.material = this.material;
+        
+
+        this.rotationGroup = new THREE.Group();
+        this.rotationGroup.rotation.y = Math.PI / 7;
+        this.rotationGroup.rotation.x = -Math.PI / 20;
+        this.rotationGroup.add(this.model);
+
+        this.group.add(this.rotationGroup);
+        if (params.inactive) this.model.visible = false
     }
 
     initMesh(params)
