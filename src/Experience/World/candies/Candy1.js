@@ -30,12 +30,12 @@ export default class Candy1
     initModel(params) {
         this.group = new THREE.Group();
 
-        this.model = this.resources.items.candyModel;
+        this.model = this.resources.items.candyModel.clone();
         this.model.position.set(0.175, -0.45, 1.05);
         this.model.scale.setScalar(0.185);
 
         this.material = new THREE.MeshStandardMaterial({
-            color: '#ffa5c2',
+            color: '#FFA5C2',
             roughness: 0.362,
             metalness: 0.071,
             transparent: true,
@@ -43,7 +43,8 @@ export default class Candy1
         });
 
         this.pbrMaterial = new THREE.MeshStandardMaterial({
-            map: this.resources.items.candyDiffuseMap,
+            color: '#FFA5C2',
+            // map: this.resources.items.candyDiffuseMap,
             normalMap: this.resources.items.candyNormalsMap,
 
             roughnessMap: this.resources.items.candyRoughnessMap,
@@ -63,6 +64,7 @@ export default class Candy1
 
         this.mesh = this.model.children[0];
         this.mesh.material = this.pbrMaterial;
+        this.mesh.receiveShadow = true
         
 
         this.rotationGroup = new THREE.Group();
@@ -87,7 +89,7 @@ export default class Candy1
         })
         
         this.material = new THREE.MeshStandardMaterial({
-            color: '#ffa5c2',
+            color: '#FFA5C2',
             roughness: 0.362,
             metalness: 0.071,
             transparent: true,

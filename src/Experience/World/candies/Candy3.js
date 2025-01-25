@@ -8,6 +8,7 @@ export default class Candy3
     constructor(params = {})
     {
         this.experience = new Experience()
+        this.device = this.experience.device
         this.appState = this.experience.appState
         this.scene = this.experience.scene
         this.resources = this.experience.resources
@@ -17,26 +18,21 @@ export default class Candy3
         // Debug
         if(this.debug.active)
         {
-            this.debugFolder = this.debug.ui.addFolder('Candy3')
+            this.debugFolder = this.debug.ui.addFolder('Candy1')
             this.debugFolder.close()
         }
 
-        this.initMesh(params);
+        this.initModel(params);
         this.addHandlers();
     }
 
-    initMesh(params)
-    {
-        this.geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5)
-        // this.geometry = new THREE.TorusKnotGeometry(0.8, 0.25, 128)
-        // this.geometry = new THREE.SphereGeometry(1.1, 32, 32)
+    initModel(params) {
+        this.group = new THREE.Group();
 
-        this.shaderMaterial = new THREE.ShaderMaterial({
-            vertexShader: testVertexShader,
-            fragmentShader: testFragmentShader,
-            side: THREE.DoubleSide
-        })
-        
+        this.model = this.resources.items.candyModel.clone();
+        this.model.position.set(0.175, -0.45, 1.05);
+        this.model.scale.setScalar(0.185);
+
         this.material = new THREE.MeshStandardMaterial({
             color: '#9BE6CF',
             roughness: 0.362,
@@ -45,13 +41,38 @@ export default class Candy3
             // flatShading: true,
         });
 
-        this.mesh = new THREE.Mesh(this.geometry, this.material)
-        this.mesh.position.y = 0
-        this.mesh.rotation.x = -0.5
-        this.mesh.rotation.z = 0.25
-        this.mesh.receiveShadow = true
+        this.pbrMaterial = new THREE.MeshStandardMaterial({
+            color: '#9BE6CF',
+            // map: this.resources.items.candyDiffuseMap,
+            normalMap: this.resources.items.candyNormalsMap,
 
-        if (params.inactive) this.mesh.visible = false
+            roughnessMap: this.resources.items.candyRoughnessMap,
+            metalnessMap: this.resources.items.candyRoughnessMap,
+            // roughness: 0.362,
+            // metalness: 0.071,
+            transparent: true,
+        });
+
+
+        this.shaderMaterial = new THREE.ShaderMaterial({
+            vertexShader: testVertexShader,
+            fragmentShader: testFragmentShader,
+            side: THREE.DoubleSide
+        })
+
+
+        this.mesh = this.model.children[0];
+        this.mesh.material = this.pbrMaterial;
+        this.mesh.receiveShadow = true
+        
+
+        this.rotationGroup = new THREE.Group();
+        this.rotationGroup.rotation.y = Math.PI / 7;
+        this.rotationGroup.rotation.x = -Math.PI / 20;
+        this.rotationGroup.add(this.model);
+
+        this.group.add(this.rotationGroup);
+        if (params.inactive) this.model.visible = false
     }
 
     addHandlers() {
@@ -69,6 +90,10 @@ export default class Candy3
     update()
     {
         // update uniforms or something
-        // this.mesh.rotation.y -= 0.01
+        if (this.mesh && this.shaderMaterial) {
+            if (this.experience.appState.currentStep == 0 && !this.device.mobile) {
+                this.mesh.material.opacity = 1 - this.appState.tapHoldAlpha;
+            }
+        }
     }
 }
