@@ -53,5 +53,10 @@ export default [
         type: 'texture',
         path: 'models/Candies/textures/reflections.jpg'
     },
+    {
+        name: 'mineTexture',
+        type: 'texture',
+        path: 'models/Candies/textures/mine--base--tiny.png'
+    },
 
 ]

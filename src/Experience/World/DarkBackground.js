@@ -36,6 +36,7 @@ export default class DarkBackground
             uniforms: {
                 uColorInside: { value: new THREE.Color(this.appState.candyColors.bgDarker.dark).convertLinearToSRGB() },
                 uColorOutside: { value: new THREE.Color(this.appState.candyColors.bgLighter.dark).convertLinearToSRGB() },
+                uMap: { value: this.resources.items.mineTexture },
                 uTransition: { value: 0 },
             }
         })
