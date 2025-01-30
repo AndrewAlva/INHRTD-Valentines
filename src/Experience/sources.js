@@ -54,9 +54,14 @@ export default [
         path: 'models/Candies/textures/reflections.jpg'
     },
     {
-        name: 'mineTexture',
+        name: 'mineMSDF',
         type: 'texture',
-        path: 'models/Candies/textures/mine--base--tiny.png'
+        path: 'textures/mine_msdf.png'
+    },
+    {
+        name: 'mineDisplacement',
+        type: 'texture',
+        path: 'textures/displacement-map.png'
     },
 
 ]

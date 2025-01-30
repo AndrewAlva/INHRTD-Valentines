@@ -9,10 +9,12 @@ export default class DarkBackground
     {
         this.experience = new Experience()
         this.scene = this.experience.scene
+        this.events = this.experience.events
         this.appState = this.experience.appState
         this.resources = this.experience.resources
         this.time = this.experience.time
         this.debug = this.experience.debug
+        this.sizes = this.experience.sizes
 
         // Debug
         if(this.debug.active)
@@ -34,10 +36,13 @@ export default class DarkBackground
             side: THREE.BackSide,
             transparent: true,
             uniforms: {
+                uScreen: { value: new THREE.Vector2(this.sizes.width * 2, this.sizes.height * 2) },
                 uColorInside: { value: new THREE.Color(this.appState.candyColors.bgDarker.dark).convertLinearToSRGB() },
                 uColorOutside: { value: new THREE.Color(this.appState.candyColors.bgLighter.dark).convertLinearToSRGB() },
-                uMap: { value: this.resources.items.mineTexture },
+                uMap: { value: this.resources.items.mineMSDF },
+                uDisplacementMap: { value: this.resources.items.mineDisplacement },
                 uTransition: { value: 0 },
+                uTime: { value: 0 },
             }
         })
 
@@ -50,7 +55,11 @@ export default class DarkBackground
 
 
     addHandlers() {
-        // 
+        this.events.on('resize', this.handleResize.bind(this));
+    }
+
+    handleResize() {
+        this.shaderMaterial.uniforms.uScreen.value.set(this.sizes.width * 2, this.sizes.height * 2)
     }
 
 
@@ -59,6 +68,7 @@ export default class DarkBackground
         // update uniforms or something
         if (this.mesh && this.shaderMaterial) {
             this.shaderMaterial.uniforms.uTransition.value = this.appState.tapHoldAlpha;
+            this.shaderMaterial.uniforms.uTime.value = this.time.elapsed / 1000;
         }
     }
 }

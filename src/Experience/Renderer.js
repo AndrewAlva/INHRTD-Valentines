@@ -88,7 +88,7 @@ export default class Renderer
                 .step(0.0001);
         }
 
-        this.dotScreenPass = new DotScreenPass()
+        this.dotScreenPass = new DotScreenPass(new THREE.Vector2(0, 0), Math.PI / 2, 0.5);
         this.dotScreenPass.enabled = false
         this.effectComposer.addPass(this.dotScreenPass)
     }
