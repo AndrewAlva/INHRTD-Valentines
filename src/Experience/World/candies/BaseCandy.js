@@ -3,7 +3,7 @@ import Experience from '../../Experience.js'
 import testVertexShader from '../../shaders/test/vertex.glsl'
 import testFragmentShader from '../../shaders/test/fragment.glsl'
 
-export default class Candy1
+export default class BaseCandy
 {
     constructor(params = {})
     {
@@ -18,7 +18,7 @@ export default class Candy1
         // Debug
         if(this.debug.active)
         {
-            this.debugFolder = this.debug.ui.addFolder('Candy1')
+            this.debugFolder = this.debug.ui.addFolder(params.name || 'Candy')
             this.debugFolder.close()
         }
 
@@ -35,7 +35,7 @@ export default class Candy1
         this.model.scale.setScalar(0.185);
 
         this.material = new THREE.MeshStandardMaterial({
-            color: '#FFA5C2',
+            color: params.color || '#FFA5C2',
             roughness: 0.362,
             metalness: 0.071,
             transparent: true,
@@ -43,7 +43,7 @@ export default class Candy1
         });
 
         this.pbrMaterial = new THREE.MeshStandardMaterial({
-            color: '#FFA5C2',
+            color: params.color || '#FFA5C2',
             // map: this.resources.items.candyDiffuseMap,
             normalMap: this.resources.items.candyNormalsMap,
 
@@ -68,8 +68,8 @@ export default class Candy1
         
 
         this.rotationGroup = new THREE.Group();
-        this.rotationGroup.rotation.y = Math.PI / 7;
-        this.rotationGroup.rotation.x = -Math.PI / 20;
+        this.rotationGroup.rotation.y = Math.PI / 20;
+        this.rotationGroup.rotation.x = -Math.PI / 14;
         this.rotationGroup.add(this.model);
 
         this.group.add(this.rotationGroup);

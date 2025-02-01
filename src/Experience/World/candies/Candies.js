@@ -1,8 +1,6 @@
 import * as THREE from 'three'
 import Experience from '../../Experience.js'
-import Candy1 from './Candy1.js'
-import Candy2 from './Candy2.js'
-import Candy3 from './Candy3.js'
+import BaseCandy from './BaseCandy.js';
 
 let _this;
 export default class Candies
@@ -37,9 +35,9 @@ export default class Candies
     }
 
     initCandies() {
-        this.mainCandy =    new Candy1({ inactive: this.appState.currentCandy != 0 });
-        this.secondCandy =  new Candy2({ inactive: this.appState.currentCandy != 1 });
-        this.thirdCandy =   new Candy3({ inactive: this.appState.currentCandy != 2 });
+        this.mainCandy =    new BaseCandy({ inactive: this.appState.currentCandy != 0, color: '#FFA5C2', name: 'Candy1' });
+        this.secondCandy =  new BaseCandy({ inactive: this.appState.currentCandy != 1, color: '#A0CDE9', name: 'Candy2' });
+        this.thirdCandy =   new BaseCandy({ inactive: this.appState.currentCandy != 2, color: '#9BE6CF', name: 'Candy3' });
 
         this.idleGroup.add(this.mainCandy.group, this.secondCandy.group, this.thirdCandy.group)
 
