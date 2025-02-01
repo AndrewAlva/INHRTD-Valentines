@@ -116,8 +116,8 @@ export default class Candies
         console.log(`rotateDegrees = ${event.alpha};<br>leftToRight = ${event.gamma};<br>frontToBack = ${event.beta};`);
         if (_this.tester) _this.tester.innerHTML = `Alpha: ${event.alpha}. Beta Y: ${event.beta}. Gamma X: ${event.gamma}`;
 
-        if (event.gamma) _this.finalRot.x = event.gamma * Math.SIXTEENTH_PI;
-        if (event.beta) _this.finalRot.y = (event.beta - 45) * -Math.HALF_SIXTEENTH_PI;
+        if (event.beta) _this.finalRot.x = (event.beta - 45) * -Math.QUARTER_SIXTEENTH_PI;
+        if (event.gamma) _this.finalRot.y = event.gamma * Math.QUARTER_SIXTEENTH_PI;
 
         // TODO: use gamma and beta also to alter bg candies (instanced hearts)
     }
