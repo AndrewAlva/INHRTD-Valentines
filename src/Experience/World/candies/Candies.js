@@ -18,7 +18,7 @@ export default class Candies
         this.appState = this.experience.appState
 
         this.testEnabled = false;
-        this.finalPos = {};
+        this.finalRot = {};
         this.cof = 0.03;
         this.initWrappers()
         this.initCandies()
@@ -29,9 +29,13 @@ export default class Candies
     initWrappers() {
         this.group = new THREE.Group();
         this.idleGroup = new THREE.Group();
+        this.orientationGroup = new THREE.Group();
+
+        this.idleGroup.add(this.orientationGroup);
+        this.group.add(this.idleGroup);
+        this.scene.add(this.group);
+
         if (this.appState.activeFlow == 'receive' && this.device.mobile) this.group.visible = false;
-        this.group.add(this.idleGroup)
-        this.scene.add(this.group)
     }
 
     initCandies() {
@@ -39,7 +43,7 @@ export default class Candies
         this.secondCandy =  new BaseCandy({ inactive: this.appState.currentCandy != 1, color: '#A0CDE9', name: 'Candy2' });
         this.thirdCandy =   new BaseCandy({ inactive: this.appState.currentCandy != 2, color: '#9BE6CF', name: 'Candy3' });
 
-        this.idleGroup.add(this.mainCandy.group, this.secondCandy.group, this.thirdCandy.group)
+        this.orientationGroup.add(this.mainCandy.group, this.secondCandy.group, this.thirdCandy.group)
 
         this.idleMotion = {
             pos: {
@@ -112,8 +116,8 @@ export default class Candies
         console.log(`rotateDegrees = ${event.alpha};<br>leftToRight = ${event.gamma};<br>frontToBack = ${event.beta};`);
         if (_this.tester) _this.tester.innerHTML = `Alpha: ${event.alpha}. Beta Y: ${event.beta}. Gamma X: ${event.gamma}`;
 
-        if (event.gamma) _this.finalPos.x = event.gamma * 0.015;
-        if (event.beta) _this.finalPos.y = (event.beta - 45) * -0.0175;
+        if (event.gamma) _this.finalRot.x = event.gamma * Math.SIXTEENTH_PI;
+        if (event.beta) _this.finalRot.y = (event.beta - 45) * -Math.HALF_SIXTEENTH_PI;
 
         // TODO: use gamma and beta also to alter bg candies (instanced hearts)
     }
@@ -152,8 +156,8 @@ export default class Candies
         this.idleGroup.rotation.y = (Math.sin(this.time.elapsed * -0.0015) * Math.HALF_SIXTEENTH_PI);
         this.idleGroup.rotation.x = (Math.cos(this.time.elapsed * -0.00007) * Math.HALF_SIXTEENTH_PI);
 
-        if (this.finalPos.x) _this.group.position.x += (this.finalPos.x - this.group.position.x) * this.cof;
-        if (this.finalPos.y) _this.group.position.y += (this.finalPos.y - this.group.position.y) * this.cof;
+        if (this.finalRot.x) _this.orientationGroup.rotation.x += (this.finalRot.x - this.orientationGroup.rotation.x) * this.cof;
+        if (this.finalRot.y) _this.orientationGroup.rotation.y += (this.finalRot.y - this.orientationGroup.rotation.y) * this.cof;
         
 
         if (this.mainCandy) this.mainCandy.update()
