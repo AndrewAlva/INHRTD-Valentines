@@ -15,6 +15,7 @@ export default class Polyfill {
         Math.SIXTEENTH_PI = Math.PI / 16;
         Math.HALF_SIXTEENTH_PI = Math.PI / 32;
         Math.QUARTER_SIXTEENTH_PI = Math.PI / 64;
+        Math.HALF_QUARTER_SIXTEENTH_PI = Math.PI / 128;
     }
 
     initNativePolyfills() {
