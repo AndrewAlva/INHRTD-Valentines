@@ -131,11 +131,11 @@ export default class AppState extends EventEmitter
 
     nextCandy() {
         this.lastCandy = this.currentCandy;
-        
+
         this.currentCandy++;
         this.currentCandy %= this.totalCandies;
 
-        this.trigger('candyChange', [this.currentCandy]);
+        this.trigger('candyChange', [this.currentCandy, 'right']);
     }
     
     prevCandy() {
@@ -144,7 +144,7 @@ export default class AppState extends EventEmitter
         this.currentCandy--;
         if (this.currentCandy < 0) this.currentCandy = this.totalCandies - 1;
 
-        this.trigger('candyChange', [this.currentCandy]);
+        this.trigger('candyChange', [this.currentCandy, 'left']);
     }
 
     goToCandy(candyId) {

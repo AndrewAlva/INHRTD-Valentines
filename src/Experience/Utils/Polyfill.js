@@ -9,6 +9,7 @@ export default class Polyfill {
             return Math.min(Math.max(value, Math.min(min, max)), Math.max(min, max));
         };
 
+        Math.PI_2 = Math.PI * 2;
         Math.HALF_PI = Math.PI / 2;
         Math.QUARTER_PI = Math.PI / 4;
         Math.EIGHTH_PI = Math.PI / 8;

@@ -1,5 +1,6 @@
-import * as THREE from 'three'
-import Experience from '../../Experience.js'
+import * as THREE from 'three';
+import { gsap } from "gsap";
+import Experience from '../../Experience.js';
 import BaseCandy from './BaseCandy.js';
 
 let _this;
@@ -20,6 +21,7 @@ export default class Candies
         this.testEnabled = false;
         this.finalRot = {};
         this.cof = 0.03;
+        this.sliderRotation = 0;
         this.initWrappers()
         this.initCandies()
 
@@ -30,7 +32,9 @@ export default class Candies
         this.group = new THREE.Group();
         this.idleGroup = new THREE.Group();
         this.orientationGroup = new THREE.Group();
+        this.sliderGroup = new THREE.Group();
 
+        this.orientationGroup.add(this.sliderGroup);
         this.idleGroup.add(this.orientationGroup);
         this.group.add(this.idleGroup);
         this.scene.add(this.group);
@@ -43,7 +47,7 @@ export default class Candies
         this.secondCandy =  new BaseCandy({ inactive: this.appState.currentCandy != 1, color: '#A0CDE9', name: 'Candy2' });
         this.thirdCandy =   new BaseCandy({ inactive: this.appState.currentCandy != 2, color: '#9BE6CF', name: 'Candy3' });
 
-        this.orientationGroup.add(this.mainCandy.group, this.secondCandy.group, this.thirdCandy.group)
+        this.sliderGroup.add(this.mainCandy.group, this.secondCandy.group, this.thirdCandy.group)
 
         this.idleMotion = {
             pos: {
@@ -54,23 +58,7 @@ export default class Candies
     }
 
     async addHandlers() {
-        this.appState.on('candyChange', (newCandy) => {
-            if (newCandy == 0 || newCandy == 3) {
-                this.mainCandy.model.visible = true;
-                this.secondCandy.model.visible = false;
-                this.thirdCandy.model.visible = false;
-
-            } else if (newCandy == 1) {
-                this.secondCandy.model.visible = true;
-                this.mainCandy.model.visible = false;
-                this.thirdCandy.model.visible = false;
-
-            } else if (newCandy == 2) {
-                this.thirdCandy.model.visible = true;
-                this.mainCandy.model.visible = false;
-                this.secondCandy.model.visible = false;
-            }
-        });
+        this.appState.on('candyChange', this.handleCandySwitch.bind(this));
 
         if (this.device.mobile) {
             if (this.device.system.os == 'ios' || this.device.system.os == 'mac') {
@@ -88,6 +76,43 @@ export default class Candies
             this.initMouseGaze();
         }
     }
+
+    handleCandySwitch(newCandy, direction = 'right') {
+        if (newCandy == 0 || newCandy == 3) {
+            this.mainCandy.model.visible = true;
+            this.secondCandy.model.visible = false;
+            this.thirdCandy.model.visible = false;
+
+        } else if (newCandy == 1) {
+            this.secondCandy.model.visible = true;
+            this.mainCandy.model.visible = false;
+            this.thirdCandy.model.visible = false;
+
+        } else if (newCandy == 2) {
+            this.thirdCandy.model.visible = true;
+            this.mainCandy.model.visible = false;
+            this.secondCandy.model.visible = false;
+        }
+
+        gsap.to(this.sliderGroup.scale, {
+            keyframes: {
+                x: [1, 0.9, 1],
+                y: [1, 0.9, 1],
+                z: [1, 0.9, 1],
+            },
+            ease: "power2.out",
+            duration: 0.9,
+        });
+
+        this.sliderRotation += direction == 'right' ? -Math.PI_2 : Math.PI_2;
+        gsap.to(this.sliderGroup.rotation, {
+            y: this.sliderRotation,
+            ease: "power2.out",
+            duration: 1.1,
+        });
+    }
+
+
 
     initDeviceOrientation() {
         if (_this.deviceOrientationReady) return;
