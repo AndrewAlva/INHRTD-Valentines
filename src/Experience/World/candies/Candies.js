@@ -53,7 +53,7 @@ export default class Candies
         }
     }
 
-    addHandlers() {
+    async addHandlers() {
         this.appState.on('candyChange', (newCandy) => {
             if (newCandy == 0 || newCandy == 3) {
                 this.mainCandy.model.visible = true;
@@ -73,8 +73,17 @@ export default class Candies
         });
 
         if (this.device.mobile) {
-            // TODO: detect if user already have permission, if so, init device orientation
-            this.events.on('setupDeviceOrientation', this.initDeviceOrientation.bind(this));
+            if (this.device.system.os == 'ios' || this.device.system.os == 'mac') {
+                this.events.on('setupDeviceOrientation', this.initDeviceOrientation.bind(this));
+            } else {
+                const Permission = await navigator.permissions.query({ name: "gyroscope"} );
+                if (Permission.state == 'granted') {
+                    this.initDeviceOrientation();
+                } else {
+                    this.events.on('setupDeviceOrientation', this.initDeviceOrientation.bind(this));
+                }
+            }
+
         } else {
             this.initMouseGaze();
         }
@@ -83,6 +92,7 @@ export default class Candies
     initDeviceOrientation() {
         if (_this.deviceOrientationReady) return;
         _this.initOrientationTester();
+        document.getElementById('landing-deviceOrientationHelper').remove();
 
         if (typeof DeviceOrientationEvent.requestPermission === 'function') {
             DeviceOrientationEvent.requestPermission()
