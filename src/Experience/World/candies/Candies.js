@@ -149,8 +149,8 @@ export default class Candies
         this.idleGroup.position.x = (Math.cos(this.time.elapsed * -0.0003) * this.idleMotion.pos.x);
         this.idleGroup.position.y = (Math.sin(this.time.elapsed * -0.0007) * this.idleMotion.pos.y);
         
-        this.idleGroup.rotation.y = (Math.sin(this.time.elapsed * -0.00015) * Math.SIXTEENTH_PI) - Math.HALF_SIXTEENTH_PI;
-        this.idleGroup.rotation.x = (Math.cos(this.time.elapsed * -0.00007) * Math.SIXTEENTH_PI) - Math.HALF_SIXTEENTH_PI;
+        this.idleGroup.rotation.y = (Math.sin(this.time.elapsed * -0.0015) * Math.HALF_SIXTEENTH_PI);
+        this.idleGroup.rotation.x = (Math.cos(this.time.elapsed * -0.00007) * Math.HALF_SIXTEENTH_PI);
 
         if (this.finalPos.x) _this.group.position.x += (this.finalPos.x - this.group.position.x) * this.cof;
         if (this.finalPos.y) _this.group.position.y += (this.finalPos.y - this.group.position.y) * this.cof;

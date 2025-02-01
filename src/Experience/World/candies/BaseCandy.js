@@ -68,8 +68,8 @@ export default class BaseCandy
         
 
         this.rotationGroup = new THREE.Group();
-        this.rotationGroup.rotation.y = Math.PI / 20;
-        this.rotationGroup.rotation.x = -Math.PI / 14;
+        this.rotationGroup.rotation.x = -Math.PI / 24;
+        this.rotationGroup.rotation.z = -Math.PI / 50;
         this.rotationGroup.add(this.model);
 
         this.group.add(this.rotationGroup);
