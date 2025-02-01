@@ -28,22 +28,24 @@ export default class Heart1
 
     initMesh()
     {
-        var size = 0.35;
-        this.geometry = new THREE.BoxGeometry(size, size, size)
+        this.heartModel = this.resources.items.candyModel.clone();
+        this.geometry = this.heartModel.children[0].geometry
         // this.geometry = new THREE.TorusKnotGeometry(size, size * 0.3, 64)
         
         this.material = new THREE.MeshStandardMaterial({
             // color: '#9B052C',
             color: this.appState.candyColors.instances[this.appState.bgColor],
-            roughness: 0,
-            metalness: 0.5,
+            roughness: 0.3,
+            metalness: 0,
             // flatShading: true,
         });
     }
 
     initInstances() {
+        var scalar = 0.085;
         this.instancesTotal = 30;
         this.instancedMesh = new THREE.InstancedMesh(this.geometry, this.material, this.instancesTotal);
+        
         this.instancedMesh.instanceMatrix.setUsage( THREE.DynamicDrawUsage ); // will be updated every frame
         this.instancedMesh.castShadow = true;
         this.scene.add(this.instancedMesh);
@@ -52,6 +54,7 @@ export default class Heart1
 
         for (let i = 0; i < this.instancesTotal; i++) {
             const dummy = new THREE.Object3D();
+            const scale = Math.random() * 0.5 + 0.5;
 
             // Set random position for each instance
             dummy.position.set(
@@ -67,9 +70,9 @@ export default class Heart1
                 Math.random() * Math.PI
             );
             dummy.scale.set(
-                Math.random() * 0.5 + 0.5,
-                Math.random() * 0.5 + 0.5,
-                Math.random() * 0.5 + 0.5
+                scale * scalar,
+                scale * scalar,
+                scale * scalar
             );
 
             dummy.speed = Math.random() * 0.01 + 0.01
