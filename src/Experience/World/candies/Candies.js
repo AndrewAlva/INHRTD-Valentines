@@ -22,15 +22,17 @@ export default class Candies
         this.testEnabled = false;
         this.finalPos = {};
         this.cof = 0.03;
-        this.initWrapper()
+        this.initWrappers()
         this.initCandies()
 
         this.addHandlers();
     }
 
-    initWrapper() {
-        this.group = new THREE.Group()
+    initWrappers() {
+        this.group = new THREE.Group();
+        this.idleGroup = new THREE.Group();
         if (this.appState.activeFlow == 'receive' && this.device.mobile) this.group.visible = false;
+        this.group.add(this.idleGroup)
         this.scene.add(this.group)
     }
 
@@ -39,7 +41,14 @@ export default class Candies
         this.secondCandy =  new Candy2({ inactive: this.appState.currentCandy != 1 });
         this.thirdCandy =   new Candy3({ inactive: this.appState.currentCandy != 2 });
 
-        this.group.add(this.mainCandy.group, this.secondCandy.group, this.thirdCandy.group)
+        this.idleGroup.add(this.mainCandy.group, this.secondCandy.group, this.thirdCandy.group)
+
+        this.idleMotion = {
+            pos: {
+                x: 0.10,
+                y: 0.08,
+            }
+        }
     }
 
     addHandlers() {
@@ -139,7 +148,12 @@ export default class Candies
     update()
     {
         // update uniforms or something
-        this.group.rotation.y = this.time.elapsed * -0.001;
+        this.idleGroup.position.x = (Math.cos(this.time.elapsed * -0.0003) * this.idleMotion.pos.x);
+        this.idleGroup.position.y = (Math.sin(this.time.elapsed * -0.0007) * this.idleMotion.pos.y);
+        
+        this.idleGroup.rotation.y = (Math.sin(this.time.elapsed * -0.00015) * Math.SIXTEENTH_PI) - Math.HALF_SIXTEENTH_PI;
+        this.idleGroup.rotation.x = (Math.cos(this.time.elapsed * -0.00007) * Math.SIXTEENTH_PI) - Math.HALF_SIXTEENTH_PI;
+
         if (this.finalPos.x) _this.group.position.x += (this.finalPos.x - this.group.position.x) * this.cof;
         if (this.finalPos.y) _this.group.position.y += (this.finalPos.y - this.group.position.y) * this.cof;
         

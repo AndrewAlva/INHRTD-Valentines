@@ -8,6 +8,12 @@ export default class Polyfill {
         Math.clamp = function(value, min = 0, max = 1) {
             return Math.min(Math.max(value, Math.min(min, max)), Math.max(min, max));
         };
+
+        Math.HALF_PI = Math.PI / 2;
+        Math.QUARTER_PI = Math.PI / 4;
+        Math.EIGHTH_PI = Math.PI / 8;
+        Math.SIXTEENTH_PI = Math.PI / 16;
+        Math.HALF_SIXTEENTH_PI = Math.PI / 32;
     }
 
     initNativePolyfills() {
