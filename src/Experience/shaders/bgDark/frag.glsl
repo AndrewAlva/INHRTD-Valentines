@@ -1,3 +1,5 @@
+#define PI_2 6.2831853072
+
 uniform vec2 uScreen;
 uniform vec3 uColorInside;
 uniform vec3 uColorOutside;
@@ -55,16 +57,31 @@ void main()
     float lerpTextColor = smoothstep(start, start + textFade, circle);
     textColor = mix(textColor, uColorOutside, lerpTextColor);
 
+
+    // Text UVs (including distortion)
     vec2 tileUV = abs(vUv - vec2(1., 0.));
+
+
+
     vec4 displacement = texture2D(uDisplacementMap, screenUV);
     displacement = 1. - displacement;
     // float strength = pow(displacement.r, 2.) * 3.;
     float strength = displacement.r * 3.;
 
-    tileUV.x += (strength) * 0.01;
-    tileUV.y += (uTime + strength) * 0.015;
+    // tileUV.x += (strength) * 0.01;
+    // tileUV.y += (uTime + strength) * 0.015;
+    // tileUV.y += (uTime) * 0.015;
+
+    // Waves
+    // float waves = fract((screenUV.y * 10.) + cos(screenUV.x * 20.) * 0.3);
+    float waves = screenUV.y - (cos(screenUV.x * PI_2 * 3.) * 0.075);
+    tileUV.y += waves;
+    tileUV.y *= 0.15;
+
+
+    // Repeat texture (tiling)
     tileUV = fract(tileUV * 17.);
-    vec3 tileColor = vec3(tileUV, 1.);
+
 
     float text = msdf(uMap, tileUV);
     vec3 color = mix(gradient, textColor, text);
@@ -72,8 +89,10 @@ void main()
 
     float alpha = uTransition;
 
+    // vec3 tileColor = vec3(tileUV, 1.);
     // color += strength;
     gl_FragColor = vec4(color, alpha);
-    // gl_FragColor = vec4(displacement);
+    // gl_FragColor = vec4(vec3(waves), 1.);
+    // gl_FragColor = vec4(displacement.rgb, 1.);
     // gl_FragColor = vec4( msdf(uMap, screenUV) );
 }
