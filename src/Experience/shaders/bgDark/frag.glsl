@@ -60,6 +60,7 @@ void main()
 
     // Text UVs (including distortion)
     vec2 tileUV = abs(vUv - vec2(1., 0.));
+    vec2 textUV = screenUV;
 
 
 
@@ -72,18 +73,31 @@ void main()
     // tileUV.y += (uTime + strength) * 0.015;
     // tileUV.y += (uTime) * 0.015;
 
+
     // Waves
     // float waves = fract((screenUV.y * 10.) + cos(screenUV.x * 20.) * 0.3);
-    float waves = screenUV.y - (cos(screenUV.x * PI_2 * 3.) * 0.075);
-    tileUV.y += waves;
-    tileUV.y *= 0.15;
+    float waves = screenUV.y - (cos(screenUV.x * PI_2 * 3.) * 0.175);
+    textUV.y += waves;
+    textUV.y *= 0.5;
+
+
+    // Radial Circle
+    // float radialCircle = 1. - (pow((1. - length(screenUV - 0.5)) * 1., 3.) - 0.2);
+    float radialCircle = 1. - ( (1. - length(screenUV - 0.5)) - 0.75 );
+    // textUV = scaleUV(textUV, vec2(radialCircle), textUV - 0.5);
+    textUV = scaleUV(textUV, vec2(radialCircle), vec2(0.5));
+
+    // Falling motion
+    textUV.y += (uTime) * 0.09;
 
 
     // Repeat texture (tiling)
-    tileUV = fract(tileUV * 17.);
+    // textUV = fract((textUV * 2.) - 0.5);
+    textUV = fract(textUV * 3.);
 
 
-    float text = msdf(uMap, tileUV);
+
+    float text = msdf(uMap, textUV);
     vec3 color = mix(gradient, textColor, text);
 
 
@@ -92,7 +106,8 @@ void main()
     // vec3 tileColor = vec3(tileUV, 1.);
     // color += strength;
     gl_FragColor = vec4(color, alpha);
-    // gl_FragColor = vec4(vec3(waves), 1.);
+    // gl_FragColor = vec4(textUV, 1., 1.);
+    // gl_FragColor = vec4(vec3(radialCircle), 1.);
     // gl_FragColor = vec4(displacement.rgb, 1.);
     // gl_FragColor = vec4( msdf(uMap, screenUV) );
 }
