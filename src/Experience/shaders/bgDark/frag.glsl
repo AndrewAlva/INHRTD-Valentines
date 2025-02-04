@@ -63,37 +63,48 @@ void main()
     vec2 textUV = screenUV;
 
 
-
+    // Perlin Noise calc
     vec4 displacement = texture2D(uDisplacementMap, screenUV);
     displacement = 1. - displacement;
-    // float strength = pow(displacement.r, 2.) * 3.;
-    float strength = displacement.r * 3.;
+    float strength = pow(displacement.r, 0.8) * 1.125;
+    // float strength = displacement.r + 0.75;
+    // float strength = displacement.r + 1.175;
+    // textUV.x += strength;
+
+
+    // Waves
+    // float waves = fract((screenUV.y * 10.) + cos(screenUV.x * 20.) * 0.3);
+    float waves = screenUV.y - (cos(screenUV.x * PI_2 * 2.) * 0.175);
+    waves *= strength * 0.5;
+    textUV.y += waves;
+    // textUV.y *= 0.5;
+
+
+    // Radial Circle
+    // float radialCircle = 1. - (pow((1. - length(screenUV - 0.5)) * 1., 3.) - 0.2);
+    float radialCircle = 1. - ( (1. - length(screenUV - 0.5)) - 0.75 );
+    radialCircle += strength * 0.5;
+    // textUV = scaleUV(textUV, vec2(radialCircle), textUV - 0.5);
+    textUV = scaleUV(textUV, vec2(radialCircle), vec2(0.5));
+
+
+    // Perlin noise push
+    // textUV = scaleUV(textUV, vec2(strength), vec2(0.8, 0.5));
+    textUV.x -= (strength) * 0.175;
 
     // tileUV.x += (strength) * 0.01;
     // tileUV.y += (uTime + strength) * 0.015;
     // tileUV.y += (uTime) * 0.015;
 
 
-    // Waves
-    // float waves = fract((screenUV.y * 10.) + cos(screenUV.x * 20.) * 0.3);
-    float waves = screenUV.y - (cos(screenUV.x * PI_2 * 3.) * 0.175);
-    textUV.y += waves;
-    textUV.y *= 0.5;
-
-
-    // Radial Circle
-    // float radialCircle = 1. - (pow((1. - length(screenUV - 0.5)) * 1., 3.) - 0.2);
-    float radialCircle = 1. - ( (1. - length(screenUV - 0.5)) - 0.75 );
-    // textUV = scaleUV(textUV, vec2(radialCircle), textUV - 0.5);
-    textUV = scaleUV(textUV, vec2(radialCircle), vec2(0.5));
-
     // Falling motion
     textUV.y += (uTime) * 0.09;
+    // textUV.x += (uTime) * 0.019;
 
 
     // Repeat texture (tiling)
-    // textUV = fract((textUV * 2.) - 0.5);
-    textUV = fract(textUV * 3.);
+    textUV = fract((textUV * 4.) - 0.5);
+    // textUV = fract(textUV * 3.);
 
 
 
@@ -108,6 +119,7 @@ void main()
     gl_FragColor = vec4(color, alpha);
     // gl_FragColor = vec4(textUV, 1., 1.);
     // gl_FragColor = vec4(vec3(radialCircle), 1.);
+    // gl_FragColor = vec4(vec3(strength), 1.);
     // gl_FragColor = vec4(displacement.rgb, 1.);
     // gl_FragColor = vec4( msdf(uMap, screenUV) );
 }
