@@ -1,6 +1,14 @@
 @use "./src/styles/utils/_normalize.scss";
 @use "./src/styles/utils/_global.scss";
 
+@font-face {
+    font-family: 'ED-Med';
+    src: url('/fonts/EloquiaDisplay-Medium.woff2') format('woff2'),
+         url('/fonts/EloquiaDisplay-Medium.woff') format('woff');
+    font-weight: lighter;
+    font-style: normal;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -27,6 +35,10 @@ html {
 
 body {
     background-color: var(--primaryBg) !important;
+    font-family: 'ED-Med', sans-serif;
+    font-smooth: antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 html, body {

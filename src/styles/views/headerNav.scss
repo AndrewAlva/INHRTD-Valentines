@@ -29,10 +29,11 @@ $btn-radius: 15px;
             position: relative;
             height: $btn-height;
             line-height: $btn-lineheight;
-            padding: 5px 11px;
+            padding: 5px 13px;
             border-radius: $btn-radius 0 $btn-radius $btn-radius;
 
-            font-size: 10px;
+            font-size: 10.2px;
+            letter-spacing: -0.1px;
         }
     }
 }
