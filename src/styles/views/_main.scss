@@ -8,6 +8,13 @@
     font-weight: lighter;
     font-style: normal;
 }
+@font-face {
+    font-family: 'ED-Light';
+    src: url('/fonts/EloquiaDisplay-Light.woff2') format('woff2'),
+         url('/fonts/EloquiaDisplay-Light.woff') format('woff');
+    font-weight: lighter;
+    font-style: normal;
+}
 
 * {
     margin: 0;
@@ -113,6 +120,11 @@ svg {
                 margin: auto;
                 margin-left: 8px;
             }
+            
+            &--share {
+                margin-top: 5px;
+                margin-left: 3px;
+            }
         }
 
         .lineWrap {
@@ -123,8 +135,7 @@ svg {
 
     .inputBox {
         position: relative;
-        margin-top: -35px;
-        padding-bottom: 3px;
+        margin-top: -41px;
 
         &:after {
             content: '';
@@ -173,7 +184,7 @@ svg {
     .bodyBox {
         position: relative;
         width: 100%;
-        max-width: 200px;
+        max-width: 212px;
         margin: 0 auto;
     }
 
@@ -192,7 +203,7 @@ svg {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
         }
     }
 }

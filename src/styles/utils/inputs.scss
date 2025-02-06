@@ -2,11 +2,12 @@
 
 input {
     background-color: transparent;
+    font-family: 'ED-Light', sans-serif;
 }
 
 .h1Input {
     position: relative;
-    font-size: 38px;
+    font-size: 42px;
     font-weight: lighter;
 
     &::placeholder {
@@ -34,10 +35,11 @@ input {
     top: 0;
     left: 0;
     width: 100%;
-    font-size: 38px;
+    font-size: 42px;
     font-weight: lighter;
     color: var(--primary);
     opacity: 0.4;
+    font-family: 'ED-Light', sans-serif;
 
     display: none;
 
