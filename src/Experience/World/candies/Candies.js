@@ -22,6 +22,7 @@ export default class Candies
         this.finalRot = {};
         this.cof = 0.03;
         this.sliderRotation = 0;
+        this.preventDoubleRotation = false;
         this.initWrappers()
         this.initCandies()
 
@@ -48,6 +49,7 @@ export default class Candies
         this.thirdCandy =   new BaseCandy({ inactive: this.appState.currentCandy != 2, color: '#9BE6CF', name: 'Candy3' });
 
         this.sliderGroup.add(this.mainCandy.group, this.secondCandy.group, this.thirdCandy.group)
+        this.candiesArray = [ this.mainCandy, this.secondCandy, this.thirdCandy ];
 
         this.idleMotion = {
             pos: {
@@ -57,7 +59,41 @@ export default class Candies
         }
     }
 
+    rotateCandies(direction = 'right', turns = 1) {
+        if (this.preventDoubleRotation) return;
+        this.preventDoubleRotation = true;
+        setTimeout(() => {this.preventDoubleRotation = false}, 50);
+
+
+        let dir = direction == 'right' ? -1 : 1;
+        this.sliderRotation += (Math.PI_2 * turns) * dir;
+        gsap.to(this.sliderGroup.rotation, {
+            y: this.sliderRotation,
+            ease: "power2.out",
+            duration: 1.1,
+        });
+
+        gsap.to(this.sliderGroup.scale, {
+            keyframes: {
+                x: [1, 0.9, 1],
+                y: [1, 0.9, 1],
+                z: [1, 0.9, 1],
+            },
+            ease: "power2.out",
+            duration: 0.9,
+        });
+    }
+
     async addHandlers() {
+        this.appState.on('stepChange', (newStep) => {
+            // TODO: improve animate in/out of the candy
+            if (newStep == 1) {
+                this.animateIn();
+            } else {
+                this.animateOut();
+            }
+        });
+
         this.appState.on('candyChange', this.handleCandySwitch.bind(this));
 
         if (this.device.mobile) {
@@ -94,22 +130,7 @@ export default class Candies
             this.secondCandy.model.visible = false;
         }
 
-        gsap.to(this.sliderGroup.scale, {
-            keyframes: {
-                x: [1, 0.9, 1],
-                y: [1, 0.9, 1],
-                z: [1, 0.9, 1],
-            },
-            ease: "power2.out",
-            duration: 0.9,
-        });
-
-        this.sliderRotation += direction == 'right' ? -Math.PI_2 : Math.PI_2;
-        gsap.to(this.sliderGroup.rotation, {
-            y: this.sliderRotation,
-            ease: "power2.out",
-            duration: 1.1,
-        });
+        this.rotateCandies(direction, 1);
     }
 
 
@@ -176,7 +197,7 @@ export default class Candies
                 this.tester.style.zIndex = 999999999;
                 document.body.appendChild(this.tester);
             }
-            
+
             this.tester.innerHTML = `${DeviceOrientationEvent.requestPermission}`;
         }
 
@@ -188,16 +209,25 @@ export default class Candies
         // update uniforms or something
         this.idleGroup.position.x = (Math.cos(this.time.elapsed * -0.0003) * this.idleMotion.pos.x);
         this.idleGroup.position.y = (Math.sin(this.time.elapsed * -0.0007) * this.idleMotion.pos.y);
-        
+
         this.idleGroup.rotation.y = (Math.sin(this.time.elapsed * -0.0015) * Math.HALF_SIXTEENTH_PI);
         this.idleGroup.rotation.x = (Math.cos(this.time.elapsed * -0.00007) * Math.HALF_SIXTEENTH_PI);
 
         if (this.finalRot.x) _this.orientationGroup.rotation.x += (this.finalRot.x - this.orientationGroup.rotation.x) * this.cof;
         if (this.finalRot.y) _this.orientationGroup.rotation.y += (this.finalRot.y - this.orientationGroup.rotation.y) * this.cof;
-        
+
 
         if (this.mainCandy) this.mainCandy.update()
         if (this.secondCandy) this.secondCandy.update()
         if (this.thirdCandy) this.thirdCandy.update()
+    }
+
+    animateIn() {
+        this.rotateCandies();
+        this.candiesArray[this.appState.currentCandy].mesh.material.opacity = 0;
+    }
+    animateOut() {
+        this.rotateCandies();
+        this.candiesArray[this.appState.currentCandy].mesh.material.opacity = 1;
     }
 }

@@ -106,14 +106,7 @@ export default class BaseCandy
     }
 
     addHandlers() {
-        this.appState.on('stepChange', (newStep) => {
-            // TODO: improve animate in/out of the candy
-            if (newStep == 1) {
-                this.mesh.material.opacity = 0;
-            } else {
-                this.mesh.material.opacity = 1;
-            }
-        });
+        // 
     }
 
 
