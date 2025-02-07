@@ -21,7 +21,6 @@ export default class AppState extends EventEmitter
         this.lastBgColor = "pink";
         this.totalCandies = 3;
         this.currentCandy = 0;
-        this.lastCandy = 0;
         this.candyColors = {
             bgLighter: {
                 pink:   '#F7DEE4', // candy 0
@@ -130,8 +129,6 @@ export default class AppState extends EventEmitter
     }
 
     nextCandy() {
-        this.lastCandy = this.currentCandy;
-
         this.currentCandy++;
         this.currentCandy %= this.totalCandies;
 
@@ -139,8 +136,6 @@ export default class AppState extends EventEmitter
     }
     
     prevCandy() {
-        this.lastCandy = this.currentCandy;
-
         this.currentCandy--;
         if (this.currentCandy < 0) this.currentCandy = this.totalCandies - 1;
 
@@ -148,8 +143,6 @@ export default class AppState extends EventEmitter
     }
 
     goToCandy(candyId) {
-        this.lastCandy = this.currentCandy;
-
         this.currentCandy = candyId;
         this.trigger('candyChange', [this.currentCandy]);
     }
