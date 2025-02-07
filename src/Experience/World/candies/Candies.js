@@ -72,7 +72,9 @@ export default class Candies
             ease: "power2.out",
             duration: 1.1,
         });
+    }
 
+    shrinkPulseCandies() {
         gsap.to(this.sliderGroup.scale, {
             keyframes: {
                 x: [1, 0.9, 1],
@@ -88,9 +90,9 @@ export default class Candies
         this.appState.on('stepChange', (newStep) => {
             // TODO: improve animate in/out of the candy
             if (newStep == 1) {
-                this.animateIn();
-            } else {
                 this.animateOut();
+            } else {
+                this.animateIn({ shrinkPulse: newStep == 3 });
             }
         });
 
@@ -131,6 +133,7 @@ export default class Candies
         }
 
         this.rotateCandies(direction, 1);
+        this.shrinkPulseCandies();
     }
 
 
@@ -200,7 +203,6 @@ export default class Candies
 
             this.tester.innerHTML = `${DeviceOrientationEvent.requestPermission}`;
         }
-
     }
 
 
@@ -217,17 +219,18 @@ export default class Candies
         if (this.finalRot.y) _this.orientationGroup.rotation.y += (this.finalRot.y - this.orientationGroup.rotation.y) * this.cof;
 
 
-        if (this.mainCandy) this.mainCandy.update()
-        if (this.secondCandy) this.secondCandy.update()
-        if (this.thirdCandy) this.thirdCandy.update()
+        if (this.mainCandy) this.mainCandy.update();
+        if (this.secondCandy) this.secondCandy.update();
+        if (this.thirdCandy) this.thirdCandy.update();
     }
 
-    animateIn() {
+    animateIn(params = {}) {
         this.rotateCandies();
-        this.candiesArray[this.appState.currentCandy].mesh.material.opacity = 0;
+        if (params.shrinkPulse) this.shrinkPulseCandies();
+        this.candiesArray[this.appState.currentCandy].mesh.material.opacity = 1;
     }
     animateOut() {
         this.rotateCandies();
-        this.candiesArray[this.appState.currentCandy].mesh.material.opacity = 1;
+        this.candiesArray[this.appState.currentCandy].mesh.material.opacity = 0;
     }
 }
