@@ -74,6 +74,9 @@ export default class Experience
             // TODO: Loader animateOut and remove it from view to not blocking everything.
             // TODO: animate in website
             this.showFirstView();
+            if (this.appState.activeFlow == 'send' || ( !this.device.mobile && this.appState.activeFlow == 'receive') ) {
+                this.world.candies.animateIn({ shrinkFromBig: true, halfRotation: true });
+            }
         });
 
         // Resize event

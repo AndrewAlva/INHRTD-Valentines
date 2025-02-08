@@ -134,8 +134,6 @@ export default class UIManager extends EventEmitter {
 
         goToReceivedStep() {
             this.appState.trigger('goToStep', ['received']);
-            // TODO: Polish animate in of right candy.
-            this.experience.world.candies.group.visible = true;
         }
 
         fireRestartStep() {

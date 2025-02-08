@@ -39,8 +39,6 @@ export default class Candies
         this.idleGroup.add(this.orientationGroup);
         this.group.add(this.idleGroup);
         this.scene.add(this.group);
-
-        if (this.appState.activeFlow == 'receive' && this.device.mobile) this.group.visible = false;
     }
 
     initCandies() {
@@ -57,20 +55,24 @@ export default class Candies
                 y: 0.08,
             }
         }
+
+        this.candiesArray[this.appState.currentCandy].mesh.material.opacity = 0;
+        this.sliderGroup.scale.setScalar(0);
     }
 
-    rotateCandies(direction = 'right', turns = 1) {
+    rotateCandies(turns = 1, direction = 'right', duration = 1.1) {
         if (this.preventDoubleRotation) return;
         this.preventDoubleRotation = true;
         setTimeout(() => {this.preventDoubleRotation = false}, 50);
 
 
-        let dir = direction == 'right' ? -1 : 1;
+        let dir = direction == 'right' ? 1 : -1;
         this.sliderRotation += (Math.PI_2 * turns) * dir;
         gsap.to(this.sliderGroup.rotation, {
             y: this.sliderRotation,
             ease: "power2.out",
-            duration: 1.1,
+            duration: duration,
+            overwrite: "auto",
         });
     }
 
@@ -83,16 +85,33 @@ export default class Candies
             },
             ease: "power2.out",
             duration: 0.9,
+            overwrite: "auto",
         });
     }
 
+    shrinkFromBig(duration = 0.9) {
+        this.sliderGroup.scale.setScalar(1.35);
+
+        gsap.to(this.sliderGroup.scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: "power1.out",
+            duration: duration,
+            overwrite: "auto",
+        });
+    }
+
+
+
     async addHandlers() {
         this.appState.on('stepChange', (newStep) => {
-            // TODO: improve animate in/out of the candy
             if (newStep == 1) {
                 this.animateOut();
+            } else if (newStep == 0 || newStep == 2 || newStep == 'received') {
+                this.animateIn({ shrinkFromBig: newStep != 0, halfRotation: newStep != 0 });
             } else {
-                this.animateIn({ shrinkPulse: newStep == 3 });
+                this.animateIn({ shrinkPulse: true });
             }
         });
 
@@ -132,7 +151,7 @@ export default class Candies
             this.secondCandy.model.visible = false;
         }
 
-        this.rotateCandies(direction, 1);
+        this.rotateCandies(1, direction);
         this.shrinkPulseCandies();
     }
 
@@ -225,12 +244,64 @@ export default class Candies
     }
 
     animateIn(params = {}) {
-        this.rotateCandies();
-        if (params.shrinkPulse) this.shrinkPulseCandies();
-        this.candiesArray[this.appState.currentCandy].mesh.material.opacity = 1;
+        // Opacity
+        gsap.to(this.candiesArray[this.appState.currentCandy].mesh.material, {
+            opacity: 1,
+            ease: "power2.out",
+            duration: 0.9,
+            overwrite: "auto",
+        });
+
+
+        // Scale
+        if (params.shrinkPulse) {
+            this.shrinkPulseCandies();
+
+        } else if (params.shrinkFromBig) {
+            this.shrinkFromBig();
+
+        } else {
+            gsap.to(this.sliderGroup.scale, {
+                x: 1,
+                y: 1,
+                z: 1,
+                ease: "power1.out",
+                duration: 0.9,
+                overwrite: "auto",
+            });
+        }
+
+
+        // Rotation
+        if (params.halfRotation) {
+            this.sliderRotation += Math.PI;
+            this.sliderGroup.rotation.y = this.sliderRotation;
+            this.rotateCandies(0.5);
+        } else {
+            this.rotateCandies();
+        }
     }
+
     animateOut() {
-        this.rotateCandies();
-        this.candiesArray[this.appState.currentCandy].mesh.material.opacity = 0;
+        // Opacity
+        gsap.to(this.candiesArray[this.appState.currentCandy].mesh.material, {
+            opacity: 0,
+            ease: "power2.out",
+            duration: 0.5,
+            overwrite: "auto",
+        });
+
+        // Scale
+        gsap.to(this.sliderGroup.scale, {
+            x: 0,
+            y: 0,
+            z: 0,
+            ease: "power1.out",
+            duration: 0.9,
+            overwrite: "auto",
+        });
+
+        // Rotation
+        this.rotateCandies(1, 'right', 2);
     }
 }
