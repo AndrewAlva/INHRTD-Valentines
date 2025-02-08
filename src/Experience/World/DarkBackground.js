@@ -15,6 +15,7 @@ export default class DarkBackground
         this.time = this.experience.time
         this.debug = this.experience.debug
         this.sizes = this.experience.sizes
+        this.device = this.experience.device
 
         // Debug
         if(this.debug.active)
@@ -29,7 +30,8 @@ export default class DarkBackground
 
     initMesh()
     {
-        this.geometry = new THREE.SphereGeometry(9, 32, 32)
+        let size = this.device.mobile ? 5 : 9;
+        this.geometry = new THREE.SphereGeometry(size, 32, 32)
         this.shaderMaterial = new THREE.ShaderMaterial({
             vertexShader: bgVertexShader,
             fragmentShader: bgFragmentShader,
@@ -48,7 +50,7 @@ export default class DarkBackground
 
         this.mesh = new THREE.Mesh(this.geometry, this.shaderMaterial)
         this.mesh.position.y = 0
-        this.mesh.scale.y = 2
+        // this.mesh.scale.y = 2
         this.mesh.rotation.y = Math.PI * 0.5
         this.scene.add(this.mesh)
     }

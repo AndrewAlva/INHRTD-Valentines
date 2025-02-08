@@ -14,6 +14,7 @@ export default class Renderer
         this.sizes = this.experience.sizes
         this.scene = this.experience.scene
         this.camera = this.experience.camera
+        this.device = this.experience.device
 
         this.debug = this.experience.debug
 
@@ -59,9 +60,13 @@ export default class Renderer
         this.effectComposer.addPass(this.renderPass)
 
         const bokehParams = {
-            focus: 1.295,       // Focus distance
-            aperture: 0.3,  // Aperture size (higher = more blur)
-            maxblur: 0.2,    // Maximum blur size
+            // focus: 1.295,       // Focus distance
+            // aperture: 0.3,  // Aperture size (higher = more blur)
+            // maxblur: 0.2,    // Maximum blur size
+
+            focus: this.device.mobile ? 5.215 : 1.3,       // Focus distance
+            aperture: this.device.mobile ? 0.2 : 0.25,  // Aperture size (higher = more blur)
+            maxblur: this.device.mobile ? 0.06 : 0.5,    // Maximum blur size
         };
         this.dofPass = new BokehPass(this.scene, this.camera.instance, bokehParams)
         this.dofPass.enabled = true
@@ -71,21 +76,21 @@ export default class Renderer
             this.debugFolder
                 .add(this.dofPass.materialBokeh.uniforms.focus, 'value')
                 .name('focus')
-                .min(-2)
-                .max(2)
-                .step(0.0001);
+                .min(0)
+                .max(10)
+                .step(0.01);
             this.debugFolder
                 .add(this.dofPass.materialBokeh.uniforms.aperture, 'value')
                 .name('aperture')
                 .min(0)
-                .max(2)
-                .step(0.0001);
+                .max(3)
+                .step(0.01);
             this.debugFolder
                 .add(this.dofPass.materialBokeh.uniforms.maxblur, 'value')
                 .name('maxblur')
                 .min(0)
-                .max(10)
-                .step(0.0001);
+                .max(5)
+                .step(0.01);
         }
 
         this.dotScreenPass = new DotScreenPass(new THREE.Vector2(0, 0), Math.PI / 2, 0.5);

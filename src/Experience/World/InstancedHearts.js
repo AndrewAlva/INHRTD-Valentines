@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { gsap } from "gsap";
 import Experience from '../Experience.js'
 
-export default class Heart1
+export default class InstancedHearts
 {
     constructor()
     {
@@ -42,7 +42,7 @@ export default class Heart1
     }
 
     initInstances() {
-        var scalar = 0.085;
+        var scalar = 0.05;
         this.instancesTotal = 30;
         this.instancedMesh = new THREE.InstancedMesh(this.geometry, this.material, this.instancesTotal);
         
@@ -54,13 +54,14 @@ export default class Heart1
 
         for (let i = 0; i < this.instancesTotal; i++) {
             const dummy = new THREE.Object3D();
-            const scale = Math.random() * 0.5 + 0.5;
+            const scale = (Math.random() * 3) + 0.5;
 
             // Set random position for each instance
             dummy.position.set(
                 Math.random() * 18 - 9,
                 Math.random() * 28 - 14,
-                Math.random() * 18 - 14
+                // Math.random() * 18 - 14, // -14 to 4
+                Math.random() * 8 - 16 // -16 to -8
             );
             
             // Optionally set random rotation and scale
