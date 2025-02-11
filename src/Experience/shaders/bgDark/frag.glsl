@@ -44,10 +44,10 @@ void main()
     vec2 bgUV = rotateUV(vUv, -0.5, vec2(0.5));
     bgUV = bgUV * vec2(1., 1.3);
     float start = 0.01;
-    float fade = 0.12;
-    float textFade = 0.62;
+    float fade = 0.37;
+    float textFade = 0.72;
 
-    float circle = length(bgUV - vec2(0.485, 0.725));
+    float circle = length(bgUV - vec2(0.485, 0.8));
     float lerp = smoothstep(start, start + fade, circle);
     vec3 gradient = mix(uColorInside, uColorOutside, lerp);
 
