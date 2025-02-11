@@ -6,7 +6,7 @@ uniform vec3 uColorOutside;
 uniform sampler2D uMap;
 uniform sampler2D uDisplacementMap;
 uniform sampler2D uMask;
-uniform float uTransition;
+uniform vec2 uTransition;
 uniform float uTime;
 
 varying vec2 vUv;
@@ -95,16 +95,20 @@ void main()
 
     ////// Final composite
     // Masks
-    float maskTexel = texture2D(uMask, (screenUV + 0.5) * 0.5).r;
-    float t = 1.005 - uTransition;
-    // float mask = smoothstep(t - (0.2 * uTransition), t, maskTexel);
-    float mask = step(t, maskTexel);
+    float maskAlphaTexel = texture2D(uMask, (screenUV + 0.5) * 0.5).r;
+    float maskTextTexel = texture2D(uMask, textUV).b;
+    float t = 1.005 - uTransition.x;
+    float t2 = 1.005 - uTransition.y;
+    // float mask = smoothstep(t - (0.2 * uTransition.x), t, maskAlphaTexel);
+    float mask = step(t, maskAlphaTexel);
 
-    float text = msdf(uMap, textUV);
+    float maskText = step(t2, maskTextTexel);
+
+    float text = msdf(uMap, textUV) * maskText;
     vec3 color = mix(gradient, textColor, text);
 
     // alpha
-    // float alpha = uTransition * mask;
+    // float alpha = uTransition.x * mask;
     float alpha = mask;
 
 
@@ -117,4 +121,5 @@ void main()
     // gl_FragColor = vec4(vec3(displacement), 1.);
     // gl_FragColor = vec4( msdf(uMap, screenUV) );
     // gl_FragColor = vec4(vec3(mask), 1.);
+    // gl_FragColor = vec4(vec3(maskText), 1.);
 }

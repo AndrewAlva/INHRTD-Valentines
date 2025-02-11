@@ -44,7 +44,7 @@ export default class DarkBackground
                 uMap: { value: this.resources.items.mineMSDF },
                 uMask: { value: this.resources.items.noiseMask },
                 uDisplacementMap: { value: this.resources.items.mineDisplacement },
-                uTransition: { value: 0 },
+                uTransition: { value: new THREE.Vector2(0, 0) },
                 uTime: { value: 0 },
             }
         })
@@ -70,7 +70,8 @@ export default class DarkBackground
     {
         // update uniforms or something
         if (this.mesh && this.shaderMaterial) {
-            this.shaderMaterial.uniforms.uTransition.value = Math.cubicInLerp(this.appState.tapHoldAlpha);
+            this.shaderMaterial.uniforms.uTransition.value.x = Math.cubicInLerp(this.appState.tapHoldAlpha);
+            this.shaderMaterial.uniforms.uTransition.value.y += (this.shaderMaterial.uniforms.uTransition.value.x - this.shaderMaterial.uniforms.uTransition.value.y) * 0.02;
             this.shaderMaterial.uniforms.uTime.value = this.time.elapsed / 1000;
         }
     }
