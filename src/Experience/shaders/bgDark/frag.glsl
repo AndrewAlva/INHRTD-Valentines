@@ -45,7 +45,7 @@ void main()
     bgUV = bgUV * vec2(1., 1.3);
     float start = 0.01;
     float fade = 0.12;
-    float textFade = 0.22;
+    float textFade = 0.62;
 
     float circle = length(bgUV - vec2(0.485, 0.725));
     float lerp = smoothstep(start, start + fade, circle);
@@ -100,7 +100,7 @@ void main()
     // float mask = smoothstep(t - (0.2 * uTransition), t, maskTexel);
     float mask = step(t, maskTexel);
 
-    float text = msdf(uMap, textUV * mask);
+    float text = msdf(uMap, textUV);
     vec3 color = mix(gradient, textColor, text);
 
     // alpha
