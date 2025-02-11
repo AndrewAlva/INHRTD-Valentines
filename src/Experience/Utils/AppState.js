@@ -7,6 +7,7 @@ export default class AppState extends EventEmitter
         super()
 
         this.experience = new Experience()
+        this.device = this.experience.device
         this.events = this.experience.events
         this.utils = this.experience.utils
 
@@ -65,7 +66,7 @@ export default class AppState extends EventEmitter
         this.tapHoldMaxedOnce = false;
         this.loveName = this.utils.query('to') ? this.utils.query('to') : '';
         this.songStartTime = 0;
-        this.lockBgColor = this.utils.query('to') ? true : false;
+        this.lockBgColor = this.utils.query('to') || !this.device.mobile ? true : false;
 
         this.loadQueryStates();
     }
