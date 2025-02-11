@@ -5,6 +5,7 @@ uniform vec3 uColorInside;
 uniform vec3 uColorOutside;
 uniform sampler2D uMap;
 uniform sampler2D uDisplacementMap;
+uniform sampler2D uMask;
 uniform float uTransition;
 uniform float uTime;
 
@@ -92,10 +93,19 @@ void main()
     textUV = fract((textUV * 4.) - 0.5);
 
 
-    // Final composite
-    float text = msdf(uMap, textUV);
+    ////// Final composite
+    // Masks
+    float maskTexel = texture2D(uMask, (screenUV + 0.5) * 0.5).r;
+    float t = 1.005 - uTransition;
+    // float mask = smoothstep(t - (0.2 * uTransition), t, maskTexel);
+    float mask = step(t, maskTexel);
+
+    float text = msdf(uMap, textUV * mask);
     vec3 color = mix(gradient, textColor, text);
-    float alpha = uTransition;
+
+    // alpha
+    // float alpha = uTransition * mask;
+    float alpha = mask;
 
 
     // vec3 tileColor = vec3(tileUV, 1.);
@@ -106,4 +116,5 @@ void main()
     // gl_FragColor = vec4(vec3(strength), 1.);
     // gl_FragColor = vec4(vec3(displacement), 1.);
     // gl_FragColor = vec4( msdf(uMap, screenUV) );
+    // gl_FragColor = vec4(vec3(mask), 1.);
 }

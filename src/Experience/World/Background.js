@@ -57,6 +57,8 @@ export default class Background
 
     addHandlers() {
         this.appState.on('bgColorChange', (newColor) => {
+            if (this.appState.lockBgColor) return;
+
             // get colors
             if (!this.colors.lighter[newColor]) this.colors.lighter[newColor] = new THREE.Color(this.appState.candyColors.bgLighter[newColor]).convertLinearToSRGB();
             if (!this.colors.darker[newColor]) this.colors.darker[newColor] = new THREE.Color(this.appState.candyColors.bgDarker[newColor]).convertLinearToSRGB();

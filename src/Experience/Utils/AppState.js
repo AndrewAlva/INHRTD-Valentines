@@ -65,11 +65,14 @@ export default class AppState extends EventEmitter
         this.tapHoldMaxedOnce = false;
         this.loveName = this.utils.query('to') ? this.utils.query('to') : '';
         this.songStartTime = 0;
+        this.lockBgColor = this.utils.query('to') ? true : false;
 
         this.loadQueryStates();
     }
 
     restart() {
+        this.lockBgColor = false;
+
         this.trigger('goToCandy', [0]);
         this.trigger('goToStep', [0]);
         this.trigger('updateLoveName', ['']);
@@ -124,6 +127,7 @@ export default class AppState extends EventEmitter
         this.on('nextStep', this.nextStep.bind(this));
         this.on('prevStep', this.prevStep.bind(this));
         this.on('goToStep', this.goToStep.bind(this));
+        this.on('stepChange', this.handleStepChange.bind(this));
 
         this.on('updateLoveName', this.updateLoveName.bind(this));
     }
@@ -201,6 +205,14 @@ export default class AppState extends EventEmitter
     goToStep(newStep) {
         this.currentStep = newStep;
         this.trigger('stepChange', [this.currentStep]);
+    }
+
+    handleStepChange(newStep) {
+        if (newStep == 3 || newStep == 'received') {
+            this.lockBgColor = true;
+        } else {
+            this.lockBgColor = false;
+        }
     }
 
     updateLoveName(name) {
