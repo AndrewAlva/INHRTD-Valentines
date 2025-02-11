@@ -9,7 +9,23 @@ export default class Polyfill {
             return Math.min(Math.max(value, Math.min(min, max)), Math.max(min, max));
         };
 
+        Math.quadInOutLerp = function(k) {
+            if ((k *= 2) < 1) return 0.5 * k * k;
+            return - 0.5 * (--k * (k - 2) - 1);
+        }
+        Math.cubicOutLerp = function(k) {
+            return --k * k * k + 1;
+        }
+        Math.cubicInLerp = function(k) {
+            return k * k * k;
+        }
+        Math.cubicInOutLerp = function(k) {
+            if ((k *= 2) < 1) return 0.5 * k * k * k;
+            return 0.5 * ((k -= 2) * k * k + 2 );
+        }
+
         Math.PI_2 = Math.PI * 2;
+        Math.PI_4 = Math.PI * 4;
         Math.HALF_PI = Math.PI / 2;
         Math.QUARTER_PI = Math.PI / 4;
         Math.EIGHTH_PI = Math.PI / 8;

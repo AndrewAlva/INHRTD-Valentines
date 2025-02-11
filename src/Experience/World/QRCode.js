@@ -36,6 +36,7 @@ export default class QRCode
             uniforms: {
                 // TODO: update qr texture map with final URL qr code
                 uMap: { value: this.resources.items.qrTexture },
+                uMask: { value: this.resources.items.noiseMask },
                 uColor: { value: new THREE.Color('#7B071B').convertLinearToSRGB() },
                 uTransition: { value: 0 },
             }
@@ -56,7 +57,7 @@ export default class QRCode
     {
         // update uniforms or something
         if (this.mesh && this.shaderMaterial) {
-            this.shaderMaterial.uniforms.uTransition.value = this.appState.tapHoldAlpha;
+            this.shaderMaterial.uniforms.uTransition.value = Math.quadInOutLerp(this.appState.tapHoldAlpha);
         }
     }
 }

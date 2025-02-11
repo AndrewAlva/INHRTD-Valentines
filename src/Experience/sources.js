@@ -63,5 +63,10 @@ export default [
         type: 'texture',
         path: 'textures/displacement-map.png'
     },
+    {
+        name: 'noiseMask',
+        type: 'texture',
+        path: 'textures/noise-mask.png'
+    },
 
 ]

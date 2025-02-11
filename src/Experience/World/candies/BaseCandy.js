@@ -113,10 +113,5 @@ export default class BaseCandy
     update()
     {
         // update uniforms or something
-        if (this.mesh && this.shaderMaterial) {
-            if (this.experience.appState.currentStep == 0 && !this.device.mobile) {
-                this.mesh.material.opacity = 1 - this.appState.tapHoldAlpha;
-            }
-        }
     }
 }

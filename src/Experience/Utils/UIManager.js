@@ -181,8 +181,6 @@ export default class UIManager extends EventEmitter {
             // TODO: make sure this button animates in nicely.
             document.getElementById('receivedSpottyLink').classList.add('show');
         });
-
-        // TODO: Enable swiping interaction for candy selection.
     }
 
     switchViews(newStep) {

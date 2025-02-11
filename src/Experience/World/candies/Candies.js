@@ -31,13 +31,15 @@ export default class Candies
 
     initWrappers() {
         this.group = new THREE.Group();
+        this.desktopGroup = new THREE.Group();
         this.idleGroup = new THREE.Group();
         this.orientationGroup = new THREE.Group();
         this.sliderGroup = new THREE.Group();
 
         this.orientationGroup.add(this.sliderGroup);
         this.idleGroup.add(this.orientationGroup);
-        this.group.add(this.idleGroup);
+        this.desktopGroup.add(this.idleGroup);
+        this.group.add(this.desktopGroup);
         this.scene.add(this.group);
     }
 
@@ -132,6 +134,8 @@ export default class Candies
         } else {
             this.initMouseGaze();
         }
+
+        // TODO: Enable swiping interaction for candies rotation.
     }
 
     handleCandySwitch(newCandy, direction = 'right') {
@@ -241,6 +245,12 @@ export default class Candies
         if (this.mainCandy) this.mainCandy.update();
         if (this.secondCandy) this.secondCandy.update();
         if (this.thirdCandy) this.thirdCandy.update();
+
+        if (!this.device.mobile) {
+            // Desktop version, candies only show/hide with QR code.
+            this.desktopGroup.scale.setScalar( 1 - Math.cubicInOutLerp(this.appState.tapHoldAlpha) );
+            this.desktopGroup.rotation.y = Math.quadInOutLerp(this.appState.tapHoldAlpha) * Math.PI_2;
+        }
     }
 
     animateIn(params = {}) {
