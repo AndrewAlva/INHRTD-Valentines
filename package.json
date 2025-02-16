@@ -15,6 +15,7 @@
     "vite-plugin-restart": "^0.4.1"
   },
   "dependencies": {
+    "@activetheory/split-text": "^1.1.2",
     "@unseenco/taxi": "^1.7.0",
     "gsap": "^3.12.5",
     "lil-gui": "^0.19.2",

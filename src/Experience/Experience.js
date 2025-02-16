@@ -11,6 +11,7 @@ import Resources from './Utils/Resources.js'
 import GlobalEvents from './Utils/GlobalEvents.js'
 import AppState from './Utils/AppState.js'
 import UIManager from './Utils/UIManager.js'
+import SplitManager from './Utils/SplitManager.js'
 import Device from './Utils/Device.js'
 import Utils from './Utils/Utils.js'
 import Share from './Utils/Share.js'
@@ -47,6 +48,7 @@ export default class Experience
         this.appState = new AppState()
         this.music = new Music()
         this.UIManager = new UIManager()
+        this.SplitManager = new SplitManager()
         this.debug = new Debug()
         this.sizes = new Sizes()
         this.time = new Time()
@@ -71,6 +73,8 @@ export default class Experience
     addHandlers() {
         // Assets loaded and 3D ready
         this.events.on('siteReady', _ => {
+            this.events.trigger('beforeSiteAnimateIn');
+
             // TODO: Loader animateOut and remove it from view to not blocking everything.
             // TODO: animate in website
             this.showFirstView();
