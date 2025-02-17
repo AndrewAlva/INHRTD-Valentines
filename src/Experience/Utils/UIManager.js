@@ -190,6 +190,8 @@ export default class UIManager extends EventEmitter {
         this.views[this.currentView].classList.remove('show');
         this.views[newStep].classList.add('show');
         this.currentView = newStep;
+
+        this.events.trigger('viewChanged', [newStep]);
     }
 
     toggleTransition(e) {

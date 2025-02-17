@@ -303,3 +303,11 @@ svg {
         opacity: 1;
     }
 }
+
+.perspectiveText {
+    perspective: 800px;
+
+    .char {
+        display: inline-block;
+    }
+}
