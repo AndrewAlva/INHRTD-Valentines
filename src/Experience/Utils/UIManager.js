@@ -38,6 +38,8 @@ export default class UIManager extends EventEmitter {
         this.views.receivedLanding = document.getElementById('receivedLandingContainer');
         this.views.received = document.getElementById('receivedContainer');
 
+        this.tapUIIcons = document.querySelectorAll('.tapUI');
+
         if (this.appState.activeFlow == 'receive') {
             document.getElementById('recipientName').innerHTML = this.appState.loveName;
             document.getElementById('recipientNameLanding').innerHTML = this.appState.loveName;
@@ -195,6 +197,9 @@ export default class UIManager extends EventEmitter {
         // console.log(e.type, e);
         this.tapHolding = !this.tapHolding;
 
+        // On Desktop, don't spoil the song and background change.
+        if (!this.device.mobile) return;
+
         // TODO: Improve tweening timing to match between colors in 3D and DOM.
         if (this.tapHolding) {
             this.appState.lastBgColor = this.appState.bgColor;
@@ -305,19 +310,29 @@ export default class UIManager extends EventEmitter {
             this.appState.tapHoldAlpha -= this.transitionSpeed;
         }
 
+        this.appState.tapHoldAlpha = Math.clamp(this.appState.tapHoldAlpha);
+
         if (this.appState.tapHoldAlpha >= this.tapHoldThreshold) {
             this.appState.tapHoldMaxedOnce = true;
             this.appState.trigger('tapHoldMaxedOnce');
         }
-        
-        this.appState.tapHoldAlpha = Math.clamp(this.appState.tapHoldAlpha);
 
-        for (const key in this.views) {
-            if (Object.prototype.hasOwnProperty.call(this.views, key)) {
-                const view = this.views[key];
-                view.style.opacity = 1 - this.appState.tapHoldAlpha;
+
+        // On desktop, don't fade out UI elements, only Tap UI icons.
+        if (this.device.mobile) {
+            for (const key in this.views) {
+                if (Object.prototype.hasOwnProperty.call(this.views, key)) {
+                    const view = this.views[key];
+                    view.style.opacity = 1 - this.appState.tapHoldAlpha;
+                }
+            }
+        } else {
+            for (const key in this.tapUIIcons) {
+                if (Object.prototype.hasOwnProperty.call(this.tapUIIcons, key)) {
+                    const icon = this.tapUIIcons[key];
+                    icon.style.opacity = 1 - this.appState.tapHoldAlpha;
+                }
             }
         }
     }
 }
-//test

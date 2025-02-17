@@ -69,7 +69,7 @@ export default class DarkBackground
     update()
     {
         // update uniforms or something
-        if (this.mesh && this.shaderMaterial) {
+        if (this.mesh && this.shaderMaterial && this.device.mobile) {
             this.shaderMaterial.uniforms.uTransition.value.x = Math.cubicInLerp(this.appState.tapHoldAlpha);
             this.shaderMaterial.uniforms.uTransition.value.y += (this.shaderMaterial.uniforms.uTransition.value.x - this.shaderMaterial.uniforms.uTransition.value.y) * 0.02;
             this.shaderMaterial.uniforms.uTime.value = this.time.elapsed / 1000;
