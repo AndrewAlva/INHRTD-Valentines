@@ -1,49 +1,41 @@
 import SplitText from '@activetheory/split-text';
 import { gsap } from "gsap";
-import Experience from '../Experience.js'
+import BaseTransitions from './BaseTransitions.js'
 
-export default class SplitManager {
+export default class LandingTransitions extends BaseTransitions {
     constructor() {
-        this.experience = new Experience();
-        this.events = this.experience.events;
-        this.appState = this.experience.appState;
-        this.UIManager = this.experience.UIManager;
+        super();
+        this.initUI();
 
-        this.initContainers();
-        this.initSplitChars();
         this.addHandlers();
     }
 
-    initContainers() {
-        this.splitLanding = {};
+    initUI() {
+        this.heading = {};
+
+        this.heading.top = new SplitText('#splitLandingTop', {
+            type: 'chars',
+        });
+        this.heading.mid = new SplitText('#splitLandingMid', {
+            type: 'chars',
+        });
+        this.heading.bottom = new SplitText('#splitLandingBottom', {
+            type: 'chars',
+        });
     }
 
-    initSplitChars() {
-        this.splitLanding.top = new SplitText('#splitLandingTop', {
-            type: 'chars',
-        });
-        this.splitLanding.mid = new SplitText('#splitLandingMid', {
-            type: 'chars',
-        });
-        this.splitLanding.bottom = new SplitText('#splitLandingBottom', {
-            type: 'chars',
-        });
-
-        console.log(this.splitLanding);
-    }
-
-    setInitialStates() {
-        this.splitLanding.top.chars.forEach((char, index) => {
+    setInitialStates()  {
+        this.heading.top.chars.forEach((char, index) => {
             char.style.opacity = 0;
             char.style.transform = `translate3d(${index * 2}px, -5px, 0) rotateX(-90deg)`;
             char.style.transformOrigin = 'top';
         });
-        this.splitLanding.mid.chars.forEach((char, index) => {
+        this.heading.mid.chars.forEach((char, index) => {
             char.style.opacity = 0;
             char.style.transform = `translate3d(${index * 2}px, 2px, 0) rotateX(-90deg)`;
             char.style.transformOrigin = 'bottom';
         });
-        this.splitLanding.bottom.chars.forEach((char, index) => {
+        this.heading.bottom.chars.forEach((char, index) => {
             char.style.opacity = 0;
             char.style.transform = `translate3d(${index * 2}px, 10px, 0) rotateX(-90deg)`;
             char.style.transformOrigin = 'bottom';
@@ -51,32 +43,23 @@ export default class SplitManager {
     }
 
 
+
+    //////////////////////////
+    // Handlers
     addHandlers() {
-        this.events.on('beforeSiteAnimateIn', this.handleBeforeSiteAnimateIn.bind(this));
         this.appState.on('updateLoveName', this.handleLoveName.bind(this));
-
-        this.events.on('viewChanged', this.handleViewChanged.bind(this));
-    }
-
-    handleBeforeSiteAnimateIn() {
-        this.setInitialStates();
     }
 
     handleLoveName() {
         // 
     }
 
-    handleViewChanged(view) {
-        console.log('split handle', view);
-        switch(view) {
-            case 0:
-                this.animateInLanding();
-                break;
-        }
-    }
 
 
-    animateInLanding() {
+    //////////////////////////
+    // Animate IN / OUT
+    animateIn() {
+        console.log('animateIn LandingTransitions')
         //////////////////////////////////////////
         // Mobile Landing
         var topLineDelay = 0.3;
@@ -86,7 +69,7 @@ export default class SplitManager {
             delay: topLineDelay,
             ease: 'power2.out'
         });
-        this.splitLanding.top.chars.forEach((char, index) => {
+        this.heading.top.chars.forEach((char, index) => {
             gsap.to(char, {
                 duration: 1,
                 opacity: 1,
@@ -97,7 +80,7 @@ export default class SplitManager {
                 ease: 'power2.out'
             });
         });
-        this.splitLanding.top.chars.forEach((char, index) => {
+        this.heading.top.chars.forEach((char, index) => {
             gsap.to(char, {
                 duration: 2.5,
                 opacity: 1,
@@ -115,7 +98,7 @@ export default class SplitManager {
             delay: midLineDelay,
             ease: 'power2.out'
         });
-        this.splitLanding.mid.chars.forEach((char, index) => {
+        this.heading.mid.chars.forEach((char, index) => {
             gsap.to(char, {
                 duration: 1,
                 x: 0,
@@ -125,7 +108,7 @@ export default class SplitManager {
                 ease: 'power2.out'
             });
         });
-        this.splitLanding.mid.chars.forEach((char, index) => {
+        this.heading.mid.chars.forEach((char, index) => {
             gsap.to(char, {
                 duration: 2.5,
                 opacity: 1,
@@ -143,7 +126,7 @@ export default class SplitManager {
             delay: bottomLineDelay,
             ease: 'power2.out'
         });
-        this.splitLanding.bottom.chars.forEach((char, index) => {
+        this.heading.bottom.chars.forEach((char, index) => {
             gsap.to(char, {
                 duration: 1,
                 x: 0,
@@ -153,7 +136,7 @@ export default class SplitManager {
                 ease: 'power2.out'
             });
         });
-        this.splitLanding.bottom.chars.forEach((char, index) => {
+        this.heading.bottom.chars.forEach((char, index) => {
             gsap.to(char, {
                 duration: 2.5,
                 opacity: 1,
@@ -161,5 +144,10 @@ export default class SplitManager {
                 ease: 'power2.out'
             });
         });
+    }
+
+    animateOut() {
+        console.log('animateOut LandingTransitions')
+        // 
     }
 }

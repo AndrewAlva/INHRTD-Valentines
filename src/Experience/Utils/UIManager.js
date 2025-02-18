@@ -13,7 +13,8 @@ export default class UIManager extends EventEmitter {
         this.device = this.experience.device
         this.events = this.experience.events
         this.appState = this.experience.appState
-        this.currentView = this.appState.currentStep
+        this.currentView = null
+        this.prevView = null
         this.music = this.experience.music
         
         this.tapHoldThreshold = 1; // how many seconds to hold to finish transition.
@@ -186,9 +187,12 @@ export default class UIManager extends EventEmitter {
     }
 
     switchViews(newStep) {
+        // console.log('this.currentView:', this.currentView, '. newStep:', newStep);
+
         // TODO: Polish show/hide animations.
-        this.views[this.currentView].classList.remove('show');
+        if (this.views[this.currentView]) this.views[this.currentView].classList.remove('show');
         this.views[newStep].classList.add('show');
+        this.prevView = this.currentView;
         this.currentView = newStep;
 
         this.events.trigger('viewChanged', [newStep]);

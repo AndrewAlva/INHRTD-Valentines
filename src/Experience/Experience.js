@@ -11,7 +11,7 @@ import Resources from './Utils/Resources.js'
 import GlobalEvents from './Utils/GlobalEvents.js'
 import AppState from './Utils/AppState.js'
 import UIManager from './Utils/UIManager.js'
-import SplitManager from './Utils/SplitManager.js'
+import UITransitionsManager from './Views/UITransitionsManager.js'
 import Device from './Utils/Device.js'
 import Utils from './Utils/Utils.js'
 import Share from './Utils/Share.js'
@@ -48,7 +48,7 @@ export default class Experience
         this.appState = new AppState()
         this.music = new Music()
         this.UIManager = new UIManager()
-        this.SplitManager = new SplitManager()
+        this.UITransitionsManager = new UITransitionsManager()
         this.debug = new Debug()
         this.sizes = new Sizes()
         this.time = new Time()
