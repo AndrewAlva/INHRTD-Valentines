@@ -1,7 +1,15 @@
 import SplitText from '@activetheory/split-text';
 import { gsap } from "gsap";
 import Experience from '../Experience.js'
+
 import LandingTransitions from './LandingTransitions.js'
+import NameTransitions from './NameTransitions.js'
+import SelectTransitions from './SelectTransitions.js'
+import ShareTransitions from './ShareTransitions.js'
+import NotificationTransitions from './NotificationTransitions.js'
+import DesktopTransitions from './DesktopTransitions.js'
+import ReceivedLandingTransitions from './ReceivedLandingTransitions.js'
+import ReceivedTransitions from './ReceivedTransitions.js'
 
 export default class UITransitionsManager {
     constructor() {
@@ -18,13 +26,13 @@ export default class UITransitionsManager {
     initTransitions()  {
         this.transitions = {};
         this.transitions[0] = new LandingTransitions();
-        // this.transitions[1] = 
-        // this.transitions[2] = 
-        // this.transitions[3] = 
-        // this.transitions.notification = 
-        // this.transitions.desktop = 
-        // this.transitions.receivedLanding = 
-        // this.transitions.received = 
+        this.transitions[1] = new NameTransitions();
+        this.transitions[2] = new SelectTransitions();
+        this.transitions[3] = new ShareTransitions();
+        this.transitions.notification = new NotificationTransitions();
+        this.transitions.desktop = new DesktopTransitions();
+        this.transitions.receivedLanding = new ReceivedLandingTransitions();
+        this.transitions.received = new ReceivedTransitions();
     }
 
 
