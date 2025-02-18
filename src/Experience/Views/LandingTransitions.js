@@ -12,19 +12,15 @@ export default class LandingTransitions extends BaseTransitions {
 
     initUI() {
         this.heading = {};
+        this.heading.top = new SplitText('#splitLandingTop', { type: 'chars' });
+        this.heading.mid = new SplitText('#splitLandingMid', { type: 'chars' });
+        this.heading.bottom = new SplitText('#splitLandingBottom', { type: 'chars' });
 
-        this.heading.top = new SplitText('#splitLandingTop', {
-            type: 'chars',
-        });
-        this.heading.mid = new SplitText('#splitLandingMid', {
-            type: 'chars',
-        });
-        this.heading.bottom = new SplitText('#splitLandingBottom', {
-            type: 'chars',
-        });
+        this.bottom = new SplitText('#splitLandingBottomBox', { type: 'words' });
     }
 
     setInitialStates()  {
+        // HEADING BOX
         this.heading.top.chars.forEach((char, index) => {
             char.style.opacity = 0;
             char.style.transform = `translate3d(${index * 2}px, -5px, 0) rotateX(-90deg)`;
@@ -40,6 +36,16 @@ export default class LandingTransitions extends BaseTransitions {
             char.style.transform = `translate3d(${index * 2}px, 10px, 0) rotateX(-90deg)`;
             char.style.transformOrigin = 'bottom';
         });
+
+
+        // BOTTOM BOX
+        this.bottom.words.forEach((word, index) => {
+            word.style.opacity = 0;
+            word.style.transform = `translate3d(0, 20px, 0)`;
+        });
+
+
+        // BUTTON
     }
 
 
@@ -60,8 +66,8 @@ export default class LandingTransitions extends BaseTransitions {
     // Animate IN / OUT
     animateIn() {
         console.log('animateIn LandingTransitions')
-        //////////////////////////////////////////
-        // Mobile Landing
+        ///////////////////////////////////////////////////////////////////////
+        // HEADING BOX
         var topLineDelay = 0.3;
         gsap.from('#splitLandingTop', {
             duration: 1.5,
@@ -141,6 +147,26 @@ export default class LandingTransitions extends BaseTransitions {
                 duration: 2.5,
                 opacity: 1,
                 delay: bottomLineDelay + (index * 0.05),
+                ease: 'power2.out'
+            });
+        });
+
+
+        ///////////////////////////////////////////////////////////////////////
+        // BOTTOM BOX
+        this.bottom.words.forEach((word, index) => {
+            gsap.to(word, {
+                duration: 0.7,
+                y: 0,
+                delay: bottomLineDelay + (index * 0.075),
+                ease: 'power2.out'
+            });
+        });
+        this.bottom.words.forEach((word, index) => {
+            gsap.to(word, {
+                duration: 1.2,
+                opacity: 1,
+                delay: bottomLineDelay + (index * 0.075),
                 ease: 'power2.out'
             });
         });
