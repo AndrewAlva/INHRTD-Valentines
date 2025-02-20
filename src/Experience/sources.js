@@ -32,6 +32,11 @@ export default [
         type: 'gltfModel',
         path: 'models/Fox/glTF/Fox.gltf'
     },
+    {
+        name: 'heartModelGLTF',
+        type: 'gltfModel',
+        path: 'models/Candies/heart.gltf'
+    },
 
     {
         name: 'candyModel',
@@ -52,6 +57,11 @@ export default [
         name: 'candyRoughnessMap',
         type: 'texture',
         path: 'models/Candies/textures/reflections.jpg'
+    },
+    {
+        name: 'candyMetalnessMap',
+        type: 'texture',
+        path: 'models/Candies/textures/metalness.jpg'
     },
     {
         name: 'mineMSDF',

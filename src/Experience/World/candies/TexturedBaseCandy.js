@@ -3,7 +3,7 @@ import Experience from '../../Experience.js'
 import testVertexShader from '../../shaders/test/vertex.glsl'
 import testFragmentShader from '../../shaders/test/fragment.glsl'
 
-export default class BaseCandy
+export default class TexturedBaseCandy
 {
     constructor(params = {})
     {
@@ -19,7 +19,7 @@ export default class BaseCandy
         if(this.debug.active)
         {
             this.debugFolder = this.debug.ui.addFolder(params.name || 'Candy')
-            this.debugFolder.close()
+            if (params.name != 'Candy1') this.debugFolder.close()
         }
 
         this.initModel(params);
@@ -31,6 +31,8 @@ export default class BaseCandy
         this.group = new THREE.Group();
 
         this.model = this.resources.items.candyModel.clone();
+        this.model.children.pop();
+        
         this.model.position.set(0.175, -0.45, 1.05);
         this.model.scale.setScalar(0.185);
 
@@ -43,14 +45,16 @@ export default class BaseCandy
         });
 
         this.pbrMaterial = new THREE.MeshStandardMaterial({
-            color: params.color || '#FFA5C2',
-            // map: this.resources.items.candyDiffuseMap,
+            // color: params.color || '#FFA5C2',
+            map: this.resources.items.candyDiffuseMap,
             // normalMap: this.resources.items.candyNormalsMap,
 
             roughnessMap: this.resources.items.candyRoughnessMap,
-            metalnessMap: this.resources.items.candyRoughnessMap,
-            // roughness: 0.362,
-            // metalness: 0.071,
+            roughness: 2.25,
+            // roughness: 0.0362,
+
+            metalnessMap: this.resources.items.candyMetalnessMap,
+            metalness: 0,
             transparent: true,
         });
 
@@ -59,13 +63,20 @@ export default class BaseCandy
             vertexShader: testVertexShader,
             fragmentShader: testFragmentShader,
             side: THREE.DoubleSide
-        })
+        });
 
 
         this.mesh = this.model.children[0];
         this.mesh.material = this.pbrMaterial;
         this.mesh.receiveShadow = true
+
+        // Debug
+        if(this.debug.active) {
+            this.debugFolder.add(this.mesh.material, 'roughness').min(0).max(3).step(0.001).name('roughness')
+            this.debugFolder.add(this.mesh.material, 'metalness').min(0).max(3).step(0.001).name('metalness')
+        }
         
+
 
         this.rotationGroup = new THREE.Group();
         this.rotationGroup.rotation.x = -Math.PI / 24;
