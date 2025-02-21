@@ -45,9 +45,9 @@ export default class Candies
     }
 
     initCandies() {
-        this.mainCandy =    new TexturedBaseCandy({ inactive: this.appState.currentCandy != 0, color: '#FFA5C2', name: 'Candy1' });
-        this.secondCandy =  new TexturedBaseCandy({ inactive: this.appState.currentCandy != 1, color: '#A0CDE9', name: 'Candy2' });
-        this.thirdCandy =   new TexturedBaseCandy({ inactive: this.appState.currentCandy != 2, color: '#9BE6CF', name: 'Candy3' });
+        this.mainCandy =    new BaseCandy({ inactive: this.appState.currentCandy != 0, color: '#FFA5C2', name: 'Candy1' });
+        this.secondCandy =  new BaseCandy({ inactive: this.appState.currentCandy != 1, color: '#A0CDE9', name: 'Candy2' });
+        this.thirdCandy =   new BaseCandy({ inactive: this.appState.currentCandy != 2, color: '#9BE6CF', name: 'Candy3' });
 
         this.sliderGroup.add(this.mainCandy.group, this.secondCandy.group, this.thirdCandy.group)
         this.candiesArray = [ this.mainCandy, this.secondCandy, this.thirdCandy ];

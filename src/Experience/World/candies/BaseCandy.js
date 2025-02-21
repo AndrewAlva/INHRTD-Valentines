@@ -31,6 +31,7 @@ export default class BaseCandy
         this.group = new THREE.Group();
 
         this.model = this.resources.items.candyModel.clone();
+        this.model.children.pop();
         this.model.position.set(0.175, -0.45, 1.05);
         this.model.scale.setScalar(0.185);
 
