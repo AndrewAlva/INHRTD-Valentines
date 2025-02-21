@@ -19,6 +19,9 @@ export default class LandingTransitions extends BaseTransitions {
         this.bottom = new SplitText('#splitLandingBottomBox', { type: 'words' });
         this.btnLabel = new SplitText('#splitLandingBtnLabel', { type: 'words' });
         this.bottomBtn = document.getElementById('landingBtn');
+
+        this.bellBtn = document.getElementById('bellBtn');
+        this.bellLabel = document.getElementById('bellLabel');
     }
 
     setInitialStates()  {
@@ -55,6 +58,11 @@ export default class LandingTransitions extends BaseTransitions {
 
         this.bottomBtnInset = 50;
         this.bottomBtn.style.clipPath = `inset(0% ${this.bottomBtnInset}% round 25px)`;
+
+
+        // NOTIFICATION HEADER (BELL)
+        this.bellBtn.style.clipPath = 'inset(50% round 15px)';
+        this.bellLabel.style.clipPath = 'xywh(100% 0 100% 100% round 15px 0 15px 15px)';
     }
 
 
@@ -198,6 +206,23 @@ export default class LandingTransitions extends BaseTransitions {
                 delay: bottomBoxDelay + 1 + (index * 0.005),
                 ease: 'power2.out'
             });
+        });
+
+
+        ///////////////////////////////////////////////////////////////////////
+        // NOTIFICATION HEADER (BELL)
+        const header = 3.5;
+        gsap.to(this.bellBtn, {
+            duration: 0.5,
+            clipPath: 'inset(0% round 15px)',
+            delay: header,
+            ease: 'power2.out'
+        });
+        gsap.to(this.bellLabel, {
+            duration: 1.2,
+            clipPath: 'xywh(0% 0 100% 100% round 15px 0 15px 15px)',
+            delay: header + 0.3,
+            ease: 'power2.inOut'
         });
     }
 
