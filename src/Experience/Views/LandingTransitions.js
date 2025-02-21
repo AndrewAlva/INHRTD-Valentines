@@ -17,6 +17,8 @@ export default class LandingTransitions extends BaseTransitions {
         this.heading.bottom = new SplitText('#splitLandingBottom', { type: 'chars' });
 
         this.bottom = new SplitText('#splitLandingBottomBox', { type: 'words' });
+        this.btnLabel = new SplitText('#splitLandingBtnLabel', { type: 'words' });
+        this.bottomBtn = document.getElementById('landingBtn');
     }
 
     setInitialStates()  {
@@ -39,13 +41,20 @@ export default class LandingTransitions extends BaseTransitions {
 
 
         // BOTTOM BOX
-        this.bottom.words.forEach((word, index) => {
+        this.bottom.words.forEach((word) => {
             word.style.opacity = 0;
             word.style.transform = `translate3d(0, 20px, 0)`;
         });
-
-
+        
+        
         // BUTTON
+        this.btnLabel.words.forEach((word) => {
+            word.style.opacity = 0;
+            word.style.transform = `translate3d(0, 15px, 0)`;
+        });
+
+        this.bottomBtnInset = 50;
+        this.bottomBtn.style.clipPath = `inset(0% ${this.bottomBtnInset}% round 25px)`;
     }
 
 
@@ -154,11 +163,12 @@ export default class LandingTransitions extends BaseTransitions {
 
         ///////////////////////////////////////////////////////////////////////
         // BOTTOM BOX
+        const bottomBoxDelay = 1.7;
         this.bottom.words.forEach((word, index) => {
             gsap.to(word, {
                 duration: 0.7,
                 y: 0,
-                delay: bottomLineDelay + (index * 0.075),
+                delay: bottomBoxDelay + (index * 0.075),
                 ease: 'power2.out'
             });
         });
@@ -166,7 +176,26 @@ export default class LandingTransitions extends BaseTransitions {
             gsap.to(word, {
                 duration: 1.2,
                 opacity: 1,
-                delay: bottomLineDelay + (index * 0.075),
+                delay: bottomBoxDelay + (index * 0.075),
+                ease: 'power2.out'
+            });
+        });
+
+        gsap.to(this, {
+            duration: 1.2,
+            bottomBtnInset: 0,
+            delay: bottomBoxDelay + 0.85,
+            ease: 'power2.out',
+            onUpdate: () => {
+                this.bottomBtn.style.clipPath = `inset(0% ${this.bottomBtnInset}% round 25px)`;
+            }
+        });
+        this.btnLabel.words.forEach((word, index) => {
+            gsap.to(word, {
+                duration: 0.6,
+                y: 0,
+                opacity: 1,
+                delay: bottomBoxDelay + 1 + (index * 0.005),
                 ease: 'power2.out'
             });
         });
