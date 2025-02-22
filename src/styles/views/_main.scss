@@ -78,7 +78,8 @@ svg {
     padding-top: global.$header-height;
     box-sizing: border-box;
     text-align: center;
-    
+    overflow: hidden;
+
     .innerWrapper {
         position: relative;
         width: 100%;
