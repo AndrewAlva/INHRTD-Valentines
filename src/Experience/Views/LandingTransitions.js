@@ -116,13 +116,44 @@ export default class LandingTransitions extends BaseTransitions {
 
         ///////////////////////////////////////////////////////////////////////
         // BUTTON
+        this.bottomBtnInset = { val: 50 };
+        this.bottomBtn.style.clipPath = `inset(0% ${this.bottomBtnInset.val}% round 25px)`;
+
         this.btnLabel.words.forEach((word) => {
             word.style.opacity = 0;
             word.style.transform = `translate3d(0, 15px, 0)`;
         });
-
-        this.bottomBtnInset = 50;
-        this.bottomBtn.style.clipPath = `inset(0% ${this.bottomBtnInset}% round 25px)`;
+        this.bottomBoxBtnTL = gsap.timeline()
+            .set(this.bottomBtnInset, {
+                val: 50,
+                onUpdate: () => {
+                    this.bottomBtn.style.clipPath = `inset(0% ${this.bottomBtnInset.val}% round 25px)`;
+                }
+            }).set(this.bottomBtn, {
+                opacity: 0
+            }).set(this.btnLabel.words, {
+                opacity: 0,
+                y: 15
+            }).to(this.bottomBtnInset, {
+                duration: 1.2,
+                val: 0,
+                ease: 'power2.out',
+                onUpdate: () => {
+                    this.bottomBtn.style.clipPath = `inset(0% ${this.bottomBtnInset.val}% round 25px)`;
+                }
+            }, bottomBoxDelay + 0.65)
+            .to(this.bottomBtn, {
+                duration: 0.5,
+                opacity: 1,
+                ease: 'power2.out',
+            }, '<')
+            .to(this.btnLabel.words, {
+                duration: 0.6,
+                y: 0,
+                opacity: 1,
+                stagger: 0.005,
+                ease: 'power2.out'
+            }, `<+0.15`);
 
 
         // NOTIFICATION HEADER (BELL)
@@ -157,28 +188,8 @@ export default class LandingTransitions extends BaseTransitions {
 
         ///////////////////////////////////////////////////////////////////////
         // BOTTOM BOX
-        const bottomBoxDelay = 1.7;
-
         this.bottomBoxWordsTL.restart();
-
-        gsap.to(this, {
-            duration: 1.2,
-            bottomBtnInset: 0,
-            delay: bottomBoxDelay + 0.85,
-            ease: 'power2.out',
-            onUpdate: () => {
-                this.bottomBtn.style.clipPath = `inset(0% ${this.bottomBtnInset}% round 25px)`;
-            }
-        });
-        this.btnLabel.words.forEach((word, index) => {
-            gsap.to(word, {
-                duration: 0.6,
-                y: 0,
-                opacity: 1,
-                delay: bottomBoxDelay + 1 + (index * 0.005),
-                ease: 'power2.out'
-            });
-        });
+        this.bottomBoxBtnTL.restart();
 
 
         ///////////////////////////////////////////////////////////////////////
