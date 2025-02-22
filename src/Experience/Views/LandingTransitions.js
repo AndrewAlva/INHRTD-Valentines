@@ -25,22 +25,115 @@ export default class LandingTransitions extends BaseTransitions {
     }
 
     setInitialStates()  {
+        ///////////////////////////////////////////////////////////////////////
         // HEADING BOX
-        this.heading.top.chars.forEach((char, index) => {
-            char.style.opacity = 0;
-            char.style.transform = `translate3d(${index * 2}px, -5px, 0) rotateX(-90deg)`;
-            char.style.transformOrigin = 'top';
-        });
-        this.heading.mid.chars.forEach((char, index) => {
-            char.style.opacity = 0;
-            char.style.transform = `translate3d(${index * 2}px, 2px, 0) rotateX(-90deg)`;
-            char.style.transformOrigin = 'bottom';
-        });
-        this.heading.bottom.chars.forEach((char, index) => {
-            char.style.opacity = 0;
-            char.style.transform = `translate3d(${index * 2}px, 10px, 0) rotateX(-90deg)`;
-            char.style.transformOrigin = 'bottom';
-        });
+        //// TOP LINE
+        var topLineDelay = 0.3;
+        this.headingTopLineTL = gsap.timeline()
+            .set('#splitLandingTop', { scale: 1.75 })
+            .to('#splitLandingTop', {
+                duration: 1.5,
+                scale: 1,
+                delay: topLineDelay,
+                ease: 'power2.out'
+            });
+
+        this.headingTopCharsTL = gsap.timeline()
+            .set(this.heading.top.chars, { 
+                opacity: 0,
+                x: (i) => 10 * (i - ((this.heading.top.chars.length - 1) / 2)),
+                y: -10,
+                rotateX: -100,
+            }).to(this.heading.top.chars, {
+                duration: 0.6,
+                x: 0,
+                y: 0,
+                rotateX: 0,
+                delay: topLineDelay,
+                stagger: 0.04,
+                ease: 'power2.out'
+            })
+            .to(this.heading.top.chars, {
+                duration: 2.5,
+                opacity: 1,
+                delay: topLineDelay,
+                stagger: 0.04,
+                ease: 'power2.out'
+            }, "<-0.35");
+
+        this.heading.top.chars.forEach((char) => { char.style.transformOrigin = 'top'; });
+
+
+        //// MID LINE
+        var midLineDelay = topLineDelay + 0.1;
+        this.headingMidLineTL = gsap.timeline()
+            .set('#splitLandingMid', { scale: 1.75 })
+            .to('#splitLandingMid', {
+                duration: 1.5,
+                scale: 1,
+                delay: midLineDelay,
+                ease: 'power2.out'
+            });
+        
+        this.headingMidCharsTL = gsap.timeline()
+            .set(this.heading.mid.chars, {
+                opacity: 0,
+                x: (i) => 10 * (i - ((this.heading.mid.chars.length - 1) / 2)),
+                y: 5,
+                rotateX: -100,
+            }).to(this.heading.mid.chars, {
+                duration: 0.6,
+                x: 0,
+                y: 0,
+                rotateX: 0,
+                delay: midLineDelay,
+                stagger: 0.04,
+                ease: 'power2.out'
+            }).to(this.heading.mid.chars, {
+                duration: 2.5,
+                opacity: 1,
+                delay: midLineDelay,
+                stagger: 0.04,
+                ease: 'power2.out'
+            }, "<-0.35");
+
+        this.heading.mid.chars.forEach((char) => { char.style.transformOrigin = 'bottom'; });
+
+
+        //// BOTTOM LINE
+        var bottomLineDelay = midLineDelay + 0.17;
+        this.headingBottomLineTL = gsap.timeline()
+            .set('#splitLandingBottom', { scale: 1.75 })
+            .to('#splitLandingBottom', {
+                duration: 1.5,
+                scale: 1,
+                delay: bottomLineDelay,
+                ease: 'power2.out'
+            });
+
+        this.headingBottomCharsTL = gsap.timeline()
+            .set(this.heading.bottom.chars, {
+                opacity: 0,
+                x: (i) => 10 * (i - ((this.heading.bottom.chars.length - 1) / 2)),
+                y: 10,
+                rotateX: -100,
+            }).to(this.heading.bottom.chars, {
+                duration: 0.6,
+                x: 0,
+                y: 0,
+                rotateX: 0,
+                delay: bottomLineDelay + 0.3,
+                stagger: 0.04,
+                ease: 'power2.out'
+            }).to(this.heading.bottom.chars, {
+                duration: 2.5,
+                opacity: 1,
+                delay: bottomLineDelay,
+                stagger: 0.04,
+                ease: 'power2.out'
+            }, "<-0.7");
+
+        this.heading.bottom.chars.forEach((char) => { char.style.transformOrigin = 'bottom'; });
 
 
         // BOTTOM BOX
@@ -85,88 +178,15 @@ export default class LandingTransitions extends BaseTransitions {
         console.log('animateIn LandingTransitions')
         ///////////////////////////////////////////////////////////////////////
         // HEADING BOX
-        var topLineDelay = 0.3;
-        gsap.from('#splitLandingTop', {
-            duration: 1.5,
-            scale: 1.75,
-            delay: topLineDelay,
-            ease: 'power2.out'
-        });
-        this.heading.top.chars.forEach((char, index) => {
-            gsap.to(char, {
-                duration: 1,
-                opacity: 1,
-                x: 0,
-                y: 0,
-                rotateX: 0,
-                delay: topLineDelay + (index * 0.05),
-                ease: 'power2.out'
-            });
-        });
-        this.heading.top.chars.forEach((char, index) => {
-            gsap.to(char, {
-                duration: 2.5,
-                opacity: 1,
-                delay: topLineDelay + (index * 0.05),
-                ease: 'power2.out'
-            });
-        });
 
+        this.headingTopLineTL.restart();
+        this.headingTopCharsTL.restart();
 
+        this.headingMidLineTL.restart();
+        this.headingMidCharsTL.restart();
 
-        var midLineDelay = 0.5;
-        gsap.from('#splitLandingMid', {
-            duration: 1.5,
-            scale: 1.75,
-            delay: midLineDelay,
-            ease: 'power2.out'
-        });
-        this.heading.mid.chars.forEach((char, index) => {
-            gsap.to(char, {
-                duration: 1,
-                x: 0,
-                y: 0,
-                rotateX: 0,
-                delay: midLineDelay + (index * 0.05),
-                ease: 'power2.out'
-            });
-        });
-        this.heading.mid.chars.forEach((char, index) => {
-            gsap.to(char, {
-                duration: 2.5,
-                opacity: 1,
-                delay: midLineDelay + (index * 0.05),
-                ease: 'power2.out'
-            });
-        });
-
-
-
-        var bottomLineDelay = 0.7;
-        gsap.from('#splitLandingBottom', {
-            duration: 1.5,
-            scale: 1.75,
-            delay: bottomLineDelay,
-            ease: 'power2.out'
-        });
-        this.heading.bottom.chars.forEach((char, index) => {
-            gsap.to(char, {
-                duration: 1,
-                x: 0,
-                y: 0,
-                rotateX: 0,
-                delay: bottomLineDelay + (index * 0.05),
-                ease: 'power2.out'
-            });
-        });
-        this.heading.bottom.chars.forEach((char, index) => {
-            gsap.to(char, {
-                duration: 2.5,
-                opacity: 1,
-                delay: bottomLineDelay + (index * 0.05),
-                ease: 'power2.out'
-            });
-        });
+        this.headingBottomLineTL.restart();
+        this.headingBottomCharsTL.restart();
 
 
         ///////////////////////////////////////////////////////////////////////
@@ -228,6 +248,6 @@ export default class LandingTransitions extends BaseTransitions {
 
     animateOut() {
         console.log('animateOut LandingTransitions')
-        // 
+        // TODO: refactor animate in to use timeline to test if it can reverse it.
     }
 }

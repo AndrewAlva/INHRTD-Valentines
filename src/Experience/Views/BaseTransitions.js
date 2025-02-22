@@ -13,7 +13,7 @@ export default class BaseTransitions {
     }
 
     setInitialStates()  {
-        console.log('BaseTransitions setInitialStates, overwrite it in child class');
+        console.log("BaseTransitions setInitialStates, overwrite it in child's class");
     }
 
 
