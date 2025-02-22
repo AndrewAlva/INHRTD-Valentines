@@ -84,7 +84,8 @@ export default class LandingTransitions extends BaseTransitions {
                 rotateX: 0,
                 stagger: 0.04,
                 ease: 'power2.out'
-            }, topLineDelay ).to(this.headingBoxChars, {
+            }, topLineDelay )
+            .to(this.headingBoxChars, {
                 duration: 2.5,
                 opacity: 1,
                 stagger: 0.04,
@@ -94,10 +95,23 @@ export default class LandingTransitions extends BaseTransitions {
 
         ///////////////////////////////////////////////////////////////////////
         // BOTTOM BOX
-        this.bottom.words.forEach((word) => {
-            word.style.opacity = 0;
-            word.style.transform = `translate3d(0, 20px, 0)`;
-        });
+        const bottomBoxDelay = 1.7;
+        this.bottomBoxWordsTL = gsap.timeline()
+            .set(this.bottom.words, {
+                opacity: 0,
+                y: 15
+            }).to(this.bottom.words, {
+                duration: 0.5,
+                y: 0,
+                stagger: 0.05,
+                ease: 'power2.out'
+            }, `<+${bottomBoxDelay}`)
+            .to(this.bottom.words, {
+                duration: 0.7,
+                opacity: 1,
+                stagger: 0.05,
+                ease: 'power2.out'
+            }, `<`);
 
 
         ///////////////////////////////////////////////////////////////////////
@@ -144,22 +158,8 @@ export default class LandingTransitions extends BaseTransitions {
         ///////////////////////////////////////////////////////////////////////
         // BOTTOM BOX
         const bottomBoxDelay = 1.7;
-        this.bottom.words.forEach((word, index) => {
-            gsap.to(word, {
-                duration: 0.7,
-                y: 0,
-                delay: bottomBoxDelay + (index * 0.075),
-                ease: 'power2.out'
-            });
-        });
-        this.bottom.words.forEach((word, index) => {
-            gsap.to(word, {
-                duration: 1.2,
-                opacity: 1,
-                delay: bottomBoxDelay + (index * 0.075),
-                ease: 'power2.out'
-            });
-        });
+
+        this.bottomBoxWordsTL.restart();
 
         gsap.to(this, {
             duration: 1.2,
