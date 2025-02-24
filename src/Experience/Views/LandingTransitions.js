@@ -34,6 +34,7 @@ export default class LandingTransitions extends BaseTransitions {
         var midLineDelay = topLineDelay + 0.1;
         var bottomLineDelay = midLineDelay + 0.17;
 
+        // PER LINE
         this.headingBoxLinesTL = gsap.timeline()
             .set('#splitLandingTop', { scale: 1.65 })
             .set('#splitLandingMid', { scale: 1.65 })
@@ -55,7 +56,7 @@ export default class LandingTransitions extends BaseTransitions {
             }, `<+${bottomLineDelay}`);
 
 
-        //// TOP LINE CHARS
+        //// PER CHARACTER
         this.headingBoxChars = gsap.utils.toArray([
             this.heading.top.chars,
             this.heading.mid.chars,
@@ -93,6 +94,7 @@ export default class LandingTransitions extends BaseTransitions {
             }, "<");
 
 
+
         ///////////////////////////////////////////////////////////////////////
         // BOTTOM BOX
         const bottomBoxDelay = 1.7;
@@ -112,6 +114,7 @@ export default class LandingTransitions extends BaseTransitions {
                 stagger: 0.05,
                 ease: 'power2.out'
             }, `<`);
+
 
 
         ///////////////////////////////////////////////////////////////////////
@@ -156,9 +159,27 @@ export default class LandingTransitions extends BaseTransitions {
             }, `<+0.15`);
 
 
+
+        ///////////////////////////////////////////////////////////////////////
         // NOTIFICATION HEADER (BELL)
-        this.bellBtn.style.clipPath = 'inset(50% round 15px)';
-        this.bellLabel.style.clipPath = 'xywh(100% 0 100% 100% round 15px 0 15px 15px)';
+        const headerBellDelay = 3.5;
+        this.bellNotificationTL = gsap.timeline()
+            .set(this.bellBtn, {
+                clipPath: 'inset(50% round 15px)',
+            })
+            .set(this.bellLabel, {
+                clipPath: 'xywh(100% 0 100% 100% round 15px 0 15px 15px)',
+            })
+            .to(this.bellBtn, {
+                duration: 0.5,
+                clipPath: 'inset(0% round 15px)',
+                ease: 'power2.out'
+            }, `<+${headerBellDelay}`)
+            .to(this.bellLabel, {
+                duration: 1.2,
+                clipPath: 'xywh(0% 0 100% 100% round 15px 0 15px 15px)',
+                ease: 'power2.inOut'
+            }, '<+0.3');
     }
 
 
@@ -179,38 +200,19 @@ export default class LandingTransitions extends BaseTransitions {
     // Animate IN / OUT
     animateIn() {
         console.log('animateIn LandingTransitions')
-        ///////////////////////////////////////////////////////////////////////
         // HEADING BOX
-
         this.headingBoxLinesTL.restart();
         this.headingBoxCharsTL.restart();
 
-
-        ///////////////////////////////////////////////////////////////////////
         // BOTTOM BOX
         this.bottomBoxWordsTL.restart();
         this.bottomBoxBtnTL.restart();
 
-
-        ///////////////////////////////////////////////////////////////////////
         // NOTIFICATION HEADER (BELL)
-        const header = 3.5;
-        gsap.to(this.bellBtn, {
-            duration: 0.5,
-            clipPath: 'inset(0% round 15px)',
-            delay: header,
-            ease: 'power2.out'
-        });
-        gsap.to(this.bellLabel, {
-            duration: 1.2,
-            clipPath: 'xywh(0% 0 100% 100% round 15px 0 15px 15px)',
-            delay: header + 0.3,
-            ease: 'power2.inOut'
-        });
+        this.bellNotificationTL.play();
     }
 
     animateOut() {
         console.log('animateOut LandingTransitions')
-        // TODO: refactor animate in to use timeline to test if it can reverse it.
     }
 }
