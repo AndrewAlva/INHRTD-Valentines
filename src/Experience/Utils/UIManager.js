@@ -188,13 +188,8 @@ export default class UIManager extends EventEmitter {
 
     switchViews(newStep) {
         // console.log('this.currentView:', this.currentView, '. newStep:', newStep);
-
-        // TODO: Polish show/hide animations.
-        if (this.views[this.currentView]) this.views[this.currentView].classList.remove('show');
-        this.views[newStep].classList.add('show');
         this.prevView = this.currentView;
         this.currentView = newStep;
-
         this.events.trigger('viewChanged', [newStep]);
     }
 

@@ -11,7 +11,7 @@ export default class NameTransitions extends BaseTransitions {
     }
 
     initUI() {
-        // 
+        this.view = document.getElementById('nameContainer');
     }
 
     setInitialStates()  {
@@ -36,10 +36,11 @@ export default class NameTransitions extends BaseTransitions {
     // Animate IN / OUT
     animateIn() {
         console.log('animateIn NameTransitions');
+        this.view.classList.add('show');
     }
 
     animateOut() {
         console.log('animateOut NameTransitions');
-        // 
+        this.view.classList.remove('show');
     }
 }

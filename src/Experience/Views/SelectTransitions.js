@@ -11,7 +11,7 @@ export default class SelectTransitions extends BaseTransitions {
     }
 
     initUI() {
-        // 
+        this.view = document.getElementById('selectContainer');
     }
 
     setInitialStates()  {
@@ -36,10 +36,11 @@ export default class SelectTransitions extends BaseTransitions {
     // Animate IN / OUT
     animateIn() {
         console.log('animateIn SelectTransitions');
+        this.view.classList.add('show');
     }
 
     animateOut() {
         console.log('animateOut SelectTransitions');
-        // 
+        this.view.classList.remove('show');
     }
 }

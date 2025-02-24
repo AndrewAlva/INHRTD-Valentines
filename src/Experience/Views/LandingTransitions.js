@@ -11,6 +11,8 @@ export default class LandingTransitions extends BaseTransitions {
     }
 
     initUI() {
+        this.view = document.getElementById('landingContainer');
+
         this.heading = {};
         this.heading.top = new SplitText('#splitLandingTop', { type: 'chars' });
         this.heading.mid = new SplitText('#splitLandingMid', { type: 'chars' });
@@ -200,6 +202,9 @@ export default class LandingTransitions extends BaseTransitions {
     // Animate IN / OUT
     animateIn() {
         console.log('animateIn LandingTransitions')
+
+        this.view.classList.add('show');
+
         // HEADING BOX
         this.headingBoxLinesTL.restart();
         this.headingBoxCharsTL.restart();
@@ -214,5 +219,8 @@ export default class LandingTransitions extends BaseTransitions {
 
     animateOut() {
         console.log('animateOut LandingTransitions')
+
+        // After finishing gsap timeline or some delay, animate out.
+        this.view.classList.remove('show');
     }
 }

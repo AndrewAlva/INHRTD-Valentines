@@ -11,7 +11,7 @@ export default class ReceivedTransitions extends BaseTransitions {
     }
 
     initUI() {
-        // 
+        this.view = document.getElementById('receivedContainer');
     }
 
     setInitialStates()  {
@@ -36,10 +36,11 @@ export default class ReceivedTransitions extends BaseTransitions {
     // Animate IN / OUT
     animateIn() {
         console.log('animateIn ReceivedTransitions');
+        this.view.classList.add('show');
     }
 
     animateOut() {
         console.log('animateOut ReceivedTransitions');
-        // 
+        this.view.classList.remove('show');
     }
 }

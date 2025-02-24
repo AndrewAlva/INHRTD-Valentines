@@ -11,7 +11,7 @@ export default class ShareTransitions extends BaseTransitions {
     }
 
     initUI() {
-        // 
+        this.view = document.getElementById('shareContainer');
     }
 
     setInitialStates()  {
@@ -36,10 +36,11 @@ export default class ShareTransitions extends BaseTransitions {
     // Animate IN / OUT
     animateIn() {
         console.log('animateIn ShareTransitions');
+        this.view.classList.add('show');
     }
 
     animateOut() {
         console.log('animateOut ShareTransitions');
-        // 
+        this.view.classList.remove('show');
     }
 }

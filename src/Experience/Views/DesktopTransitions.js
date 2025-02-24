@@ -11,7 +11,7 @@ export default class DesktopTransitions extends BaseTransitions {
     }
 
     initUI() {
-        // 
+        this.view = document.getElementById('desktopSplashContainer');
     }
 
     setInitialStates()  {
@@ -36,10 +36,11 @@ export default class DesktopTransitions extends BaseTransitions {
     // Animate IN / OUT
     animateIn() {
         console.log('animateIn DesktopTransitions');
+        this.view.classList.add('show');
     }
 
     animateOut() {
         console.log('animateOut DesktopTransitions');
-        // 
+        this.view.classList.remove('show');
     }
 }

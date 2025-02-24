@@ -11,7 +11,7 @@ export default class NotificationTransitions extends BaseTransitions {
     }
 
     initUI() {
-        // 
+        this.view = document.getElementById('notificationContainer');
     }
 
     setInitialStates()  {
@@ -36,10 +36,11 @@ export default class NotificationTransitions extends BaseTransitions {
     // Animate IN / OUT
     animateIn() {
         console.log('animateIn NotificationTransitions');
+        this.view.classList.add('show');
     }
 
     animateOut() {
         console.log('animateOut NotificationTransitions');
-        // 
+        this.view.classList.remove('show');
     }
 }

@@ -11,7 +11,7 @@ export default class ReceivedLandingTransitions extends BaseTransitions {
     }
 
     initUI() {
-        // 
+        this.view = document.getElementById('receivedLandingContainer');
     }
 
     setInitialStates()  {
@@ -36,10 +36,11 @@ export default class ReceivedLandingTransitions extends BaseTransitions {
     // Animate IN / OUT
     animateIn() {
         console.log('animateIn ReceivedLandingTransitions');
+        this.view.classList.add('show');
     }
 
     animateOut() {
         console.log('animateOut ReceivedLandingTransitions');
-        // 
+        this.view.classList.remove('show');
     }
 }
