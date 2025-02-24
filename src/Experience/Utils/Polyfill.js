@@ -49,6 +49,9 @@ export default class Polyfill {
             return it;
         }
 
+
+        ////////////////////////////////////////////////////////
+        // STRINGS
         Object.defineProperty(String.prototype, 'includes', {
             writable: true,
             value: function(str) {
@@ -57,6 +60,25 @@ export default class Polyfill {
                     if (!!~this.indexOf(notRegExp(str[i]))) return true;
                 }
                 return false;
+            }
+        });
+
+
+        ////////////////////////////////////////////////////////
+        // ARRAYS
+        Object.defineProperty(Array.prototype, 'shuffle', {
+            writable: true,
+            value: function() {
+                let currentIndex = this.length, randomIndex;
+        
+                while (currentIndex != 0) {
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex--;
+        
+                    [this[currentIndex], this[randomIndex]] = [this[randomIndex], this[currentIndex]];
+                }
+        
+                return this;
             }
         });
     }

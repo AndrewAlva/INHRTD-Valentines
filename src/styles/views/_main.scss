@@ -131,10 +131,12 @@ svg {
         .lineWrap {
             position: relative;
             display: block;
+            max-width: unset !important;
         }
         .inlineWrap {
             position: relative;
             display: inline-block;
+            max-width: unset !important;
         }
     }
 
