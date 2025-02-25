@@ -4,16 +4,18 @@ main#notificationContainer.viewContainer
     div.innerWrapper
         header.headingBox
             h1.h1 
-                span.lineWrap Hey you! 
-                span.lineWrap It's me, your secret
-                span.lineWrap valentine
-                    img(class="hearts" src="icons/hearts.svg" alt="hearts icon")
+                span#splitNotificationTop.inlineWrap Hey you! 
+                span#splitNotificationMid.inlineWrap It's me, your secret
+                span#splitNotificationBottom.inlineWrap valentine
+
+                img(class="hearts" src="icons/hearts.svg" alt="hearts icon")
 
         section.bottomBox
             div.bodyBox
-                p.reading I’m always thinking about you since I saw you last time waiting for the bus so, I wrote a song for you.
+                p#splitNotificationBottomBox.reading I’m always thinking about you since I saw you last time waiting for the bus so, I wrote a song for you.
 
             footer.actionBox
-                a(href="https://open.spotify.com/track/1VhSYtPI5bHv8HjK8JHILA?si=f0ecbe0ee9dc40fc", target="_blank", rel="noopener noreferrer").btn.btn--mainAction
-                    span.label Listen the song
+                a#notificationBtn.btn.btn--mainAction(href="https://open.spotify.com/track/1VhSYtPI5bHv8HjK8JHILA?si=f0ecbe0ee9dc40fc", target="_blank", rel="noopener noreferrer")
+                    span#splitNotificationBtnLabel.label Listen the song
+                    span.label
                         img(class="hearts" src="icons/hearts.svg" alt="hearts icon")
