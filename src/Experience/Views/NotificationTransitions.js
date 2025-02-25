@@ -137,7 +137,7 @@ export default class NotificationTransitions extends BaseTransitions {
         ///////////////////////////////////////////////////////////////////////
         // BOTTOM BOX
         const bottomBoxDelay = 1.7;
-        this.bottomBoxWordsTL = gsap.timeline({ paused: true })
+        if (!this.bottomBoxWordsTL) this.bottomBoxWordsTL = gsap.timeline({ paused: true })
             .set(this.bottom.words, {
                 opacity: 0,
                 y: 15
@@ -205,7 +205,8 @@ export default class NotificationTransitions extends BaseTransitions {
 
     setAnimateOutTimelines() {
         // PER WORD
-        this.outTimelines = {};
+        if (this.outTimelines == undefined) this.outTimelines = {};
+
         this.outTimelines.wordsTL = gsap.timeline({ paused: true })
             .set(this.animateOutWords, { opacity: 1 })
             .to(this.animateOutWords, {
@@ -260,7 +261,7 @@ export default class NotificationTransitions extends BaseTransitions {
     // Animate IN / OUT
     animateIn() {
         console.log('animateIn NotificationTransitions');
-        
+
         this.headingSplitInChars();
         this.setAnimateInTimelines();
 
@@ -271,7 +272,7 @@ export default class NotificationTransitions extends BaseTransitions {
         this.headingBoxCharsTL.play();
 
         // BOTTOM BOX
-        this.bottomBoxWordsTL.play();
+        this.bottomBoxWordsTL.restart();
         this.bottomBoxBtnTL.restart();
 
         // RESTART HEADER (close button)
@@ -280,7 +281,7 @@ export default class NotificationTransitions extends BaseTransitions {
 
     animateOut() {
         console.log('animateOut NotificationTransitions');
-        
+
         this.headingSplitInWords();
         this.setAnimateOutTimelines();
 
