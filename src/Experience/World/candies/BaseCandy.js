@@ -45,8 +45,10 @@ export default class BaseCandy
 
         this.pbrMaterial = new THREE.MeshStandardMaterial({
             color: params.color || '#FFA5C2',
-            // map: this.resources.items.candyDiffuseMap,
+            map: this.resources.items.candyDiffuseMap,
             // normalMap: this.resources.items.candyNormalsMap,
+            bumpMap: this.resources.items.candyNormalsMap,
+            bumpScale: 1,
 
             roughnessMap: this.resources.items.candyRoughnessMap,
             metalnessMap: this.resources.items.candyRoughnessMap,
