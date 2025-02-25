@@ -225,6 +225,12 @@ svg {
     opacity: 0;
 }
 
+
+// VIEWS SPECIFIC STYLES
+#landingContainer {
+    z-index: 2;
+}
+
 #receivedContainer, #receivedLandingContainer {
     padding-top: 71px;
 

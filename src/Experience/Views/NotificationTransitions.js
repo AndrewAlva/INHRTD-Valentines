@@ -262,6 +262,13 @@ export default class NotificationTransitions extends BaseTransitions {
     animateIn() {
         console.log('animateIn NotificationTransitions');
 
+        // STOP timelines animating OUT
+        if (this.outTimelines) {
+            this.outTimelines.wordsTL.pause();
+            this.outTimelines.bottomBoxBtnTL.pause();
+            this.outTimelines.headerCloseTL.pause();
+        }
+
         this.headingSplitInChars();
         this.setAnimateInTimelines();
 
@@ -281,6 +288,13 @@ export default class NotificationTransitions extends BaseTransitions {
 
     animateOut() {
         console.log('animateOut NotificationTransitions');
+
+        // STOP timelines animating IN
+        this.headingBoxLinesTL.pause();
+        this.headingBoxCharsTL.pause();
+        this.bottomBoxWordsTL.pause();
+        this.bottomBoxBtnTL.pause();
+        this.headerCloseTL.pause();
 
         this.headingSplitInWords();
         this.setAnimateOutTimelines();

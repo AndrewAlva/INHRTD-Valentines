@@ -255,8 +255,11 @@ export default class Candies
     }
 
     animateIn(params = {}) {
+        // Force "notification candy" which is #3 to be the same as the first candy
+        const CandyID = this.appState.currentCandy == 3 ? 0 : this.appState.currentCandy;
+
         // Opacity
-        gsap.to(this.candiesArray[this.appState.currentCandy].mesh.material, {
+        gsap.to(this.candiesArray[CandyID].mesh.material, {
             opacity: 1,
             ease: "power2.out",
             duration: 0.9,

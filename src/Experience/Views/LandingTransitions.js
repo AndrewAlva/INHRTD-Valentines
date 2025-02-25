@@ -278,6 +278,12 @@ export default class LandingTransitions extends BaseTransitions {
     // Animate IN / OUT
     animateIn() {
         console.log('animateIn LandingTransitions')
+        // STOP timelines animating OUT
+        if (this.outTimelines) {
+            this.outTimelines.wordsTL.pause();
+            this.outTimelines.bottomBoxBtnTL.pause();
+            this.outTimelines.bellNotificationTL.pause();
+        }
         
         this.headingSplitInChars();
         this.setAnimateInTimelines();
@@ -298,6 +304,13 @@ export default class LandingTransitions extends BaseTransitions {
 
     animateOut() {
         console.log('animateOut LandingTransitions')
+
+        // STOP timelines animating IN
+        this.headingBoxLinesTL.pause();
+        this.headingBoxCharsTL.pause();
+        this.bottomBoxWordsTL.pause();
+        this.bottomBoxBtnTL.pause();
+        this.bellNotificationTL.pause();
 
         this.headingSplitInWords();
         this.setAnimateOutTimelines();
