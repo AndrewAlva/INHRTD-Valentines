@@ -24,7 +24,6 @@ export default class LandingTransitions extends BaseTransitions {
         this.bottom = new SplitText('#splitLandingBottomBox', { type: 'words' });
         this.btnLabel = new SplitText('#splitLandingBtnLabel', { type: 'words' });
         this.bottomBtn = document.getElementById('landingBtn');
-        this.bottomBtnInset = { val: 50 };
 
         this.bellBtn = document.getElementById('bellBtn');
         this.bellLabel = document.getElementById('bellLabel');
@@ -47,15 +46,12 @@ export default class LandingTransitions extends BaseTransitions {
     headingSplitInWords() {
         this.heading.top.options.type = 'words';
         this.heading.top.split();
-        // this.heading.top.words.forEach((word) => { word.style.transformOrigin = 'top'; });
 
         this.heading.mid.options.type = 'words';
         this.heading.mid.split();
-        // this.heading.mid.words.forEach((word) => { word.style.transformOrigin = 'bottom'; });
 
         this.heading.bottom.options.type = 'words';
         this.heading.bottom.split();
-        // this.heading.bottom.words.forEach((word) => { word.style.transformOrigin = 'bottom'; });
 
         this.animateOutWords = gsap.utils.toArray([
             this.heading.top.words,
@@ -163,26 +159,21 @@ export default class LandingTransitions extends BaseTransitions {
 
         ///////////////////////////////////////////////////////////////////////
         // BUTTON
-        this.bottomBtnInset.val = 50;
-        this.bottomBtn.style.clipPath = `inset(0% ${this.bottomBtnInset.val}% round 25px)`;
-
         this.btnLabel.words.forEach((word) => {
             word.style.opacity = 0;
             word.style.transform = `translate3d(0, 15px, 0)`;
         });
         this.bottomBoxBtnTL = gsap.timeline({ paused: true })
             .set(this.bottomBtn, {
-                opacity: 0
+                opacity: 0,
+                clipPath: `inset(0% 50% round 25px)`
             }).set(this.btnLabel.words, {
                 opacity: 0,
                 y: 15
-            }).to(this.bottomBtnInset, {
+            }).to(this.bottomBtn, {
                 duration: 1.2,
-                val: 0,
+                clipPath: `inset(0% 0% round 25px)`,
                 ease: 'power2.out',
-                onUpdate: () => {
-                    this.bottomBtn.style.clipPath = `inset(0% ${this.bottomBtnInset.val}% round 25px)`;
-                }
             }, bottomBoxDelay + 0.65)
             .to(this.bottomBtn, {
                 duration: 0.5,
@@ -238,16 +229,13 @@ export default class LandingTransitions extends BaseTransitions {
 
 
         // BUTTON
-        this.bottomBtnInset.val = 0;
-        this.bottomBtn.style.clipPath = `inset(0% ${this.bottomBtnInset.val}% round 25px)`;
         this.outTimelines.bottomBoxBtnTL = gsap.timeline({ paused: true })
-            .to(this.bottomBtnInset, {
+            .set(this.bottomBtn, {
+                clipPath: `inset(0% 0.001% round 25px)`
+            }).to(this.bottomBtn, {
                 duration: 0.6,
-                val: 50,
-                ease: 'power2.out',
-                onUpdate: () => {
-                    this.bottomBtn.style.clipPath = `inset(0% ${this.bottomBtnInset.val}% round 25px)`;
-                }
+                clipPath: `inset(0% 50% round 25px)`,
+                ease: 'power2.out'
             });
 
 
