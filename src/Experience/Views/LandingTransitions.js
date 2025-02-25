@@ -24,10 +24,10 @@ export default class LandingTransitions extends BaseTransitions {
         this.bottom = new SplitText('#splitLandingBottomBox', { type: 'words' });
         this.btnLabel = new SplitText('#splitLandingBtnLabel', { type: 'words' });
         this.bottomBtn = document.getElementById('landingBtn');
+        this.bottomBtnInset = { val: 50 };
 
         this.bellBtn = document.getElementById('bellBtn');
         this.bellLabel = document.getElementById('bellLabel');
-
     }
 
     headingSplitInChars() {
@@ -163,7 +163,7 @@ export default class LandingTransitions extends BaseTransitions {
 
         ///////////////////////////////////////////////////////////////////////
         // BUTTON
-        this.bottomBtnInset = { val: 50 };
+        this.bottomBtnInset.val = 50;
         this.bottomBtn.style.clipPath = `inset(0% ${this.bottomBtnInset.val}% round 25px)`;
 
         this.btnLabel.words.forEach((word) => {
@@ -171,12 +171,7 @@ export default class LandingTransitions extends BaseTransitions {
             word.style.transform = `translate3d(0, 15px, 0)`;
         });
         this.bottomBoxBtnTL = gsap.timeline({ paused: true })
-            .set(this.bottomBtnInset, {
-                val: 50,
-                onUpdate: () => {
-                    this.bottomBtn.style.clipPath = `inset(0% ${this.bottomBtnInset.val}% round 25px)`;
-                }
-            }).set(this.bottomBtn, {
+            .set(this.bottomBtn, {
                 opacity: 0
             }).set(this.btnLabel.words, {
                 opacity: 0,
@@ -228,18 +223,52 @@ export default class LandingTransitions extends BaseTransitions {
 
     setAnimateOutTimelines() {
         // PER WORD
-        this.outTimelines = { heading: {} };
+        this.outTimelines = {};
         this.outTimelines.wordsTL = gsap.timeline({ paused: true })
             .set(this.animateOutWords, { opacity: 1 })
             .to(this.animateOutWords, {
-                duration: 0.5,
+                duration: 0.4,
                 opacity: 0,
-                stagger: 0.02,
+                stagger: 0.015,
                 ease: 'power2.out',
                 onComplete: _ => {
                     this.view.classList.remove('show');
                 }
             });
+
+
+        // BUTTON
+        this.bottomBtnInset.val = 0;
+        this.bottomBtn.style.clipPath = `inset(0% ${this.bottomBtnInset.val}% round 25px)`;
+        this.outTimelines.bottomBoxBtnTL = gsap.timeline({ paused: true })
+            .to(this.bottomBtnInset, {
+                duration: 0.6,
+                val: 50,
+                ease: 'power2.out',
+                onUpdate: () => {
+                    this.bottomBtn.style.clipPath = `inset(0% ${this.bottomBtnInset.val}% round 25px)`;
+                }
+            });
+
+
+        // NOTIFICATION HEADER (BELL)
+        this.outTimelines.bellNotificationTL = gsap.timeline({ paused: true })
+            .set(this.bellBtn, {
+                clipPath: 'inset(0% round 15px)',
+            })
+            .set(this.bellLabel, {
+                clipPath: 'xywh(0% 0 100% 100% round 15px 0 15px 15px)',
+            })
+            .to(this.bellLabel, {
+                duration: 0.3,
+                clipPath: 'xywh(100% 0 100% 100% round 15px 0 15px 15px)',
+                ease: 'power2.inOut'
+            })
+            .to(this.bellBtn, {
+                duration: 0.2,
+                clipPath: 'inset(50% round 15px)',
+                ease: 'power2.out'
+            }, '<+0.22');
     }
 
 
@@ -285,6 +314,8 @@ export default class LandingTransitions extends BaseTransitions {
         this.setAnimateOutTimelines();
 
         this.outTimelines.wordsTL.restart();
+        this.outTimelines.bottomBoxBtnTL.restart();
+        this.outTimelines.bellNotificationTL.restart();
 
         // After finishing gsap timeline or some delay, animate out.
         // this.view.classList.remove('show');
