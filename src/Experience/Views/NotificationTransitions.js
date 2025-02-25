@@ -74,7 +74,7 @@ export default class NotificationTransitions extends BaseTransitions {
         var bottomLineDelay = midLineDelay + 0.17;
 
         // PER LINE
-        this.headingBoxLinesTL = gsap.timeline({ paused: true })
+        if (!this.headingBoxLinesTL) this.headingBoxLinesTL = gsap.timeline({ paused: true })
             .set('#splitNotificationTop', { scale: 1.65 })
             .set('#splitNotificationMid', { scale: 1.65 })
             .set('#splitNotificationBottom', { scale: 1.65 })
@@ -158,11 +158,11 @@ export default class NotificationTransitions extends BaseTransitions {
 
         ///////////////////////////////////////////////////////////////////////
         // BUTTON
-        this.btnLabel.words.forEach((word) => {
-            word.style.opacity = 0;
-            word.style.transform = `translate3d(0, 15px, 0)`;
-        });
-        this.bottomBoxBtnTL = gsap.timeline({ paused: true })
+        // this.btnLabel.words.forEach((word) => {
+        //     word.style.opacity = 0;
+        //     word.style.transform = `translate3d(0, 15px, 0)`;
+        // });
+        if (!this.bottomBoxBtnTL) this.bottomBoxBtnTL = gsap.timeline({ paused: true })
             .set(this.bottomBtn, {
                 opacity: 0,
                 clipPath: `inset(0% 50% round 25px)`
@@ -173,7 +173,7 @@ export default class NotificationTransitions extends BaseTransitions {
                 duration: 1.2,
                 clipPath: `inset(0% 0% round 25px)`,
                 ease: 'power2.out',
-            }, bottomBoxDelay + 0.65)
+            }, bottomBoxDelay + 1)
             .to(this.bottomBtn, {
                 duration: 0.5,
                 opacity: 1,
@@ -191,9 +191,8 @@ export default class NotificationTransitions extends BaseTransitions {
 
         ///////////////////////////////////////////////////////////////////////
         // RESTART HEADER (close button)
-        // TODO
         const headerCloseDelay = 3.5;
-        this.headerCloseTL = gsap.timeline({ paused: true })
+        if (!this.headerCloseTL) this.headerCloseTL = gsap.timeline({ paused: true })
             .set(this.closeBtn, {
                 clipPath: 'inset(50% round 15px)',
             })
@@ -221,7 +220,7 @@ export default class NotificationTransitions extends BaseTransitions {
 
 
         // BUTTON
-        this.outTimelines.bottomBoxBtnTL = gsap.timeline({ paused: true })
+        if (!this.outTimelines.bottomBoxBtnTL) this.outTimelines.bottomBoxBtnTL = gsap.timeline({ paused: true })
             .set(this.bottomBtn, {
                 clipPath: `inset(0% 0.001% round 25px)`
             }).to(this.bottomBtn, {
@@ -232,7 +231,7 @@ export default class NotificationTransitions extends BaseTransitions {
 
 
         // RESTART HEADER (close button)
-        this.outTimelines.headerCloseTL = gsap.timeline({ paused: true })
+        if (!this.outTimelines.headerCloseTL) this.outTimelines.headerCloseTL = gsap.timeline({ paused: true })
             .set(this.closeBtn, {
                 clipPath: 'inset(0% round 15px)',
             })
@@ -268,15 +267,15 @@ export default class NotificationTransitions extends BaseTransitions {
         this.view.classList.add('show');
 
         // HEADING BOX
-        this.headingBoxLinesTL.play();
+        this.headingBoxLinesTL.restart();
         this.headingBoxCharsTL.play();
 
         // BOTTOM BOX
         this.bottomBoxWordsTL.play();
-        this.bottomBoxBtnTL.play();
+        this.bottomBoxBtnTL.restart();
 
         // RESTART HEADER (close button)
-        this.headerCloseTL.play();
+        this.headerCloseTL.restart();
     }
 
     animateOut() {
@@ -286,7 +285,7 @@ export default class NotificationTransitions extends BaseTransitions {
         this.setAnimateOutTimelines();
 
         this.outTimelines.wordsTL.play();
-        this.outTimelines.bottomBoxBtnTL.play();
-        this.outTimelines.headerCloseTL.play();
+        this.outTimelines.bottomBoxBtnTL.restart();
+        this.outTimelines.headerCloseTL.restart();
     }
 }
