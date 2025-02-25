@@ -24,6 +24,8 @@ export default class NotificationTransitions extends BaseTransitions {
         this.bottom = new SplitText('#splitNotificationBottomBox', { type: 'words' });
         this.btnLabel = new SplitText('#splitNotificationBtnLabel', { type: 'words' });
         this.bottomBtn = document.getElementById('notificationBtn');
+
+        this.closeBtn = document.querySelector('#notificationContainer .h-restart .btn');
     }
 
     headingSplitInChars() {
@@ -190,6 +192,16 @@ export default class NotificationTransitions extends BaseTransitions {
         ///////////////////////////////////////////////////////////////////////
         // RESTART HEADER (close button)
         // TODO
+        const headerCloseDelay = 3.5;
+        this.headerCloseTL = gsap.timeline({ paused: true })
+            .set(this.closeBtn, {
+                clipPath: 'inset(50% round 15px)',
+            })
+            .to(this.closeBtn, {
+                duration: 0.5,
+                clipPath: 'inset(0% round 15px)',
+                ease: 'power2.out'
+            }, `<+${headerCloseDelay}`);
     }
 
     setAnimateOutTimelines() {
@@ -220,7 +232,15 @@ export default class NotificationTransitions extends BaseTransitions {
 
 
         // RESTART HEADER (close button)
-        // TODO
+        this.outTimelines.headerCloseTL = gsap.timeline({ paused: true })
+            .set(this.closeBtn, {
+                clipPath: 'inset(0% round 15px)',
+            })
+            .to(this.closeBtn, {
+                duration: 0.2,
+                clipPath: 'inset(50% round 15px)',
+                ease: 'power2.out'
+            });
     }
 
 
@@ -248,15 +268,15 @@ export default class NotificationTransitions extends BaseTransitions {
         this.view.classList.add('show');
 
         // HEADING BOX
-        this.headingBoxLinesTL.restart();
-        this.headingBoxCharsTL.restart();
+        this.headingBoxLinesTL.play();
+        this.headingBoxCharsTL.play();
 
         // BOTTOM BOX
-        this.bottomBoxWordsTL.restart();
-        this.bottomBoxBtnTL.restart();
+        this.bottomBoxWordsTL.play();
+        this.bottomBoxBtnTL.play();
 
         // RESTART HEADER (close button)
-        // TODO
+        this.headerCloseTL.play();
     }
 
     animateOut() {
@@ -265,9 +285,8 @@ export default class NotificationTransitions extends BaseTransitions {
         this.headingSplitInWords();
         this.setAnimateOutTimelines();
 
-        this.outTimelines.wordsTL.restart();
-        this.outTimelines.bottomBoxBtnTL.restart();
-        // RESTART HEADER (close button)
-        // TODO
+        this.outTimelines.wordsTL.play();
+        this.outTimelines.bottomBoxBtnTL.play();
+        this.outTimelines.headerCloseTL.play();
     }
 }
