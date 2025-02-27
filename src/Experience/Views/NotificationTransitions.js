@@ -158,10 +158,6 @@ export default class NotificationTransitions extends BaseTransitions {
 
         ///////////////////////////////////////////////////////////////////////
         // BUTTON
-        // this.btnLabel.words.forEach((word) => {
-        //     word.style.opacity = 0;
-        //     word.style.transform = `translate3d(0, 15px, 0)`;
-        // });
         if (!this.bottomBoxBtnTL) this.bottomBoxBtnTL = gsap.timeline({ paused: true })
             .set(this.bottomBtn, {
                 opacity: 0,
