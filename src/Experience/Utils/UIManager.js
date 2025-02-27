@@ -266,13 +266,10 @@ export default class UIManager extends EventEmitter {
             // TODO: improve animate in/out of alert
             this.inputAlertContainer.classList.remove('show');
 
-            // TODO: improve animate in/out of submit button
             if (this.nameInput.value.length > 0) {
-                this.submitNameBtn.classList.add('show');
-                this.inputLabel.classList.remove('show');
+                this.events.trigger('showInputSubmit');
             } else {
-                this.submitNameBtn.classList.remove('show');
-                this.inputLabel.classList.add('show');
+                this.events.trigger('hideInputSubmit');
             }
 
             if ((e.code || e.key) && (e.code.toLowerCase() == "enter" || e.key.toLowerCase() == "enter")) {

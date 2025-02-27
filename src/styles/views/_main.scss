@@ -144,8 +144,14 @@ svg {
         position: relative;
         margin-top: -41px;
 
-        &:after {
-            content: '';
+        #nameInput {
+            pointer-events: all;
+            width: 100%;
+            text-align: center;
+        }
+
+        #inputUnderline {
+            pointer-events: none;
             display: block;
             position: absolute;
             margin: auto;
@@ -157,12 +163,6 @@ svg {
             background: linear-gradient(90deg, var(--primary) 0, var(--primary) 1px, transparent 1px, transparent 100%) bottom left / 8px 14px repeat-x;
             display: inline-block;
             padding-bottom: 3px;
-        }
-
-        #nameInput {
-            pointer-events: all;
-            width: 100%;
-            text-align: center;
         }
     }
 

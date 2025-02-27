@@ -5,15 +5,18 @@ main#nameContainer.viewContainer
 
         header.headingBox
             img(class="hearts hearts--top" src="icons/hearts.svg" alt="hearts icon")
-            h1.h1 Who is your loved one
+            h1.h1.perspectiveText
+                span#splitNameTop.inlineWrap Who is your
+                span#splitNameBottom.inlineWrap loved one
 
         section.inputBox
             input#nameInput.h1Input
             label#nameLabel.h1Label.show(for="nameInput") Place the name
 
+            span#inputUnderline
             span#alertContainer.h1Alert
 
         section.bottomBox
             footer.actionBox
                 button#submitName.btn.btn--mainAction
-                    span.label Confirm name
+                    span#splitNameBtnLabel.label Confirm name
