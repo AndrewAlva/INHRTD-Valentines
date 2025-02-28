@@ -19,6 +19,7 @@ export default class NameTransitions extends BaseTransitions {
         this.heading.top.chars.forEach((char) => { char.style.transformOrigin = 'top'; });
         this.heading.bottom.chars.forEach((char) => { char.style.transformOrigin = 'bottom'; });
         
+        this.nameInputBox = document.getElementById('nameInputBox');
         this.placeholder = new SplitText('#nameLabel', { type: 'words' });
         this.inputUnderline = document.getElementById('inputUnderline');
         this.inputLabel = document.getElementById('nameLabel');
@@ -35,7 +36,12 @@ export default class NameTransitions extends BaseTransitions {
         this.submitBtnTL = gsap.timeline({ paused: true })
             .set(this.submitBtn, {
                 opacity: 0,
-                clipPath: `inset(0% 50% round 25px)`
+                clipPath: `inset(0% 50% round 25px)`,
+                onUpdate: () => {
+                    this.submitBtn.classList.add('show');
+                    this.inputLabel.classList.remove('show');
+                    this.isSubmitBtnShown = true;
+                }
             }).set(this.btnLabel.words, {
                 opacity: 0,
                 y: 15
@@ -63,11 +69,18 @@ export default class NameTransitions extends BaseTransitions {
         this.outTimelines = {};
         this.outTimelines.submitBtnTL = gsap.timeline({ paused: true })
             .set(this.submitBtn, {
-                clipPath: `inset(0% 0.001% round 25px)`
+                clipPath: `inset(0% 0.001% round 25px)`,
+                onUpdate: () => {
+                    this.isSubmitBtnShown = false;
+                }
             }).to(this.submitBtn, {
                 duration: 0.6,
                 clipPath: `inset(0% 50% round 25px)`,
-                ease: 'power2.out'
+                ease: 'power2.out',
+                onComplete: () => {
+                    this.submitBtn.classList.remove('show');
+                    this.inputLabel.classList.add('show');
+                }
             }).to(this.btnLabel.words, {
                 duration: 0.4,
                 opacity: 0,
@@ -162,7 +175,16 @@ export default class NameTransitions extends BaseTransitions {
 
 
         ///////////////////////////////////////////////////////////////////////
-        // INPUT PLACEHOLDER
+        // INPUT 
+        // INPUT ELEMENT
+        if (!this.inputBoxTL) this.inputBoxTL = gsap.timeline({ paused: true })
+            .to(this.nameInputBox, {
+                duration: 0.001,
+                scale: 1,
+                opacity: 1,
+            });
+
+        // PLACEHOLDER
         const placeholderDelay = 1;
         if (!this.placeholderTL) this.placeholderTL = gsap.timeline({ paused: true })
             .set(this.placeholder.words, {
@@ -211,13 +233,25 @@ export default class NameTransitions extends BaseTransitions {
             .to(this.animateOutWords, {
                 duration: 0.4,
                 opacity: 0,
-                stagger: 0.015,
+                stagger: 0.03,
                 ease: 'power2.out',
                 onComplete: _ => {
                     this.view.classList.remove('show');
                 }
             });
 
+
+        // INPUT CONTAINER
+        if (!this.outTimelines.inputBoxTL) this.outTimelines.inputBoxTL = gsap.timeline({ paused: true })
+            .to(this.nameInputBox, {
+                duration: 0.4,
+                scale: 0.5,
+                opacity: 0,
+                ease: 'power2.inOut',
+                onComplete: () => {
+                    this.nameInput.value = '';
+                }
+            });
 
         // INPUT PLACEHOLDER
         if (!this.outTimelines.placeholderTL) this.outTimelines.placeholderTL = gsap.timeline({ paused: true })
@@ -253,23 +287,15 @@ export default class NameTransitions extends BaseTransitions {
     showSubmitBtn() {
         if (this.isSubmitBtnShown) return;
 
-        this.submitBtn.classList.add('show');
-        this.inputLabel.classList.remove('show');
-
         this.outTimelines.submitBtnTL.pause();
         this.submitBtnTL.restart();
-
-        this.isSubmitBtnShown = true;
     }
 
     hideSubmitBtn() {
-        this.submitBtn.classList.remove('show');
-        this.inputLabel.classList.add('show');
+        if (!this.isSubmitBtnShown) return;
 
         this.submitBtnTL.pause();
         this.outTimelines.submitBtnTL.restart();
-
-        this.isSubmitBtnShown = false;
     }
 
 
@@ -283,6 +309,7 @@ export default class NameTransitions extends BaseTransitions {
         // STOP timelines animating OUT
         if (this.animatedOutOnce) {
             this.outTimelines.wordsTL.pause();
+            this.outTimelines.inputBoxTL.pause();
             this.outTimelines.placeholderTL.pause();
             this.outTimelines.submitBtnTL.pause();
             this.outTimelines.headerBackTL.pause();
@@ -298,13 +325,14 @@ export default class NameTransitions extends BaseTransitions {
         this.headingBoxLinesTL.restart();
         this.headingBoxCharsTL.play();
 
+        // INPUT CONTAINER
+        this.inputBoxTL.restart();
         // INPUT PLACEHOLDER
         this.placeholderTL.restart();
 
         // BOTTOM BUTTON
         if (this.nameInput.value.length > 0) {
             this.submitBtnTL.restart();
-            this.isSubmitBtnShown = true;
         }
 
         // RESTART HEADER (back button)
@@ -326,11 +354,11 @@ export default class NameTransitions extends BaseTransitions {
         this.setAnimateOutTimelines();
 
         this.outTimelines.wordsTL.play();
+        this.outTimelines.inputBoxTL.restart();
         this.outTimelines.placeholderTL.restart();
-        this.outTimelines.submitBtnTL.restart();
+        if (this.isSubmitBtnShown) this.outTimelines.submitBtnTL.restart();
         this.outTimelines.headerBackTL.restart();
 
         this.animatedOutOnce = true;
-        this.isSubmitBtnShown = false;
     }
 }
