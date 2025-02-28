@@ -127,17 +127,6 @@ svg {
                 margin-left: 3px;
             }
         }
-
-        .lineWrap {
-            position: relative;
-            display: block;
-            max-width: unset !important;
-        }
-        .inlineWrap {
-            position: relative;
-            display: inline-block;
-            max-width: unset !important;
-        }
     }
 
     .inputBox {
@@ -211,6 +200,27 @@ svg {
             justify-content: space-between;
             align-items: center;
             gap: 12px;
+        }
+    }
+
+    .lineWrap {
+        position: relative;
+        display: block;
+        max-width: unset !important;
+    }
+    .inlineWrap {
+        position: relative;
+        display: inline-block;
+        max-width: unset !important;
+
+        .word {
+            float: left;
+            line-height: 0.7em;
+            margin-top: 0.1em;
+
+            &:not(:first-child) {
+                margin-left: 0.21em;
+            }
         }
     }
 }
