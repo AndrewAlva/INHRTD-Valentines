@@ -147,7 +147,6 @@ export default class UIManager extends EventEmitter {
     initNameInput() {
         this.nameInput = document.getElementById('nameInput');
         this.inputLabel = document.getElementById('nameLabel');
-        this.inputAlertContainer = document.getElementById('alertContainer');
         this.shareNameDiv = document.getElementById('shareName');
         this.submitNameBtn = document.getElementById('submitName');
 
@@ -191,6 +190,7 @@ export default class UIManager extends EventEmitter {
         this.prevView = this.currentView;
         this.currentView = newStep;
         this.events.trigger('viewChanged', [newStep]);
+        this.events.trigger('hideNameAlert');
     }
 
     toggleTransition(e) {
@@ -251,20 +251,16 @@ export default class UIManager extends EventEmitter {
         if (this.recipient.length > 0 && this.recipient.length < 15) {
             this.appState.trigger('updateLoveName', [this.recipient]);
             this.fireNextStep();
-            this.inputAlertContainer.classList.remove('show');
+            this.events.trigger('hideNameAlert');
 
         } else {
-            // TODO: Display alert/error
-            // TODO: improve animate in/out of alert
-            this.inputAlertContainer.classList.add('show');
-            this.inputAlertContainer.innerHTML = "No name detected, or it's too long.<br>Double check for me, ok sweetie? ❤";
+            this.events.trigger('showNameAlert');
         }
     }
 
     handleInputTyping(e) {
         setTimeout( () => {
-            // TODO: improve animate in/out of alert
-            this.inputAlertContainer.classList.remove('show');
+            this.events.trigger('hideNameAlert');
 
             if (this.nameInput.value.length > 0) {
                 this.events.trigger('showInputSubmit');

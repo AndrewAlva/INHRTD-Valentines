@@ -6,7 +6,6 @@ export default class NameTransitions extends BaseTransitions {
     constructor() {
         super();
         this.initUI();
-        this.setupSubmitAnimations();
         this.addHandlers();
     }
 
@@ -29,10 +28,22 @@ export default class NameTransitions extends BaseTransitions {
         this.btnLabel = new SplitText('#splitNameBtnLabel', { type: 'words' });
 
         this.backBtn = document.querySelector('#nameContainer .h-back .btn');
+
+        this.alertMsg = {};
+        this.alertMsg.top = new SplitText('#alertSplitTop', { type: 'words' });
+        this.alertMsg.bottom = new SplitText('#alertSplitBottom', { type: 'words' });
+        this.alertWords = gsap.utils.toArray([
+            this.alertMsg.top.words,
+            this.alertMsg.bottom.words,
+        ]);
+        this.inputAlertContainer = document.getElementById('alertContainer');
     }
 
-    setupSubmitAnimations() {
+    setupStaticAnimations() {
+        ///////////////////////////////////////////////////////////////////////
         // ANIMATE IN
+
+        // SUBMIT BTN
         this.submitBtnTL = gsap.timeline({ paused: true })
             .set(this.submitBtn, {
                 opacity: 0,
@@ -64,14 +75,35 @@ export default class NameTransitions extends BaseTransitions {
                 ease: 'power2.out'
             }, `<+0.15`);
 
+        // INPUT ALERT
+        this.alertTL = gsap.timeline({ paused: true })
+            .set(this.alertWords, {
+                opacity: 0,
+                y: 15,
+                onUpdate: () => {
+                    this.inputAlertContainer.classList.add('show');
+                    this.isAlertShown = true;
+                }
+            }).to(this.alertWords, {
+                duration: 0.7,
+                opacity: 1,
+                y: 0,
+                stagger: 0.05,
+                ease: 'power2.out'
+            });
 
+
+        ///////////////////////////////////////////////////////////////////////
         // ANIMATE OUT
         this.outTimelines = {};
+
+        // SUBMIT BTN
         this.outTimelines.submitBtnTL = gsap.timeline({ paused: true })
             .set(this.submitBtn, {
                 clipPath: `inset(0% 0.001% round 25px)`,
                 onUpdate: () => {
                     this.isSubmitBtnShown = false;
+                    this.inputLabel.classList.add('show');
                 }
             }).to(this.submitBtn, {
                 duration: 0.6,
@@ -79,7 +111,6 @@ export default class NameTransitions extends BaseTransitions {
                 ease: 'power2.out',
                 onComplete: () => {
                     this.submitBtn.classList.remove('show');
-                    this.inputLabel.classList.add('show');
                 }
             }).to(this.btnLabel.words, {
                 duration: 0.4,
@@ -87,6 +118,21 @@ export default class NameTransitions extends BaseTransitions {
                 stagger: 0.005,
                 ease: 'power2.out'
             }, `<`);
+
+
+        // INPUT ALERT
+        this.outTimelines.alertTL = gsap.timeline({ paused: true })
+            .to(this.alertWords, {
+                duration: 0.3,
+                opacity: 0,
+                stagger: -0.01,
+                ease: 'power2.out',
+                onStart: () => {
+                    this.isAlertShown = false;
+                }, onComplete: () => {
+                    this.inputAlertContainer.classList.remove('show');
+                }
+            });
     }
 
     headingSplitInChars() {
@@ -111,10 +157,6 @@ export default class NameTransitions extends BaseTransitions {
             this.heading.bottom.words,
         ]);
         this.animateOutWords.shuffle();
-    }
-
-    setInitialStates()  {
-        this.setAnimateInTimelines();
     }
 
     setAnimateInTimelines()  {
@@ -282,6 +324,14 @@ export default class NameTransitions extends BaseTransitions {
     addHandlers() {
         this.events.on('showInputSubmit', this.showSubmitBtn.bind(this));
         this.events.on('hideInputSubmit', this.hideSubmitBtn.bind(this));
+        
+        this.events.on('showNameAlert', this.showNameAlert.bind(this));
+        this.events.on('hideNameAlert', this.hideNameAlert.bind(this));
+    }
+
+    setInitialStates()  {
+        this.setupStaticAnimations();
+        this.setAnimateInTimelines();
     }
 
     showSubmitBtn() {
@@ -290,12 +340,20 @@ export default class NameTransitions extends BaseTransitions {
         this.outTimelines.submitBtnTL.pause();
         this.submitBtnTL.restart();
     }
-
     hideSubmitBtn() {
         if (!this.isSubmitBtnShown) return;
 
         this.submitBtnTL.pause();
         this.outTimelines.submitBtnTL.restart();
+    }
+
+    showNameAlert() {
+        if (this.isAlertShown) return;
+        this.alertTL.restart();
+    }
+    hideNameAlert() {
+        if (!this.isAlertShown) return;
+        this.outTimelines.alertTL.restart();
     }
 
 
