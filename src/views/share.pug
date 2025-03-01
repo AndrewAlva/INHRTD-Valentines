@@ -3,8 +3,10 @@ main#shareContainer.viewContainer
 
     div.innerWrapper
         header.headingBox
-            h1.h1 
-                span Share your message with 
+            h1.h1.perspectiveText
+                span#splitShareTop.inlineWrap Share your
+                span#splitShareMid.inlineWrap message with 
+                span#splitShareBottom.inlineWrap
                     span#shareName ${name}.
                 img(class="hearts hearts--share" src="icons/hearts.svg" alt="hearts icon")
 
@@ -20,10 +22,10 @@ main#shareContainer.viewContainer
 
         section.bottomBox
             div.bodyBox
-                p.reading Send a special message for your love one
+                p#splitShareBottomBox.reading Send a special message for your love one
 
             footer.actionBox
                 button#shareBtn.btn.btn--mainAction
-                    span.label Share message
+                    span#splitShareBtnLabel.label Share message
 
     span.tapHoldTrigger
