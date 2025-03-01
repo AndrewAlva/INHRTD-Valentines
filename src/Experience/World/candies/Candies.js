@@ -141,19 +141,25 @@ export default class Candies
 
     handleCandySwitch(newCandy, direction = 'right') {
         if (newCandy == 0 || newCandy == 3) {
-            this.mainCandy.model.visible = true;
-            this.secondCandy.model.visible = false;
-            this.thirdCandy.model.visible = false;
+            setTimeout(_ => {
+                this.mainCandy.model.visible = true;
+                this.secondCandy.model.visible = false;
+                this.thirdCandy.model.visible = false;
+            }, 150);
 
         } else if (newCandy == 1) {
-            this.secondCandy.model.visible = true;
-            this.mainCandy.model.visible = false;
-            this.thirdCandy.model.visible = false;
+            setTimeout(_ => {
+                this.secondCandy.model.visible = true;
+                this.mainCandy.model.visible = false;
+                this.thirdCandy.model.visible = false;
+            }, 150);
 
         } else if (newCandy == 2) {
-            this.thirdCandy.model.visible = true;
-            this.mainCandy.model.visible = false;
-            this.secondCandy.model.visible = false;
+            setTimeout(_ => {
+                this.thirdCandy.model.visible = true;
+                this.mainCandy.model.visible = false;
+                this.secondCandy.model.visible = false;
+            }, 150);
         }
 
         this.rotateCandies(1, direction);
