@@ -26,9 +26,12 @@ export default class SelectTransitions extends BaseTransitions {
         this.btnLabel = new SplitText('#selectBtnLabel', { type: 'words' });
         this.bottomBtn = document.getElementById('selectBtn');
         this.leftBtn = document.getElementById('prevCandy');
-        this.leftArrow = document.getElementById('leftArrowVector');
         this.rightBtn = document.getElementById('nextCandy');
+        this.arrowBtns = gsap.utils.toArray([this.leftBtn, this.rightBtn]);
+
+        this.leftArrow = document.getElementById('leftArrowVector');
         this.rightArrow = document.getElementById('rightArrowVector');
+        this.arrowSvgs = gsap.utils.toArray([this.leftArrow, this.rightArrow]);
 
         this.backBtn = document.querySelector('#selectContainer .h-back .btn');
     }
@@ -70,7 +73,7 @@ export default class SelectTransitions extends BaseTransitions {
 
         ///////////////////////////////////////////////////////////////////////
         // BOTTOM BOX
-        const bottomBoxDelay = 1.7;
+        const bottomBoxDelay = 1.4;
         this.bottomBoxWordsTL = gsap.timeline({ paused: true })
             .set(this.bottom.words, {
                 opacity: 0,
@@ -90,31 +93,71 @@ export default class SelectTransitions extends BaseTransitions {
 
 
         ///////////////////////////////////////////////////////////////////////
-        // BUTTON
-        this.bottomBoxBtnTL = gsap.timeline({ paused: true })
+        // BUTTONS
+        this.bottomBoxBtnsTL = gsap.timeline({ paused: true })
             .set(this.bottomBtn, {
                 opacity: 0,
                 clipPath: `inset(0% 50% round 25px)`
             }).set(this.btnLabel.words, {
                 opacity: 0,
                 y: 15
+            }).set(this.leftBtn, {
+                opacity: 0,
+                x: 20,
+                clipPath: `inset(0% 0% round 15px)`
+            }).set(this.rightBtn, {
+                opacity: 0,
+                x: -20,
+                clipPath: `inset(0% 0% round 15px)`
+            }).set(this.arrowSvgs, {
+                x: 0,
+
+
             }).to(this.bottomBtn, {
-                duration: 1.2,
+                duration: 0.9,
                 clipPath: `inset(0% 0% round 25px)`,
-                ease: 'power2.out',
+                ease: 'power3.out',
             }, bottomBoxDelay + 0.65)
             .to(this.bottomBtn, {
-                duration: 0.5,
-                opacity: 1,
-                ease: 'power2.out',
-            }, '<')
-            .to(this.btnLabel.words, {
                 duration: 0.6,
-                y: 0,
                 opacity: 1,
-                stagger: 0.005,
-                ease: 'power2.out'
-            }, `<+0.15`);
+                ease: 'power3.out',
+            }, '<')
+            .to(this.arrowBtns, {
+                duration: 0.05,
+                opacity: 1,
+                ease: 'power3.out',
+            }, '<')
+            .to(this.arrowBtns, {
+                duration: 0.7,
+                x: 0,
+                ease: 'power3.out',
+            }, '<')
+            .to(this.leftArrow, {
+                duration: 0.3,
+                x: 5,
+                ease: 'power3.out',
+            }, '<+0.05')
+            .to(this.rightArrow, {
+                duration: 0.3,
+                x: -5,
+                ease: 'power3.out',
+            }, '<')
+            .to(this.arrowSvgs, {
+                duration: 0.4,
+                x: 0,
+                ease: 'power2.out',
+            }, '<+0.3')
+            .to(this.btnLabel.words, {
+                duration: 0.05,
+                opacity: 1,
+                ease: 'power3.out'
+            }, `<-0.15`)
+            .to(this.btnLabel.words, {
+                duration: 0.7,
+                y: 0,
+                ease: 'power3.out'
+            }, `<`);
 
 
         ///////////////////////////////////////////////////////////////////////
@@ -135,14 +178,30 @@ export default class SelectTransitions extends BaseTransitions {
         this.outTimelines = {};
 
         // BUTTON
-        this.outTimelines.bottomBoxBtnTL = gsap.timeline({ paused: true })
+        this.outTimelines.bottomBoxBtnsTL = gsap.timeline({ paused: true })
             .set(this.bottomBtn, {
                 clipPath: `inset(0% 0.001% round 25px)`
+            }).set(this.arrowBtns, {
+                clipPath: `inset(0% 0% round 15px)`
+            }).set(this.arrowSvgs, {
+                x: 0
+
+
             }).to(this.bottomBtn, {
                 duration: 0.6,
                 clipPath: `inset(0% 50% round 25px)`,
-                ease: 'power2.out'
-            });
+                ease: 'power3.out'
+            })
+            .to(this.btnLabel.words, {
+                duration: 0.4,
+                opacity: 0,
+                ease: 'power3.out'
+            }, `<`)
+            .to(this.arrowBtns, {
+                duration: 0.6,
+                clipPath: `inset(15% 50% round 15px)`,
+                ease: 'power3.out'
+            }, '<');
 
         // RESTART HEADER (back button)
         this.outTimelines.headerBackTL = gsap.timeline({ paused: true })
@@ -264,7 +323,7 @@ export default class SelectTransitions extends BaseTransitions {
         // STOP timelines animating OUT
         if (this.animatedOutOnce) {
             this.outTimelines.wordsTL.pause();
-            this.outTimelines.bottomBoxBtnTL.pause();
+            this.outTimelines.bottomBoxBtnsTL.pause();
             this.outTimelines.headerBackTL.pause();
         }
 
@@ -279,7 +338,7 @@ export default class SelectTransitions extends BaseTransitions {
 
         // BOTTOM BOX
         this.bottomBoxWordsTL.restart();
-        this.bottomBoxBtnTL.restart();
+        this.bottomBoxBtnsTL.restart();
 
         // RESTART HEADER (back button)
         this.headerBackTL.restart();
@@ -292,14 +351,14 @@ export default class SelectTransitions extends BaseTransitions {
         this.headingBoxLinesTL.pause();
         this.headingBoxCharsTL.pause();
         this.bottomBoxWordsTL.pause();
-        this.bottomBoxBtnTL.pause();
+        this.bottomBoxBtnsTL.pause();
         this.headerBackTL.pause();
 
         this.headingSplitInWords();
         this.setDynamicTimelinesAnimateOut();
 
         this.outTimelines.wordsTL.play();
-        this.outTimelines.bottomBoxBtnTL.restart();
+        this.outTimelines.bottomBoxBtnsTL.restart();
         this.outTimelines.headerBackTL.restart();
 
         this.animatedOutOnce = true;
