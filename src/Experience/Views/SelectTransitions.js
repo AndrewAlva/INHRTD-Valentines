@@ -20,6 +20,7 @@ export default class SelectTransitions extends BaseTransitions {
         this.heading.top.chars.forEach((char) => { char.style.transformOrigin = 'top'; });
         this.heading.mid.chars.forEach((char) => { char.style.transformOrigin = 'bottom'; });
         this.heading.bottom.chars.forEach((char) => { char.style.transformOrigin = 'bottom'; });
+        this.heading.hearts = document.getElementById('heartsSelect');
 
         this.bottom = new SplitText('#splitSelectBottomBox', { type: 'words' });
 
@@ -54,6 +55,7 @@ export default class SelectTransitions extends BaseTransitions {
             .set('#splitSelectTop', { scale: 1.65 })
             .set('#splitSelectMid', { scale: 1.65 })
             .set('#splitSelectBottom', { scale: 1.65 })
+            .set(this.heading.hearts, { opacity: 0 })
             .to('#splitSelectTop', {
                 duration: 1.5,
                 scale: 1,
@@ -67,6 +69,11 @@ export default class SelectTransitions extends BaseTransitions {
             .to('#splitSelectBottom', {
                 duration: 1.5,
                 scale: 1,
+                ease: 'power2.out'
+            }, `<+${bottomLineDelay}`)
+            .to(this.heading.hearts, {
+                duration: 0.7,
+                opacity: 1,
                 ease: 'power2.out'
             }, `<+${bottomLineDelay}`);
 
@@ -294,6 +301,11 @@ export default class SelectTransitions extends BaseTransitions {
     setDynamicTimelinesAnimateOut() {
         this.outTimelines.wordsTL = gsap.timeline({ paused: true })
             .set(this.animateOutWords, { opacity: 1 })
+            .to(this.heading.hearts, {
+                duration: 0.4,
+                opacity: 0,
+                ease: 'power2.out'
+            })
             .to(this.animateOutWords, {
                 duration: 0.4,
                 opacity: 0,
@@ -302,7 +314,7 @@ export default class SelectTransitions extends BaseTransitions {
                 onComplete: _ => {
                     this.view.classList.remove('show');
                 }
-            });
+            }, '<');
     }
 
 

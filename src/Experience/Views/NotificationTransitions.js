@@ -20,6 +20,7 @@ export default class NotificationTransitions extends BaseTransitions {
         this.heading.top.chars.forEach((char) => { char.style.transformOrigin = 'top'; });
         this.heading.mid.chars.forEach((char) => { char.style.transformOrigin = 'bottom'; });
         this.heading.bottom.chars.forEach((char) => { char.style.transformOrigin = 'bottom'; });
+        this.heading.hearts = document.getElementById('heartsNotification');
 
         this.bottom = new SplitText('#splitNotificationBottomBox', { type: 'words' });
         this.btnLabel = new SplitText('#splitNotificationBtnLabel', { type: 'words' });
@@ -78,6 +79,7 @@ export default class NotificationTransitions extends BaseTransitions {
             .set('#splitNotificationTop', { scale: 1.65 })
             .set('#splitNotificationMid', { scale: 1.65 })
             .set('#splitNotificationBottom', { scale: 1.65 })
+            .set(this.heading.hearts, { opacity: 0 })
             .to('#splitNotificationTop', {
                 duration: 1.5,
                 scale: 1,
@@ -91,6 +93,11 @@ export default class NotificationTransitions extends BaseTransitions {
             .to('#splitNotificationBottom', {
                 duration: 1.5,
                 scale: 1,
+                ease: 'power2.out'
+            }, `<+${bottomLineDelay}`)
+            .to(this.heading.hearts, {
+                duration: 0.7,
+                opacity: 1,
                 ease: 'power2.out'
             }, `<+${bottomLineDelay}`);
 
@@ -205,6 +212,11 @@ export default class NotificationTransitions extends BaseTransitions {
 
         this.outTimelines.wordsTL = gsap.timeline({ paused: true })
             .set(this.animateOutWords, { opacity: 1 })
+            .to(this.heading.hearts, {
+                duration: 0.4,
+                opacity: 0,
+                ease: 'power2.out'
+            })
             .to(this.animateOutWords, {
                 duration: 0.4,
                 opacity: 0,
@@ -213,7 +225,7 @@ export default class NotificationTransitions extends BaseTransitions {
                 onComplete: _ => {
                     this.view.classList.remove('show');
                 }
-            });
+            }, '<');
 
 
         // BUTTON

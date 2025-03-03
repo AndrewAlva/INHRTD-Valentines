@@ -20,6 +20,7 @@ export default class ShareTransitions extends BaseTransitions {
         this.heading.top.chars.forEach((char) => { char.style.transformOrigin = 'top'; });
         this.heading.mid.chars.forEach((char) => { char.style.transformOrigin = 'bottom'; });
         this.heading.bottom.chars.forEach((char) => { char.style.transformOrigin = 'bottom'; });
+        this.heading.hearts = document.getElementById('heartsShare');
 
         this.bottom = new SplitText('#splitShareBottomBox', { type: 'words' });
 
@@ -47,6 +48,7 @@ export default class ShareTransitions extends BaseTransitions {
             .set('#splitShareTop', { scale: 1.65 })
             .set('#splitShareMid', { scale: 1.65 })
             .set('#splitShareBottom', { scale: 1.65 })
+            .set(this.heading.hearts, { opacity: 0 })
             .to('#splitShareTop', {
                 duration: 1.5,
                 scale: 1,
@@ -60,6 +62,11 @@ export default class ShareTransitions extends BaseTransitions {
             .to('#splitShareBottom', {
                 duration: 1.5,
                 scale: 1,
+                ease: 'power2.out'
+            }, `<+${bottomLineDelay}`)
+            .to(this.heading.hearts, {
+                duration: 0.7,
+                opacity: 1,
                 ease: 'power2.out'
             }, `<+${bottomLineDelay}`);
 
@@ -243,6 +250,11 @@ export default class ShareTransitions extends BaseTransitions {
     setDynamicTimelinesAnimateOut() {
         this.outTimelines.wordsTL = gsap.timeline({ paused: true })
             .set(this.animateOutWords, { opacity: 1 })
+            .to(this.heading.hearts, {
+                duration: 0.4,
+                opacity: 0,
+                ease: 'power2.out'
+            })
             .to(this.animateOutWords, {
                 duration: 0.4,
                 opacity: 0,
@@ -251,7 +263,7 @@ export default class ShareTransitions extends BaseTransitions {
                 onComplete: _ => {
                     this.view.classList.remove('show');
                 }
-            });
+            }, '<');
     }
 
 

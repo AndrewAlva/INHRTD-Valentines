@@ -17,6 +17,7 @@ export default class NameTransitions extends BaseTransitions {
         this.heading.bottom = new SplitText('#splitNameBottom', { type: 'chars' });
         this.heading.top.chars.forEach((char) => { char.style.transformOrigin = 'top'; });
         this.heading.bottom.chars.forEach((char) => { char.style.transformOrigin = 'bottom'; });
+        this.heading.hearts = document.getElementById('heartsName');
         
         this.nameInputBox = document.getElementById('nameInputBox');
         this.placeholder = new SplitText('#nameLabel', { type: 'words' });
@@ -169,6 +170,7 @@ export default class NameTransitions extends BaseTransitions {
         if (!this.headingBoxLinesTL) this.headingBoxLinesTL = gsap.timeline({ paused: true })
             .set('#splitNameTop', { scale: 1.65 })
             .set('#splitNameBottom', { scale: 1.65 })
+            .set(this.heading.hearts, { opacity: 0 })
             .to('#splitNameTop', {
                 duration: 1.5,
                 scale: 1,
@@ -177,6 +179,11 @@ export default class NameTransitions extends BaseTransitions {
             .to('#splitNameBottom', {
                 duration: 1.5,
                 scale: 1,
+                ease: 'power2.out'
+            }, `<+${bottomLineDelay}`)
+            .to(this.heading.hearts, {
+                duration: 0.7,
+                opacity: 1,
                 ease: 'power2.out'
             }, `<+${bottomLineDelay}`);
 
@@ -272,6 +279,11 @@ export default class NameTransitions extends BaseTransitions {
         // PER WORD
         this.outTimelines.wordsTL = gsap.timeline({ paused: true })
             .set(this.animateOutWords, { opacity: 1 })
+            .to(this.heading.hearts, {
+                duration: 0.4,
+                opacity: 0,
+                ease: 'power2.out'
+            })
             .to(this.animateOutWords, {
                 duration: 0.4,
                 opacity: 0,
@@ -280,7 +292,7 @@ export default class NameTransitions extends BaseTransitions {
                 onComplete: _ => {
                     this.view.classList.remove('show');
                 }
-            });
+            }, '<');
 
 
         // INPUT CONTAINER
