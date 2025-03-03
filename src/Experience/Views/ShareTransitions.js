@@ -275,6 +275,7 @@ export default class ShareTransitions extends BaseTransitions {
     }
 
     handleLoveName(name) {
+        // TODO: Polish, on reset/restart experience, wait until view is not visible to update "this.shareNameDiv.innerHTML"
         this.heading.bottom.revert();
         this.heading.bottom = null;
 
