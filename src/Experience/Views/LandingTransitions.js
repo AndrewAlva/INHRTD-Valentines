@@ -20,6 +20,7 @@ export default class LandingTransitions extends BaseTransitions {
         this.heading.top.chars.forEach((char) => { char.style.transformOrigin = 'top'; });
         this.heading.mid.chars.forEach((char) => { char.style.transformOrigin = 'bottom'; });
         this.heading.bottom.chars.forEach((char) => { char.style.transformOrigin = 'bottom'; });
+        this.heading.hearts = document.getElementById('heartsLanding');
 
         this.bottom = new SplitText('#splitLandingBottomBox', { type: 'words' });
         this.btnLabel = new SplitText('#splitLandingBtnLabel', { type: 'words' });
@@ -79,6 +80,7 @@ export default class LandingTransitions extends BaseTransitions {
             .set('#splitLandingTop', { scale: 1.65 })
             .set('#splitLandingMid', { scale: 1.65 })
             .set('#splitLandingBottom', { scale: 1.65 })
+            .set(this.heading.hearts, { opacity: 0 })
             .to('#splitLandingTop', {
                 duration: 1.5,
                 scale: 1,
@@ -92,6 +94,11 @@ export default class LandingTransitions extends BaseTransitions {
             .to('#splitLandingBottom', {
                 duration: 1.5,
                 scale: 1,
+                ease: 'power2.out'
+            }, `<+${bottomLineDelay}`)
+            .to(this.heading.hearts, {
+                duration: 0.7,
+                opacity: 1,
                 ease: 'power2.out'
             }, `<+${bottomLineDelay}`);
 
@@ -118,6 +125,7 @@ export default class LandingTransitions extends BaseTransitions {
                 x: (i) => 10 * (i - ((this.heading.bottom.chars.length - 1) / 2)),
                 y: 10,
                 rotateX: -100,
+
             }).to(this.headingBoxChars, {
                 duration: 0.6,
                 x: 0,
@@ -218,6 +226,11 @@ export default class LandingTransitions extends BaseTransitions {
 
         this.outTimelines.wordsTL = gsap.timeline({ paused: true })
             .set(this.animateOutWords, { opacity: 1 })
+            .to(this.heading.hearts, {
+                duration: 0.4,
+                opacity: 0,
+                ease: 'power2.out'
+            })
             .to(this.animateOutWords, {
                 duration: 0.4,
                 opacity: 0,
@@ -226,7 +239,7 @@ export default class LandingTransitions extends BaseTransitions {
                 onComplete: _ => {
                     this.view.classList.remove('show');
                 }
-            });
+            }, '<');
 
 
         // BUTTON
