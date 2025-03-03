@@ -259,11 +259,16 @@ export default class ShareTransitions extends BaseTransitions {
     //////////////////////////
     // Handlers
     addHandlers() {
-        this.appState.on('updateLoveName', this.handleLoveName.bind(this));
+        this.appState.on('loveNameChanged', this.handleLoveName.bind(this));
     }
 
-    handleLoveName() {
-        // 
+    handleLoveName(name) {
+        this.heading.bottom.revert();
+        this.heading.bottom = null;
+
+        this.shareNameDiv = document.getElementById('shareName');
+        this.shareNameDiv.innerHTML = name;
+        this.heading.bottom = new SplitText('#splitShareBottom', { type: 'chars' });
     }
 
 

@@ -147,7 +147,6 @@ export default class UIManager extends EventEmitter {
     initNameInput() {
         this.nameInput = document.getElementById('nameInput');
         this.inputLabel = document.getElementById('nameLabel');
-        this.shareNameDiv = document.getElementById('shareName');
         this.submitNameBtn = document.getElementById('submitName');
 
         this.submitNameBtn.addEventListener('click', this.handleNameSubmit.bind(this));
@@ -171,7 +170,6 @@ export default class UIManager extends EventEmitter {
         });
 
         this.appState.on('loveNameChanged', (name) => {
-            this.shareNameDiv.innerHTML = name;
             this.nameInput.value = name;
             if (!name) {
                 this.submitNameBtn.classList.remove('show');
