@@ -3,12 +3,11 @@ main#receivedContainer.viewContainer
 
     div.innerWrapper
         header.headingBox
-            img(class="hearts hearts--top" src="icons/hearts.svg" alt="hearts icon")
-            h1.h1
-                span.lineWrap Hey 
-                    span#recipientName
-                    span , someone
-                span.lineWrap has something to tell you
+            img(id="heartsReceived" class="hearts hearts--top" src="icons/hearts.svg" alt="hearts icon")
+            h1.h1.perspectiveText
+                span#splitReceivedTop.lineWrap Someone
+                span#splitReceivedMid.lineWrap has something
+                span#splitReceivedBottom.lineWrap to tell you
 
         div.tapUI
             div.tapUIWrapper
@@ -22,14 +21,14 @@ main#receivedContainer.viewContainer
 
         section.bottomBox
             div.bodyBox
-                p.reading Tap and hold to listen how my heart beats for you.
+                p#splitReceivedBottomBox.reading Tap and hold to listen how my heart beats for you.
 
             footer.actionBox
                 div.buttonsWrapper
-                    button.btn.btn--mainAction.nav-restart
-                        span.label Create mine
+                    button#receivedBtn.btn.btn--mainAction.nav-restart
+                        span#splitReceivedBtnLabel.label Create mine
                     
-                    a(href="https://open.spotify.com/track/1VhSYtPI5bHv8HjK8JHILA?si=f0ecbe0ee9dc40fc", target="_blank", rel="noopener noreferrer")#receivedSpottyLink.btn.btn--mainAction
-                        span.label I love the song
+                    a#receivedSpottyLink.btn.btn--mainAction(href="https://open.spotify.com/track/1VhSYtPI5bHv8HjK8JHILA?si=f0ecbe0ee9dc40fc", target="_blank", rel="noopener noreferrer")
+                        span#receivedSpottyLabel.label I love the song
 
     span.tapHoldTrigger

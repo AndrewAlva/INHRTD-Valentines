@@ -42,7 +42,7 @@ export default class UIManager extends EventEmitter {
         this.tapUIIcons = document.querySelectorAll('.tapUI');
 
         if (this.appState.activeFlow == 'receive') {
-            document.getElementById('recipientName').innerHTML = this.appState.loveName;
+            // document.getElementById('recipientName').innerHTML = this.appState.loveName + ',';
             document.getElementById('recipientNameLanding').innerHTML = this.appState.loveName;
 
             document.getElementById('deskHeading').innerHTML = 'Someone has a sweet message for you';

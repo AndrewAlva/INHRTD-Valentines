@@ -6,8 +6,6 @@ export default class ReceivedLandingTransitions extends BaseTransitions {
     constructor() {
         super();
         this.initUI();
-
-        this.addHandlers();
     }
 
     initUI() {
@@ -130,9 +128,6 @@ export default class ReceivedLandingTransitions extends BaseTransitions {
 
     //////////////////////////
     // Handlers
-    addHandlers() {
-        // 
-    }
 
 
 
