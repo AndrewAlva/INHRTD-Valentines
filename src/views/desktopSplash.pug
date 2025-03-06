@@ -1,9 +1,11 @@
 main#desktopSplashContainer.viewContainer
     div.innerWrapper
         header.headingBox
-            h1.h1.desk
-                span#deskHeading A sweet message to your loved one
-                img(class="hearts" src="icons/hearts.svg" alt="hearts icon")
+            h1.h1.desk.perspectiveText
+                span#deskHeadingTop.inlineWrap A sweet
+                span#deskHeadingMid.inlineWrap message to your
+                span#deskHeadingBottom.inlineWrap your loved one
+                img(id="heartsDesktop" class="hearts" src="icons/hearts.svg" alt="hearts icon")
         
         div.tapUI.desk
             div.tapUIWrapper
@@ -17,13 +19,6 @@ main#desktopSplashContainer.viewContainer
 
         section.bottomBox
             div.bodyBox
-                p.reading.desk
-                    span#receivedSubheading
-                        span Hey 
-                        span#deskName you
-                        span , to live the full experience please tap the heart and scan the QR Code.
-                    
-                    span#defaultSubheading
-                        span To live the full experience please tap the heart and scan the QR Code.
+                p#receivedSubheading.reading.desk To live the full experience please tap the heart and scan the QR Code.
 
     span.tapHoldTrigger
