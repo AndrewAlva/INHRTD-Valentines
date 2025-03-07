@@ -22,7 +22,6 @@ export default class DesktopTransitions extends BaseTransitions {
 
         this.bottom = new SplitText('#receivedSubheading', { type: 'words' });
 
-        this.tapUIWrapper = document.querySelector('#desktopSplashContainer .tapUIWrapper');
         this.tapUICircleLarge = document.querySelector('#desktopSplashContainer .circle--lg');
         this.tapUICircleMid = document.querySelector('#desktopSplashContainer .circle--md');
         this.tapUICircleSmall = document.querySelector('#desktopSplashContainer .circle--sm');
@@ -128,7 +127,7 @@ export default class DesktopTransitions extends BaseTransitions {
 
 
         ///////////////////////////////////////////////////////////////////////
-        // BOTTOM BOX
+        // TAP UI
         const tapUIDelay = 2.3;
         this.tapUITL = gsap.timeline({ paused: true })
             .set(this.tapUICircleLarge, { scale: 0, })
@@ -179,7 +178,6 @@ export default class DesktopTransitions extends BaseTransitions {
                     gsap.set(this.tapUICircleSmall, { clipPath: 'unset' })
                 }
             }, '<+0.1');
-
     }
 
 

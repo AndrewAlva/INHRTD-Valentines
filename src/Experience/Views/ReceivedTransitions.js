@@ -29,6 +29,11 @@ export default class ReceivedTransitions extends BaseTransitions {
         this.spottyLabel = new SplitText('#receivedSpottyLabel', { type: 'words' });
 
         this.restartBtn = document.querySelector('#receivedContainer .h-restart .btn');
+
+        this.tapUICircleLarge = document.querySelector('#receivedContainer .circle--lg');
+        this.tapUICircleMid = document.querySelector('#receivedContainer .circle--md');
+        this.tapUICircleSmall = document.querySelector('#receivedContainer .circle--sm');
+        this.tapUICircleSmallBg = document.querySelector('#receivedContainer .circle--sm .circle');
     }
 
     setInitialStates()  {
@@ -173,6 +178,60 @@ export default class ReceivedTransitions extends BaseTransitions {
                 clipPath: 'inset(0% round 15px)',
                 ease: 'power2.out'
             }, `<+${headerRestartDelay}`);
+
+
+        ///////////////////////////////////////////////////////////////////////
+        // TAP UI
+        const tapUIDelay = 2.5;
+        this.tapUITL = gsap.timeline({ paused: true })
+            .set(this.tapUICircleLarge, { scale: 0, })
+            .set(this.tapUICircleMid, { scale: 0, })
+            .set(this.tapUICircleSmall, { clipPath: 'inset(50% round 50%)' })
+            .to(this.tapUICircleLarge, {
+                duration: 1.2,
+                scale: 1,
+                ease: 'power4.out'
+            }, tapUIDelay)
+            .to(this.tapUICircleMid, {
+                duration: 1.2,
+                scale: 1,
+                ease: 'power4.out'
+            }, '<+0.15')
+            .to(this.tapUICircleSmall, {
+                duration: 1.2,
+                clipPath: 'inset(0% round 50%)',
+                ease: 'power4.out'
+            }, '<+0.15')
+            .to(this.tapUICircleLarge, {
+                duration: 0.7,
+                scale: 1.2,
+                ease: 'back.inOut',
+                yoyo: true,
+                yoyoEase: 'back.inOut',
+                repeat: -1,
+                repeatDelay: 0.5,
+            })
+            .to(this.tapUICircleMid, {
+                duration: 0.7,
+                scale: 1.2,
+                ease: 'back.inOut',
+                yoyo: true,
+                yoyoEase: 'back.inOut',
+                repeat: -1,
+                repeatDelay: 0.5,
+            }, '<+0.1')
+            .to(this.tapUICircleSmallBg, {
+                duration: 0.7,
+                scale: 1.2,
+                ease: 'back.inOut',
+                yoyo: true,
+                yoyoEase: 'back.inOut',
+                repeat: -1,
+                repeatDelay: 0.5,
+                onStart: _ => {
+                    gsap.set(this.tapUICircleSmall, { clipPath: 'unset' })
+                }
+            }, '<+0.1');
     }
 
     setTimelinesOut() {
@@ -196,6 +255,7 @@ export default class ReceivedTransitions extends BaseTransitions {
                 }
             }, '<');
 
+
         // BUTTON
         this.outTimelines.bottomBoxBtnsTL = gsap.timeline({ paused: true })
             .set(this.bottomBtn, { clipPath: `inset(0% 0.001% round 25px)` })
@@ -211,6 +271,7 @@ export default class ReceivedTransitions extends BaseTransitions {
                 ease: 'power3.out'
             }, '<');
 
+
         // RESTART HEADER (back button)
         this.outTimelines.headerRestartTL = gsap.timeline({ paused: true })
             .set(this.restartBtn, {
@@ -221,6 +282,28 @@ export default class ReceivedTransitions extends BaseTransitions {
                 clipPath: 'inset(50% round 15px)',
                 ease: 'power2.out'
             });
+
+
+        // TAP UI
+        this.outTimelines.tapUITL = gsap.timeline({ paused: true })
+            // .set(this.tapUICircleLarge, { scale: 1, })
+            // .set(this.tapUICircleMid, { scale: 1, })
+            // .set(this.tapUICircleSmall, { clipPath: 'inset(0.001% round 50%)' })
+            .to(this.tapUICircleSmall, {
+                duration: 0.9,
+                clipPath: 'inset(50% round 50%)',
+                ease: 'power4.out'
+            })
+            .to(this.tapUICircleMid, {
+                duration: 0.9,
+                scale: 0,
+                ease: 'power4.out'
+            }, '<+0.07')
+            .to(this.tapUICircleLarge, {
+                duration: 0.9,
+                scale: 0,
+                ease: 'power4.out'
+            }, '<+0.07');
     }
 
     headingSplitInWords() {
@@ -257,11 +340,12 @@ export default class ReceivedTransitions extends BaseTransitions {
         console.log('animateIn ReceivedTransitions');
         this.view.classList.add('show');
 
-        this.headingBoxLinesTL.play();
-        this.headingBoxCharsTL.play();
-        this.bottomBoxWordsTL.play();
-        this.bottomBoxBtnsTL.play();
-        this.headerRestartTL.play();
+        this.headingBoxLinesTL.restart();
+        this.headingBoxCharsTL.restart();
+        this.bottomBoxWordsTL.restart();
+        this.bottomBoxBtnsTL.restart();
+        this.headerRestartTL.restart();
+        this.tapUITL.restart();
     }
 
     animateOut() {
@@ -273,12 +357,14 @@ export default class ReceivedTransitions extends BaseTransitions {
         this.bottomBoxWordsTL.pause();
         this.bottomBoxBtnsTL.pause();
         this.headerRestartTL.pause();
+        this.tapUITL.pause();
 
         this.headingSplitInWords();
         this.setTimelinesOut();
 
-        this.outTimelines.wordsTL.play();
-        this.outTimelines.bottomBoxBtnsTL.play();
-        this.outTimelines.headerRestartTL.play();
+        this.outTimelines.wordsTL.restart();
+        this.outTimelines.bottomBoxBtnsTL.restart();
+        this.outTimelines.headerRestartTL.restart();
+        this.outTimelines.tapUITL.restart();
     }
 }

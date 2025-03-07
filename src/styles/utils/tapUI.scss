@@ -48,6 +48,10 @@
 
     svg {
         width: 16px;
+        position: absolute;
+        margin: auto;
+        top: 0; bottom: 0;
+        left: 0; right: 0;
     }
 
     &.desk {
@@ -58,10 +62,6 @@
 
         svg {
             width: 46px;
-            position: absolute;
-            margin: auto;
-            top: 0; bottom: 0;
-            left: 0; right: 0;
         }
     }
 }
