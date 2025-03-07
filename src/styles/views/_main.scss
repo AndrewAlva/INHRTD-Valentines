@@ -155,9 +155,14 @@ svg {
     }
 
     .tapUI {
-        position: relative;
-        top: 51px;
-        left: 72px;
+        position: absolute;
+        margin: auto;
+        top: 3.4vh;
+        bottom: 0;
+        left: 37.3vw;
+        right: 0;
+        width: 64px;
+        height: 64px;
     }
 
     .middleBox {
