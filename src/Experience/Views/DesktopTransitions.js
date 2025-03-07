@@ -21,6 +21,12 @@ export default class DesktopTransitions extends BaseTransitions {
         this.heading.hearts = document.getElementById('heartsDesktop');
 
         this.bottom = new SplitText('#receivedSubheading', { type: 'words' });
+
+        this.tapUIWrapper = document.querySelector('#desktopSplashContainer .tapUIWrapper');
+        this.tapUICircleLarge = document.querySelector('#desktopSplashContainer .circle--lg');
+        this.tapUICircleMid = document.querySelector('#desktopSplashContainer .circle--md');
+        this.tapUICircleSmall = document.querySelector('#desktopSplashContainer .circle--sm');
+        this.tapUICircleSmallBg = document.querySelector('#desktopSplashContainer .circle--sm .circle');
     }
 
     setInitialStates()  {
@@ -119,6 +125,61 @@ export default class DesktopTransitions extends BaseTransitions {
                 stagger: 0.05,
                 ease: 'power2.out'
             }, `<`);
+
+
+        ///////////////////////////////////////////////////////////////////////
+        // BOTTOM BOX
+        const tapUIDelay = 2.3;
+        this.tapUITL = gsap.timeline({ paused: true })
+            .set(this.tapUICircleLarge, { scale: 0, })
+            .set(this.tapUICircleMid, { scale: 0, })
+            .set(this.tapUICircleSmall, { clipPath: 'inset(50% round 50%)' })
+            .to(this.tapUICircleLarge, {
+                duration: 1.2,
+                scale: 1,
+                ease: 'power4.out'
+            }, tapUIDelay)
+            .to(this.tapUICircleMid, {
+                duration: 1.2,
+                scale: 1,
+                ease: 'power4.out'
+            }, '<+0.15')
+            .to(this.tapUICircleSmall, {
+                duration: 1.2,
+                clipPath: 'inset(0% round 50%)',
+                ease: 'power4.out'
+            }, '<+0.15')
+            .to(this.tapUICircleLarge, {
+                duration: 0.7,
+                scale: 1.2,
+                ease: 'back.inOut',
+                yoyo: true,
+                yoyoEase: 'back.inOut',
+                repeat: -1,
+                repeatDelay: 0.5,
+            })
+            .to(this.tapUICircleMid, {
+                duration: 0.7,
+                scale: 1.2,
+                ease: 'back.inOut',
+                yoyo: true,
+                yoyoEase: 'back.inOut',
+                repeat: -1,
+                repeatDelay: 0.5,
+            }, '<+0.1')
+            .to(this.tapUICircleSmallBg, {
+                duration: 0.7,
+                scale: 1.2,
+                ease: 'back.inOut',
+                yoyo: true,
+                yoyoEase: 'back.inOut',
+                repeat: -1,
+                repeatDelay: 0.5,
+                onStart: _ => {
+                    gsap.set(this.tapUICircleSmall, { clipPath: 'unset' })
+                }
+            }, '<+0.1');
+
     }
 
 
@@ -137,5 +198,6 @@ export default class DesktopTransitions extends BaseTransitions {
         this.headingBoxLinesTL.play();
         this.headingBoxCharsTL.play();
         this.bottomBoxWordsTL.play();
+        this.tapUITL.play();
     }
 }

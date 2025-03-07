@@ -37,6 +37,11 @@
                 width: 45.65%;
                 height: 45.65%;
                 opacity: 1;
+                background-color: transparent;
+
+                .circle {
+                    opacity: 1;
+                }
             }
         }
     }
@@ -53,6 +58,10 @@
 
         svg {
             width: 46px;
+            position: absolute;
+            margin: auto;
+            top: 0; bottom: 0;
+            left: 0; right: 0;
         }
     }
 }
