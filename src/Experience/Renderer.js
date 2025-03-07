@@ -3,6 +3,8 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { DotScreenPass } from 'three/examples/jsm/postprocessing/DotScreenPass.js'
 import { BokehPass } from 'three/examples/jsm/postprocessing/BokehPass.js'
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
+import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js'
 import Experience from './Experience.js'
 
 export default class Renderer
@@ -97,6 +99,11 @@ export default class Renderer
         this.dotScreenPass = new DotScreenPass(new THREE.Vector2(0, 0), Math.PI / 2, 0.5);
         this.dotScreenPass.enabled = false
         this.effectComposer.addPass(this.dotScreenPass)
+
+
+        // FIX COLOR SPACE
+        this.gammaCorrectionPass = new ShaderPass(GammaCorrectionShader)
+        this.effectComposer.addPass(this.gammaCorrectionPass)
     }
 
     resize()
