@@ -152,6 +152,13 @@ export default class UIManager extends EventEmitter {
         this.nameInput.addEventListener('focus', this.handleInputFocus.bind(this));
     }
 
+    formatName() {
+        let name = this.nameInput.value.trim();
+        name = name.replace(/\b\w/g, (char) => char.toUpperCase());
+
+        return name;
+    }
+
 
     addHandlers() {
         this.appState.on('stepChange', (newStep) => {
@@ -242,7 +249,8 @@ export default class UIManager extends EventEmitter {
     }
 
     handleNameSubmit() {
-        this.recipient = this.nameInput.value.trim();
+        this.recipient = this.formatName(this.nameInput.value);
+
         if (this.recipient.length > 0 && this.recipient.length < 15) {
             this.appState.trigger('updateLoveName', [this.recipient]);
             this.fireNextStep();
