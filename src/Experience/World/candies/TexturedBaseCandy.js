@@ -47,14 +47,16 @@ export default class TexturedBaseCandy
         this.pbrMaterial = new THREE.MeshStandardMaterial({
             // color: params.color || '#FFA5C2',
             map: this.resources.items.candyDiffuseMap,
+            bumpMap: this.resources.items.candyNormalsMap,
+            bumpScale: 0.5,
             // normalMap: this.resources.items.candyNormalsMap,
 
             roughnessMap: this.resources.items.candyRoughnessMap,
-            roughness: 2.25,
+            roughness: 0.68,
             // roughness: 0.0362,
 
             metalnessMap: this.resources.items.candyMetalnessMap,
-            metalness: 0,
+            metalness: 0.14,
             transparent: true,
         });
 
@@ -74,6 +76,7 @@ export default class TexturedBaseCandy
         if(this.debug.active) {
             this.debugFolder.add(this.mesh.material, 'roughness').min(0).max(3).step(0.001).name('roughness')
             this.debugFolder.add(this.mesh.material, 'metalness').min(0).max(3).step(0.001).name('metalness')
+            this.debugFolder.add(this.mesh.material, 'bumpScale').min(0).max(3).step(0.001).name('bumpScale')
         }
         
 
