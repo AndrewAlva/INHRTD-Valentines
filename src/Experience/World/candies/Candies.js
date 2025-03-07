@@ -259,10 +259,11 @@ export default class Candies
         if (this.secondCandy) this.secondCandy.update();
         if (this.thirdCandy) this.thirdCandy.update();
 
-        if (!this.device.mobile) {
-            // Desktop version, candies only show/hide with QR code.
-            this.desktopGroup.scale.setScalar( 1 - Math.cubicInOutLerp(this.appState.tapHoldAlpha) );
-            this.desktopGroup.rotation.y = Math.quadInOutLerp(this.appState.tapHoldAlpha) * Math.PI_2;
+        // Desktop version, candies only show/hide with QR code.
+        if (!this.device.mobile) this.desktopGroup.scale.setScalar( 1 - Math.cubicInOutLerp(this.appState.tapHoldAlpha) );
+
+        if (!this.device.mobile || this.appState.currentStep == 3 || this.appState.currentStep == 'received' ) {
+            this.desktopGroup.rotation.y = Math.cubicInOutLerp(this.appState.tapHoldAlpha) * Math.PI_2;
         }
     }
 
