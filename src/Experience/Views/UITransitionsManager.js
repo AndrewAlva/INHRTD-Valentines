@@ -31,8 +31,10 @@ export default class UITransitionsManager {
         this.transitions[3] = new ShareTransitions();
         this.transitions.notification = new NotificationTransitions();
         this.transitions.desktop = new DesktopTransitions();
-        this.transitions.receivedLanding = new ReceivedLandingTransitions();
-        this.transitions.received = new ReceivedTransitions();
+        if (this.appState.activeFlow == 'receive') {
+            this.transitions.receivedLanding = new ReceivedLandingTransitions();
+            this.transitions.received = new ReceivedTransitions();
+        }
     }
 
 

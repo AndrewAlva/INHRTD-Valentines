@@ -286,9 +286,6 @@ export default class ReceivedTransitions extends BaseTransitions {
 
         // TAP UI
         this.outTimelines.tapUITL = gsap.timeline({ paused: true })
-            // .set(this.tapUICircleLarge, { scale: 1, })
-            // .set(this.tapUICircleMid, { scale: 1, })
-            // .set(this.tapUICircleSmall, { clipPath: 'inset(0.001% round 50%)' })
             .to(this.tapUICircleSmall, {
                 duration: 0.9,
                 clipPath: 'inset(50% round 50%)',
@@ -340,12 +337,12 @@ export default class ReceivedTransitions extends BaseTransitions {
         console.log('animateIn ReceivedTransitions');
         this.view.classList.add('show');
 
-        this.headingBoxLinesTL.restart();
-        this.headingBoxCharsTL.restart();
-        this.bottomBoxWordsTL.restart();
-        this.bottomBoxBtnsTL.restart();
-        this.headerRestartTL.restart();
-        this.tapUITL.restart();
+        this.headingBoxLinesTL.play();
+        this.headingBoxCharsTL.play();
+        this.bottomBoxWordsTL.play();
+        this.bottomBoxBtnsTL.play();
+        this.headerRestartTL.play();
+        this.tapUITL.play();
     }
 
     animateOut() {
@@ -362,9 +359,9 @@ export default class ReceivedTransitions extends BaseTransitions {
         this.headingSplitInWords();
         this.setTimelinesOut();
 
-        this.outTimelines.wordsTL.restart();
-        this.outTimelines.bottomBoxBtnsTL.restart();
-        this.outTimelines.headerRestartTL.restart();
-        this.outTimelines.tapUITL.restart();
+        this.outTimelines.wordsTL.play();
+        this.outTimelines.bottomBoxBtnsTL.play();
+        this.outTimelines.headerRestartTL.play();
+        this.outTimelines.tapUITL.play();
     }
 }
