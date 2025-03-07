@@ -36,7 +36,9 @@ export default class Candies
         this.idleGroup = new THREE.Group();
         this.orientationGroup = new THREE.Group();
         this.sliderGroup = new THREE.Group();
+        this.deviceGroup = new THREE.Group();
 
+        this.sliderGroup.add(this.deviceGroup);
         this.orientationGroup.add(this.sliderGroup);
         this.idleGroup.add(this.orientationGroup);
         this.desktopGroup.add(this.idleGroup);
@@ -49,7 +51,7 @@ export default class Candies
         this.secondCandy =  new BaseCandy({ inactive: this.appState.currentCandy != 1, color: '#A0CDE9', name: 'Candy2' });
         this.thirdCandy =   new BaseCandy({ inactive: this.appState.currentCandy != 2, color: '#9BE6CF', name: 'Candy3' });
 
-        this.sliderGroup.add(this.mainCandy.group, this.secondCandy.group, this.thirdCandy.group)
+        this.deviceGroup.add(this.mainCandy.group, this.secondCandy.group, this.thirdCandy.group)
         this.candiesArray = [ this.mainCandy, this.secondCandy, this.thirdCandy ];
 
         this.idleMotion = {
@@ -61,6 +63,10 @@ export default class Candies
 
         this.candiesArray[this.appState.currentCandy].mesh.material.opacity = 0;
         this.sliderGroup.scale.setScalar(0);
+        if (!this.device.mobile) {
+            this.deviceGroup.scale.setScalar(1.1);
+            this.deviceGroup.position.y = -0.175;
+        }
     }
 
     rotateCandies(turns = 1, direction = 'right', duration = 1.1) {
