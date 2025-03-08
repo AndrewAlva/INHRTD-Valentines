@@ -24,8 +24,9 @@ export default class Candies
         this.cof = 0.03;
         this.sliderRotation = 0;
         this.preventDoubleRotation = false;
-        this.initWrappers()
-        this.initCandies()
+        this.initWrappers();
+        this.initCandies();
+        this.initSpinControls();
 
         this.addHandlers();
     }
@@ -111,10 +112,34 @@ export default class Candies
         });
     }
 
+    initSpinControls() {
+        var radius = 1;
+        this.spinControl = new SpinControls( this.orientationGroup, radius, this.experience.camera.instance, this.experience.canvas );
+        this.spinControl.setPointerToSphereMapping( this.spinControl.POINTER_SPHERE_MAPPING.HOLROYD );
+        this.spinControl.spinAxisConstraint = new THREE.Vector3(0, 1, 0);
+    }
+
+    resetSpinControlPosition() {
+        this.spinControl.cancelSpin();
+        gsap.to(this.orientationGroup.rotation, {
+            y: 0,
+            duration: 1,
+            ease: 'power2.out',
+            // delay: 0.1,
+            onStart: () => {
+                this.orientationGroup.rotation.x = 0;
+                this.orientationGroup.rotation.z = 0;
+            }
+        });
+    }
 
 
+    ////////////////////////////////////
+    // HANDLERS
     async addHandlers() {
         this.appState.on('stepChange', (newStep) => {
+            this.resetSpinControlPosition();
+
             if (newStep == 1) {
                 this.animateOut();
             } else if (newStep == 0 || newStep == 2 || newStep == 'received') {
@@ -168,6 +193,7 @@ export default class Candies
             }, 150);
         }
 
+        this.resetSpinControlPosition();
         this.rotateCandies(1, direction);
         this.shrinkPulseCandies();
     }
@@ -251,8 +277,9 @@ export default class Candies
         this.idleGroup.rotation.y = (Math.sin(this.time.elapsed * -0.0015) * Math.HALF_SIXTEENTH_PI);
         this.idleGroup.rotation.x = (Math.cos(this.time.elapsed * -0.00007) * Math.HALF_SIXTEENTH_PI);
 
-        if (this.finalRot.x) _this.orientationGroup.rotation.x += (this.finalRot.x - this.orientationGroup.rotation.x) * this.cof;
-        if (this.finalRot.y) _this.orientationGroup.rotation.y += (this.finalRot.y - this.orientationGroup.rotation.y) * this.cof;
+        this.spinControl.update();
+        // if (this.finalRot.x) _this.orientationGroup.rotation.x += (this.finalRot.x - this.orientationGroup.rotation.x) * this.cof;
+        // if (this.finalRot.y) _this.orientationGroup.rotation.y += (this.finalRot.y - this.orientationGroup.rotation.y) * this.cof;
 
 
         if (this.mainCandy) this.mainCandy.update();
