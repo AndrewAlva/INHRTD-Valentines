@@ -121,15 +121,12 @@ export default class Candies
 
     resetSpinControlPosition() {
         this.spinControl.cancelSpin();
-        gsap.to(this.orientationGroup.rotation, {
+        gsap.to(this.orientationGroup.quaternion, {
             y: 0,
+            w: 1,
             duration: 1,
             ease: 'power2.out',
             // delay: 0.1,
-            onStart: () => {
-                this.orientationGroup.rotation.x = 0;
-                this.orientationGroup.rotation.z = 0;
-            }
         });
     }
 
