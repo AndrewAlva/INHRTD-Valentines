@@ -12,7 +12,7 @@ export default class Camera
         this.canvas = this.experience.canvas
 
         this.setInstance()
-        if (window.location.hostname == 'localhost') this.setControls()
+        // if (window.location.hostname == 'localhost') this.setControls()
     }
 
     setInstance()
