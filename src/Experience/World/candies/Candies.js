@@ -29,6 +29,7 @@ export default class Candies
         this.arcballControls = null;
         this.folderOptions = null;
         this.folderAnimations = null;
+        this.resettingArcball = false;
         this.initWrappers();
         this.initCandies();
         this.initArcBallControls();
@@ -52,6 +53,9 @@ export default class Candies
         this.desktopGroup.add(this.spinGroup);
         this.group.add(this.desktopGroup);
         this.scene.add(this.group);
+
+        // Store the original quaternion for reset
+        this.originalSpinGroupQuaternion = new THREE.Quaternion().copy(this.spinGroup.quaternion);
     }
 
     initCandies() {
@@ -185,6 +189,47 @@ export default class Candies
         this.arcball.gizmoVisible = true;
     }
 
+    resetArcballRotations() {
+        if (this.resettingArcball) return;
+        this.resettingArcball = true;
+        
+        // Tween spinGroup quaternion back to original
+        const targetQuaternion = this.originalSpinGroupQuaternion.clone();
+        const currentQuaternion = this.spinGroup.quaternion.clone();
+
+        // Create a temporary object to tween quaternion components
+        const quatData = {
+            x: currentQuaternion.x,
+            y: currentQuaternion.y,
+            z: currentQuaternion.z,
+            w: currentQuaternion.w
+        };
+
+        gsap.to(quatData, {
+            x: targetQuaternion.x,
+            y: targetQuaternion.y,
+            z: targetQuaternion.z,
+            w: targetQuaternion.w,
+            duration: 3.5,
+            ease: "power3.out",
+            overwrite: "auto",
+            onUpdate: () => {
+                this.spinGroup.quaternion.set(quatData.x, quatData.y, quatData.z, quatData.w).normalize();
+                // Sync virtual camera's quaternion (inverted) so ArcballControls stays in sync
+                this.virtualCamera.quaternion.copy(this.spinGroup.quaternion).invert();
+                this.experience.renderer.update();
+            },
+            onComplete: () => {
+                this.resettingArcball = false;
+            }
+        });
+
+        // Also reset the ArcballControls state
+        if (this.arcballControls) {
+            this.arcballControls.reset();
+        }
+    }
+
 
 
     async addHandlers() {
@@ -196,6 +241,8 @@ export default class Candies
             } else {
                 this.animateIn({ shrinkPulse: true });
             }
+
+            _this.resetArcballRotations();
         });
 
         this.appState.on('candyChange', this.handleCandySwitch.bind(this));
@@ -244,6 +291,7 @@ export default class Candies
 
         this.rotateCandies(1, direction);
         this.shrinkPulseCandies();
+        this.resetArcballRotations();
     }
 
 
