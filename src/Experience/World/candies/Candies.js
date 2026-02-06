@@ -331,7 +331,7 @@ export default class Candies
 
     handleOrientation(event) {
         console.log(event);
-        console.log(`rotateDegrees = ${event.alpha};<br>leftToRight = ${event.gamma};<br>frontToBack = ${event.beta};`);
+        console.log(`rotateDegrees = ${event.alpha}; \nleftToRight = ${event.gamma}; \nfrontToBack = ${event.beta};`);
         if (_this.tester) _this.tester.innerHTML = `Alpha: ${event.alpha}. Beta Y: ${event.beta}. Gamma X: ${event.gamma}`;
 
         if (event.beta) _this.finalRot.x = (event.beta - 45) * Math.HALF_QUARTER_SIXTEENTH_PI;
