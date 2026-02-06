@@ -3,6 +3,8 @@ import { gsap } from "gsap";
 import Experience from '../../Experience.js';
 import BaseCandy from './BaseCandy.js';
 import TexturedBaseCandy from './TexturedBaseCandy.js';
+import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
+import { ArcballControls } from 'three/examples/jsm/controls/ArcballControls.js';
 
 let _this;
 export default class Candies
@@ -24,8 +26,13 @@ export default class Candies
         this.cof = 0.03;
         this.sliderRotation = 0;
         this.preventDoubleRotation = false;
-        this.initWrappers()
-        this.initCandies()
+        this.arcballControls = null;
+        this.folderOptions = null;
+        this.folderAnimations = null;
+        this.resettingArcball = false;
+        this.initWrappers();
+        this.initCandies();
+        this.initArcBallControls();
 
         this.addHandlers();
     }
@@ -33,6 +40,7 @@ export default class Candies
     initWrappers() {
         this.group = new THREE.Group();
         this.desktopGroup = new THREE.Group();
+        this.spinGroup = new THREE.Group();
         this.idleGroup = new THREE.Group();
         this.orientationGroup = new THREE.Group();
         this.sliderGroup = new THREE.Group();
@@ -41,9 +49,13 @@ export default class Candies
         this.sliderGroup.add(this.deviceGroup);
         this.orientationGroup.add(this.sliderGroup);
         this.idleGroup.add(this.orientationGroup);
-        this.desktopGroup.add(this.idleGroup);
+        this.spinGroup.add(this.idleGroup);
+        this.desktopGroup.add(this.spinGroup);
         this.group.add(this.desktopGroup);
         this.scene.add(this.group);
+
+        // Store the original quaternion for reset
+        this.originalSpinGroupQuaternion = new THREE.Quaternion().copy(this.spinGroup.quaternion);
     }
 
     initCandies() {
@@ -111,6 +123,113 @@ export default class Candies
         });
     }
 
+    initArcBallControls() {
+        // Create a virtual camera for ArcballControls - we'll apply its rotation to spinGroup
+        this.virtualCamera = new THREE.PerspectiveCamera();
+        this.virtualCamera.position.set(0, 0, 10.3);
+        
+        this.arcball = {
+            gizmoVisible: false,
+
+            setArcballControls: function () {
+                _this.arcballControls = new ArcballControls( _this.virtualCamera, _this.experience.renderer.instance.domElement, _this.experience.scene );
+                _this.arcballControls.addEventListener( 'change', function() {
+                    // Apply the virtual camera's rotation to spinGroup (inverted)
+                    _this.spinGroup.quaternion.copy(_this.virtualCamera.quaternion).invert();
+                    _this.experience.renderer.update();
+                });
+                
+                // Disable pan and zoom since we only want rotation
+                _this.arcballControls.enablePan = false;
+                _this.arcballControls.enableZoom = false;
+
+                _this.arcballControls.dampingFactor = 10;
+                _this.arcballControls.dampingFwMaxactor = 27;
+                _this.arcballControls.setGizmosVisible(false);
+            },
+
+            populateGui: function () {
+                _this.folderOptions.add( _this.arcballControls, 'enabled' ).name( 'Enable controls' );
+                _this.folderOptions.add( _this.arcballControls, 'enableGrid' ).name( 'Enable Grid' );
+                _this.folderOptions.add( _this.arcballControls, 'enableRotate' ).name( 'Enable rotate' );
+                _this.folderOptions.add( _this.arcballControls, 'enablePan' ).name( 'Enable pan' );
+                _this.folderOptions.add( _this.arcballControls, 'enableZoom' ).name( 'Enable zoom' );
+                _this.folderOptions.add( _this.arcballControls, 'cursorZoom' ).name( 'Cursor zoom' );
+                _this.folderOptions.add( _this.arcballControls, 'adjustNearFar' ).name( 'adjust near/far' );
+                _this.folderOptions.add( _this.arcballControls, 'scaleFactor', 1.1, 10, 0.1 ).name( 'Scale factor' );
+                _this.folderOptions.add( _this.arcballControls, 'minDistance', 0, 50, 0.5 ).name( 'Min distance' );
+                _this.folderOptions.add( _this.arcballControls, 'maxDistance', 0, 50, 0.5 ).name( 'Max distance' );
+                _this.folderOptions.add( _this.arcballControls, 'minZoom', 0, 50, 0.5 ).name( 'Min zoom' );
+                _this.folderOptions.add( _this.arcballControls, 'maxZoom', 0, 50, 0.5 ).name( 'Max zoom' );
+                _this.folderOptions.add( _this.arcball, 'gizmoVisible' ).name( 'Show gizmos' ).onChange( function () {
+                    _this.arcballControls.setGizmosVisible( _this.arcball.gizmoVisible );
+                } );
+                _this.folderOptions.add( _this.arcballControls, 'copyState' ).name( 'Copy state(ctrl+c)' );
+                _this.folderOptions.add( _this.arcballControls, 'pasteState' ).name( 'Paste state(ctrl+v)' );
+                _this.folderOptions.add( _this.arcballControls, 'reset' ).name( 'Reset' );
+                _this.folderAnimations.add( _this.arcballControls, 'enableAnimations' ).name( 'Enable anim.' );
+                _this.folderAnimations.add( _this.arcballControls, 'dampingFactor', 0, 100, 1 ).name( 'Damping' );
+                _this.folderAnimations.add( _this.arcballControls, 'wMax', 0, 100, 1 ).name( 'Angular spd' );
+            }
+        };
+
+        this.arcball.setArcballControls();
+        // this.enableArcballGUI();
+    }
+
+    enableArcballGUI() {
+        this.gui = new GUI();
+        this.folderOptions = this.gui.addFolder( 'Arcball parameters' );
+        this.folderAnimations = this.folderOptions.addFolder( 'Animations' );
+        this.arcball.populateGui();
+
+        this.folderAnimations.children[1].setValue(10);
+        this.folderAnimations.children[2].setValue(27);
+        this.folderOptions.children[13].setValue(true);
+        this.arcball.gizmoVisible = true;
+    }
+
+    resetArcballRotations() {
+        if (this.resettingArcball) return;
+        this.resettingArcball = true;
+        
+        // Tween spinGroup quaternion back to original
+        const targetQuaternion = this.originalSpinGroupQuaternion.clone();
+        const currentQuaternion = this.spinGroup.quaternion.clone();
+
+        // Create a temporary object to tween quaternion components
+        const quatData = {
+            x: currentQuaternion.x,
+            y: currentQuaternion.y,
+            z: currentQuaternion.z,
+            w: currentQuaternion.w
+        };
+
+        gsap.to(quatData, {
+            x: targetQuaternion.x,
+            y: targetQuaternion.y,
+            z: targetQuaternion.z,
+            w: targetQuaternion.w,
+            duration: 3.5,
+            ease: "power3.out",
+            overwrite: "auto",
+            onUpdate: () => {
+                this.spinGroup.quaternion.set(quatData.x, quatData.y, quatData.z, quatData.w).normalize();
+                // Sync virtual camera's quaternion (inverted) so ArcballControls stays in sync
+                this.virtualCamera.quaternion.copy(this.spinGroup.quaternion).invert();
+                this.experience.renderer.update();
+            },
+            onComplete: () => {
+                this.resettingArcball = false;
+            }
+        });
+
+        // Also reset the ArcballControls state
+        if (this.arcballControls) {
+            this.arcballControls.reset();
+        }
+    }
+
 
 
     async addHandlers() {
@@ -122,25 +241,31 @@ export default class Candies
             } else {
                 this.animateIn({ shrinkPulse: true });
             }
+
+            _this.resetArcballRotations();
         });
 
         this.appState.on('candyChange', this.handleCandySwitch.bind(this));
 
         if (this.device.mobile) {
-            if (this.device.system.os == 'ios' || this.device.system.os == 'mac') {
-                this.events.on('setupDeviceOrientation', this.initDeviceOrientation.bind(this));
-            } else {
-                const Permission = await navigator.permissions.query({ name: "gyroscope"} );
-                if (Permission.state == 'granted') {
-                    this.initDeviceOrientation();
-                } else {
-                    this.events.on('setupDeviceOrientation', this.initDeviceOrientation.bind(this));
-                }
-            }
+            // if (this.device.system.os == 'ios' || this.device.system.os == 'mac') {
+            //     this.events.on('setupDeviceOrientation', this.initDeviceOrientation.bind(this));
+            // } else {
+            //     const Permission = await navigator.permissions.query({ name: "gyroscope"} );
+            //     if (Permission.state == 'granted') {
+            //         this.initDeviceOrientation();
+            //     } else {
+            //         this.events.on('setupDeviceOrientation', this.initDeviceOrientation.bind(this));
+            //     }
+            // }
 
         } else {
             this.initMouseGaze();
         }
+
+        this.appState.on('tapHold', _ => {
+            _this.resetArcballRotations();
+        });
 
         // TODO: Enable swiping interaction for candies rotation.
     }
@@ -170,6 +295,7 @@ export default class Candies
 
         this.rotateCandies(1, direction);
         this.shrinkPulseCandies();
+        this.resetArcballRotations();
     }
 
 
@@ -209,7 +335,7 @@ export default class Candies
 
     handleOrientation(event) {
         console.log(event);
-        console.log(`rotateDegrees = ${event.alpha};<br>leftToRight = ${event.gamma};<br>frontToBack = ${event.beta};`);
+        console.log(`rotateDegrees = ${event.alpha}; \nleftToRight = ${event.gamma}; \nfrontToBack = ${event.beta};`);
         if (_this.tester) _this.tester.innerHTML = `Alpha: ${event.alpha}. Beta Y: ${event.beta}. Gamma X: ${event.gamma}`;
 
         if (event.beta) _this.finalRot.x = (event.beta - 45) * Math.HALF_QUARTER_SIXTEENTH_PI;

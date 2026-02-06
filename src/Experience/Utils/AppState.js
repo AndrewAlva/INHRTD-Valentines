@@ -63,7 +63,7 @@ export default class AppState extends EventEmitter
         this.currentStep = 0;
         this.activeFlow = this.utils.query('to') ? 'receive' : 'send'; // default is 'send', the other one is 'receive'
         this.tapHoldAlpha = 0;
-        this.tapHoldMaxedOnce = false;
+        this.tapHoldMaxed = false;
         this.loveName = this.utils.query('to') ? this.utils.query('to') : '';
         this.songStartTime = 0;
         this.lockBgColor = this.utils.query('to') || !this.device.mobile ? true : false;
@@ -81,7 +81,7 @@ export default class AppState extends EventEmitter
         this.utils.removeQuery('to');
         this.utils.removeQuery('theme');
         this.activeFlow = 'send';
-        this.tapHoldMaxedOnce = false;
+        this.tapHoldMaxed = false;
     }
 
 

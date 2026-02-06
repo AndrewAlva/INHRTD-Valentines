@@ -73,7 +73,7 @@ export default class Renderer
         };
         this.dofPass = new BokehPass(this.scene, this.camera.instance, bokehParams)
         this.dofPass.enabled = true
-        this.effectComposer.addPass(this.dofPass)
+        // this.effectComposer.addPass(this.dofPass)
 
         if(this.debug.active) {
             this.debugFolder
