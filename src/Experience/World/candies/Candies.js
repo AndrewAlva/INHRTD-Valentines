@@ -248,16 +248,16 @@ export default class Candies
         this.appState.on('candyChange', this.handleCandySwitch.bind(this));
 
         if (this.device.mobile) {
-            if (this.device.system.os == 'ios' || this.device.system.os == 'mac') {
-                this.events.on('setupDeviceOrientation', this.initDeviceOrientation.bind(this));
-            } else {
-                const Permission = await navigator.permissions.query({ name: "gyroscope"} );
-                if (Permission.state == 'granted') {
-                    this.initDeviceOrientation();
-                } else {
-                    this.events.on('setupDeviceOrientation', this.initDeviceOrientation.bind(this));
-                }
-            }
+            // if (this.device.system.os == 'ios' || this.device.system.os == 'mac') {
+            //     this.events.on('setupDeviceOrientation', this.initDeviceOrientation.bind(this));
+            // } else {
+            //     const Permission = await navigator.permissions.query({ name: "gyroscope"} );
+            //     if (Permission.state == 'granted') {
+            //         this.initDeviceOrientation();
+            //     } else {
+            //         this.events.on('setupDeviceOrientation', this.initDeviceOrientation.bind(this));
+            //     }
+            // }
 
         } else {
             this.initMouseGaze();
