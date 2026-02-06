@@ -181,7 +181,7 @@ export default class UIManager extends EventEmitter {
             }
         });
 
-        this.appState.on('tapHoldMaxedOnce', _ => {
+        this.appState.on('tapHoldMaxed', _ => {
             // TODO: make sure this button animates in nicely.
             document.getElementById('receivedSpottyLink').classList.add('show');
         });
@@ -205,6 +205,8 @@ export default class UIManager extends EventEmitter {
 
         // TODO: Improve tweening timing to match between colors in 3D and DOM.
         if (this.tapHolding) {
+            this.appState.trigger('tapHold');
+
             this.appState.lastBgColor = this.appState.bgColor;
             this.appState.trigger('bgColorChange', ['dark']);
 
@@ -300,7 +302,7 @@ export default class UIManager extends EventEmitter {
     }
 
     update() {
-        // TODO: update body bgColor to match transition with dark background.
+        // TODO: update HTML body bgColor to match transition with dark background.
         if (this.tapHolding) {
             this.appState.tapHoldAlpha += this.transitionSpeed;
         } else {
@@ -309,9 +311,14 @@ export default class UIManager extends EventEmitter {
 
         this.appState.tapHoldAlpha = Math.clamp(this.appState.tapHoldAlpha);
 
-        if (this.appState.tapHoldAlpha >= this.tapHoldThreshold) {
-            this.appState.tapHoldMaxedOnce = true;
-            this.appState.trigger('tapHoldMaxedOnce');
+        if (!this.appState.tapHoldMaxed) {
+            if (this.appState.tapHoldAlpha >= this.tapHoldThreshold) {
+                this.appState.tapHoldMaxed = true;
+                this.appState.trigger('tapHoldMaxed');
+            }
+
+        } else if (this.appState.tapHoldAlpha < this.tapHoldThreshold) {
+            this.appState.tapHoldMaxed = false;
         }
 
 

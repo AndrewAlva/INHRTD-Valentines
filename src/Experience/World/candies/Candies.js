@@ -263,6 +263,10 @@ export default class Candies
             this.initMouseGaze();
         }
 
+        this.appState.on('tapHold', _ => {
+            _this.resetArcballRotations();
+        });
+
         // TODO: Enable swiping interaction for candies rotation.
     }
 
