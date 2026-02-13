@@ -68,7 +68,7 @@ export default class Renderer
             // maxblur: 0.2,    // Maximum blur size
 
             focus: this.device.mobile ? 5.33 : 1.3,       // Focus distance
-            aperture: this.device.mobile ? 0.15 : 0.4,  // Aperture size (higher = more blur)
+            aperture: this.device.mobile ? 0.15 : 0.12,  // Aperture size (higher = more blur)
             maxblur: this.device.mobile ? 0.06 : 0.5,    // Maximum blur size
         };
         this.dofPass = new BokehPass(this.scene, this.camera.instance, bokehParams)
