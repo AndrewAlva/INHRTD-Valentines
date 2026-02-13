@@ -25,6 +25,8 @@ export default class Candies
         this.finalRot = {};
         this.cof = 0.03;
         this.sliderRotation = 0;
+        this.mouseGaze = { x: 0, y: 0 };
+        this.targetGaze = { x: 0, y: 0 };
         this.preventDoubleRotation = false;
         this.arcballControls = null;
         this.folderOptions = null;
@@ -350,7 +352,13 @@ export default class Candies
     }
 
     initMouseGaze() {
-        // TODO: Add extra movement besides gaze camera.
+        window.addEventListener('mousemove', (event) => {
+            // Normalize mouse position to -1 to 1 range
+            this.targetGaze.x = (event.clientX / window.innerWidth) * 2 - 1;
+            this.targetGaze.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        this.mouseGazeEnabled = true;
     }
 
     initOrientationTester() {
@@ -403,6 +411,17 @@ export default class Candies
         if (this.finalRot.x) _this.orientationGroup.rotation.x += (this.finalRot.x - this.orientationGroup.rotation.x) * this.cof;
         if (this.finalRot.y) _this.orientationGroup.rotation.y += (this.finalRot.y - this.orientationGroup.rotation.y) * this.cof;
 
+        // Mouse gaze rotation on desktop
+        if (this.mouseGazeEnabled) {
+            // Lerp the mouse gaze values for smooth movement
+            this.mouseGaze.x += (this.targetGaze.x - this.mouseGaze.x) * 0.1;
+            this.mouseGaze.y += (this.targetGaze.y - this.mouseGaze.y) * 0.1;
+
+            // Apply rotation to group based on mouse position
+            this.group.rotation.y = this.mouseGaze.x * 0.35;
+            this.group.rotation.x = this.mouseGaze.y * -0.2;
+            this.group.rotation.z = this.mouseGaze.x * 0.05;
+        }
 
         if (this.mainCandy) this.mainCandy.update();
         if (this.secondCandy) this.secondCandy.update();
