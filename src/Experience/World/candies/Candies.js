@@ -32,7 +32,7 @@ export default class Candies
         this.resettingArcball = false;
         this.initWrappers();
         this.initCandies();
-        this.initArcBallControls();
+        if (this.device.mobile) this.initArcBallControls();
 
         this.addHandlers();
     }
