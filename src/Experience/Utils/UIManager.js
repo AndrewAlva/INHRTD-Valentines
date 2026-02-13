@@ -229,6 +229,7 @@ export default class UIManager extends EventEmitter {
             this.startHeartbeatInterval();
 
         } else {
+            this.appState.trigger('tapRelease');
             this.appState.trigger('bgColorChange', [this.appState.lastBgColor]);
 
             if (this.music.audioLoaded) {

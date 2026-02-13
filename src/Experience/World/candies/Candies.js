@@ -265,6 +265,11 @@ export default class Candies
 
         this.appState.on('tapHold', _ => {
             _this.resetArcballRotations();
+            _this.startHeartbeatInterval();
+        });
+        
+        this.appState.on('tapRelease', _ => {
+            _this.stopHeartbeatInterval();
         });
 
         // TODO: Enable swiping interaction for candies rotation.
@@ -365,6 +370,24 @@ export default class Candies
 
             this.tester.innerHTML = `${DeviceOrientationEvent.requestPermission}`;
         }
+    }
+
+    startHeartbeatInterval() {
+        this.heartbeatInterval = setInterval(_ => {
+            gsap.to(this.group.scale, {
+                x: 1.15,
+                y: 1.15,
+                z: 1.15,
+                duration: 1.07 / 2,
+                yoyo: true,
+                repeat: 1,
+                yoyoEase: "power4.out",
+            });
+        }, 1070);
+    }
+    
+    stopHeartbeatInterval() {
+        clearInterval(this.heartbeatInterval);
     }
 
 
