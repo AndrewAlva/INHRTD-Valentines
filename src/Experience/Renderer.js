@@ -56,7 +56,7 @@ export default class Renderer
         )
 
         this.effectComposer = new EffectComposer(this.instance, this.renderTarget)
-        this.effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+        this.effectComposer.setPixelRatio(this.sizes.pixelRatio)
         this.effectComposer.setSize(this.sizes.width, this.sizes.height)
 
         this.renderPass = new RenderPass(this.scene, this.camera.instance)
@@ -67,13 +67,13 @@ export default class Renderer
             // aperture: 0.3,  // Aperture size (higher = more blur)
             // maxblur: 0.2,    // Maximum blur size
 
-            focus: this.device.mobile ? 5.215 : 1.3,       // Focus distance
-            aperture: this.device.mobile ? 0.2 : 0.25,  // Aperture size (higher = more blur)
+            focus: this.device.mobile ? 5.33 : 1.3,       // Focus distance
+            aperture: this.device.mobile ? 0.15 : 0.4,  // Aperture size (higher = more blur)
             maxblur: this.device.mobile ? 0.06 : 0.5,    // Maximum blur size
         };
         this.dofPass = new BokehPass(this.scene, this.camera.instance, bokehParams)
         this.dofPass.enabled = true
-        // this.effectComposer.addPass(this.dofPass)
+        this.effectComposer.addPass(this.dofPass)
 
         if(this.debug.active) {
             this.debugFolder
@@ -112,7 +112,7 @@ export default class Renderer
         this.instance.setPixelRatio(this.sizes.pixelRatio)
 
         this.effectComposer.setSize(this.sizes.width, this.sizes.height)
-        this.effectComposer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+        this.effectComposer.setPixelRatio(this.sizes.pixelRatio)
     }
 
     update()
