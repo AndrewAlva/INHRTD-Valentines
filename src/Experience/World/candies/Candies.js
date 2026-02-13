@@ -375,13 +375,13 @@ export default class Candies
     startHeartbeatInterval() {
         this.heartbeatInterval = setInterval(_ => {
             gsap.to(this.group.scale, {
-                x: 1.15,
-                y: 1.15,
-                z: 1.15,
-                duration: 1.07 / 2,
-                yoyo: true,
-                repeat: 1,
-                yoyoEase: "power4.out",
+                keyframes: [
+                    { x: 1.12, y: 1.12, z: 1.12, duration: 0.12, ease: "power1.out" },
+                    { x: 1.09, y: 1.09, z: 1.09, duration: 0.10, ease: "power1.inOut" },
+                    { x: 1.10, y: 1.10, z: 1.10, duration: 0.08, ease: "power1.inOut" },
+                    { x: 1.00, y: 1.00, z: 1.00, duration: 0.77, ease: "power1.out" }
+                ],
+                overwrite: "auto",
             });
         }, 1070);
     }
